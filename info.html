@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    .logo {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+    }
+    .campo {
+      margin-bottom: 16px;
+    }
+    .etiqueta {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .valor {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1a1a2e;
+      margin-top: 4px;
+    }
+    .precio {
+      font-size: 28px;
+      color: #e63946;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">⚡ Nova QR</div>
+    <hr class="divider">
+    <div class="campo">
+      <div class="etiqueta">Nombre</div>
+      <div class="valor" id="nombre">Cargando...</div>
+    </div>
+    <hr class="divider">
+    <div class="campo">
+      <div class="etiqueta">Descripción</div>
+      <div class="valor" id="descripcion">Cargando...</div>
+    </div>
+    <hr class="divider">
+    <div class="campo">
+      <div class="etiqueta">Precio</div>
+      <div class="valor precio" id="precio">Cargando...</div>
+    </div>
+  </div>
+
+  <script>
+    const id = new URLSearchParams(window.location.search).get('id') || 'producto001';
+    fetch('https://nova-qr-facf5-default-rtdb.firebaseio.com/' + id + '.json')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('nombre').textContent = data.nombre;
+        document.getElementById('descripcion').textContent = data.descripcion;
+        document.getElementById('precio').textContent = 'S/ ' + data.precio;
+      });
+  </script>
+</body>
+</html>
