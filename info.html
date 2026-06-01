@@ -62,7 +62,7 @@ fetch(base + 'temas/' + id + '.json')
     }
     const img = imagenes[id] || '';
     const badge = curso_key[data.curso] || 'Matemática';
-    document.getElementById('contenido').innerHTML = `
+   document.getElementById('contenido').innerHTML = `
       <div class="card">
         ${img ? `<img class="card-img" src="${img}" alt="${data.titulo}">` : ''}
         <div class="card-body">
