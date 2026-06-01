@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a14;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,sans-serif;padding:24px;}
+.brand{color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;margin-bottom:4px;}
+.sub{color:#555;font-size:12px;margin-bottom:32px;}
+.scan-frame{width:200px;height:200px;border:2px solid #333;border-radius:16px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;position:relative;background:#111;}
+.corner{position:absolute;width:24px;height:24px;border-color:#7c3aed;border-style:solid;}
+.tl{top:-2px;left:-2px;border-width:3px 0 0 3px;border-radius:4px 0 0 0;}
+.tr{top:-2px;right:-2px;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
+.bl{bottom:-2px;left:-2px;border-width:0 0 3px 3px;border-radius:0 0 0 4px;}
+.br{bottom:-2px;right:-2px;border-width:0 3px 3px 0;border-radius:0 0 4px 0;}
+.qr-icon{font-size:80px;color:#222;}
+.inst{color:#666;font-size:13px;text-align:center;margin-bottom:32px;line-height:1.8;}
+.btn{display:block;width:100%;max-width:280px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;border:none;padding:16px;border-radius:30px;font-size:16px;font-weight:700;letter-spacing:1px;box-shadow:0 8px 24px rgba(124,58,237,0.4);}
+</style>
+</head>
+<body>
+<div class="brand">NOVA QR</div>
+<div class="sub">Escáner de códigos</div>
+<div class="scan-frame">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="qr-icon">▦</div>
+</div>
+<p class="inst">Coloca el código QR dentro<br>del recuadro y presiona<br>el botón para escanear</p>
+<button class="btn" onclick="Android.escanear()">Escanear QR</button>
+</body>
+</html>
