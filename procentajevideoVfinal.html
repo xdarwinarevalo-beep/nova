@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>📊 Porcentajes - Aprende con Retos</title>
+    <style>
+        /* ======== RESET Y VARIABLES ======== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1a5276;
+            --secondary: #2e86c1;
+            --accent: #f39c12;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ======== HEADER ======== */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 0.2rem;
+        }
+
+        /* ======== NAVEGACIÓN MÓVIL ======== */
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            flex: 0 1 auto;
+            touch-action: manipulation;
+        }
+
+        nav button:active {
+            transform: scale(0.95);
+        }
+
+        nav button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* ======== CONTENEDOR ======== */
+        .container {
+            max-width: 100%;
+            margin: 0.8rem auto;
+            padding: 0 0.8rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ======== TARJETAS ======== */
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--secondary);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* ======== VIDEO RESPONSIVE (CLOUDINARY) ======== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .video-card p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            header h1 {
+                font-size: 2.6rem;
+            }
+            .container {
+                max-width: 1100px;
+                padding: 0 1.5rem;
+            }
+        }
+
+        /* ======== INPUTS Y BOTONES ======== */
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.25);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            padding-right: 2.5rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                width: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #1e8e3e;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #d4ac0d;
+        }
+
+        /* ======== RESULTADOS ======== */
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        .result-box h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .result-box .highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        /* ======== EJERCICIOS Y RETOS ======== */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise p {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+        }
+
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 80px;
+            touch-action: manipulation;
+        }
+
+        .exercise .options button:active {
+            transform: scale(0.95);
+        }
+
+        .exercise .options button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .exercise .options button.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .exercise .options button.wrong {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .exercise .options button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+            background: #eafaf1;
+        }
+        .feedback.wrong {
+            color: var(--danger);
+            background: #fdedec;
+        }
+
+        /* ======== EVALUACIÓN ======== */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+
+        .question.correct {
+            border-color: var(--success);
+            background: #f0faf0;
+        }
+
+        .question.wrong {
+            border-color: var(--danger);
+            background: #fdf0f0;
+        }
+
+        .question p {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .question .options label:active {
+            transform: scale(0.95);
+        }
+
+        .question .options label:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .question .options input[type="radio"] {
+            display: none;
+        }
+
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .score strong {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        /* ======== CONVERSOR ======== */
+        .converter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        @media (min-width: 480px) {
+            .converter-row {
+                flex-direction: row;
+                align-items: center;
+            }
+            .converter-row input,
+            .converter-row select {
+                flex: 1;
+            }
+            .converter-row .btn {
+                width: auto;
+                flex: 0 0 auto;
+            }
+        }
+
+        /* ======== BADGE PERUANO ======== */
+        .badge-peru {
+            background: #d4e6f1;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border-left: 5px solid #d4ac0d;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .badge-peru strong {
+            color: var(--primary);
+        }
+
+        /* ======== SCROLLBAR ======== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        @media print {
+            nav {
+                display: none;
+            }
+            .section {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <h1>📊 Porcentajes</h1>
+        <p>Aprende, practica y domina los porcentajes con retos interactivos 🇵🇪</p>
+    </header>
+
+    <!-- ==================== NAVEGACIÓN ==================== -->
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <!-- ==================== CONTENEDOR ==================== -->
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- SECCIÓN: APRENDER -->
+        <!-- ============================================================ -->
+        <div id="aprender" class="section active">
+
+            <!-- ======== VIDEO EXPLICATIVO (CLOUDINARY) ======== -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender mejor el concepto de porcentajes y cómo se aplican en la vida diaria.</p>
+                <div class="video-container">
+                    <iframe
+                        src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=WhatsApp_Video_2026-07-16_at_8.13.35_PM"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen
+                        frameborder="0">
+                    </iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Este video ha sido alojado en Cloudinary para una mejor experiencia en móviles.
+                </p>
+            </div>
+
+            <!-- Concepto -->
+            <div class="card">
+                <h2>📌 Concepto de Porcentaje</h2>
+                <p>Un <strong>porcentaje</strong> es una forma de expresar una fracción con denominador 100. Se simboliza con <strong>%</strong>.</p>
+                <div style="font-size:1.8rem; background:var(--light); padding:1rem; border-radius:8px; margin:1rem 0; text-align:center; font-weight:700; color:var(--primary);">
+                    45% = 45/100 = 0.45
+                </div>
+                <div class="badge-peru">
+                    <strong>📖 Ejemplo peruano:</strong> El <strong>30%</strong> de los estudiantes peruanos prefiere el cebiche. Eso significa que de cada 100 estudiantes, 30 eligen cebiche.
+                </div>
+            </div>
+
+            <!-- Conversión -->
+            <div class="card">
+                <h2>🔄 Conversión</h2>
+                <div class="card-grid">
+                    <div>
+                        <h3>📊 Fracción → Porcentaje</h3>
+                        <p>Multiplica la fracción por 100.</p>
+                        <p><strong>Ejemplo:</strong> 3/4 = 0.75 × 100 = <strong>75%</strong></p>
+                    </div>
+                    <div>
+                        <h3>📊 Decimal → Porcentaje</h3>
+                        <p>Multiplica el decimal por 100.</p>
+                        <p><strong>Ejemplo:</strong> 0.35 × 100 = <strong>35%</strong></p>
+                    </div>
+                    <div>
+                        <h3>📊 Porcentaje → Decimal</h3>
+                        <p>Divide el porcentaje entre 100.</p>
+                        <p><strong>Ejemplo:</strong> 82% = 82/100 = <strong>0.82</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cálculo -->
+            <div class="card">
+                <h2>🧮 Cálculo de Porcentajes</h2>
+                <p><strong>Fórmula:</strong> <em>Porcentaje = (Cantidad / Total) × 100</em></p>
+                <div style="background:var(--light); padding:1.2rem; border-radius:8px; margin-top:1rem;">
+                    <p><strong>Ejemplo:</strong> En un salón de 25 alumnos, 7 usan lentes. ¿Qué porcentaje usa lentes?</p>
+                    <p style="font-size:1.3rem; font-weight:700; color:var(--primary);">Porcentaje = (7 / 25) × 100 = <strong>28%</strong></p>
+                    <div class="badge-peru">
+                        <strong>💡 Tip peruano:</strong> Si vendes 15 chocotejas de un lote de 40, ¡vendiste el <strong>37.5%</strong>!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aumentos y Descuentos -->
+            <div class="card">
+                <h2>📈 Aumentos y Descuentos</h2>
+                <div class="card-grid">
+                    <div>
+                        <h3>📈 Aumento</h3>
+                        <p>Precio final = Precio × (1 + %/100)</p>
+                        <p><strong>Ejemplo:</strong> S/200 + 18% = 200 × 1.18 = <strong>S/236</strong></p>
+                    </div>
+                    <div>
+                        <h3>📉 Descuento</h3>
+                        <p>Precio final = Precio × (1 - %/100)</p>
+                        <p><strong>Ejemplo:</strong> S/150 - 20% = 150 × 0.80 = <strong>S/120</strong></p>
+                    </div>
+                </div>
+                <div class="badge-peru">
+                    <strong>🇵🇪 En Perú:</strong> Cuando ves "30% de descuento" en una tienda de Gamarra o un mercado, aplica esta fórmula para saber cuánto pagarás realmente.
+                </div>
+            </div>
+
+            <!-- Conversor interactivo -->
+            <div class="card">
+                <h2>🧪 Conversor Interactivo</h2>
+                <p>Ingresa un número y elige la conversión:</p>
+                <div class="converter-row">
+                    <input type="number" id="converterInput" placeholder="Ej: 0.75" step="any">
+                    <select id="converterType">
+                        <option value="decimalAPorcentaje">Decimal → Porcentaje</option>
+                        <option value="porcentajeADecimal">Porcentaje → Decimal</option>
+                        <option value="fraccionAPorcentaje">Fracción → Porcentaje</option>
+                    </select>
+                    <button class="btn btn-accent" onclick="convertir()">🔄 Convertir</button>
+                </div>
+                <div id="converterResult" class="result-box">
+                    <h3>📋 Resultado</h3>
+                    <p>El resultado aparecerá aquí.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECCIÓN: PRACTICAR -->
+        <!-- ============================================================ -->
+        <div id="practicar" class="section">
+
+            <div class="card">
+                <h2>✏️ Ejercicios Interactivos</h2>
+                <p>Resuelve cada ejercicio y haz clic en la opción que creas correcta.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECCIÓN: RETO -->
+        <!-- ============================================================ -->
+        <div id="reto" class="section">
+
+            <div class="card">
+                <h2>🏆 Reto: Compras, Descuentos y Emprendimiento</h2>
+                <div class="badge-peru">
+                    <strong>🇵🇪 Contexto peruano:</strong> Resuelve estos problemas relacionados con situaciones reales de compras, descuentos y negocios en Perú.
+                </div>
+                <div id="retosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECCIÓN: EVALUACIÓN -->
+        <!-- ============================================================ -->
+        <div id="evaluacion" class="section">
+
+            <div class="card">
+                <h2>📝 Evaluación: 10 Ejercicios</h2>
+                <p>Responde los 10 ejercicios. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ==================== JAVASCRIPT ============================ -->
+    <!-- ============================================================ -->
+    <script>
+        // =============================================================
+        // 1. NAVEGACIÓN POR SECCIONES
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    navButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    Object.values(sections).forEach(s => s.classList.remove('active'));
+
+                    const sectionId = this.dataset.section;
+                    if (sections[sectionId]) {
+                        sections[sectionId].classList.add('active');
+                    }
+
+                    if (window.innerWidth < 768) {
+                        document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+
+        // =============================================================
+        // 2. CONVERSOR INTERACTIVO
+        // =============================================================
+        function convertir() {
+            const input = document.getElementById('converterInput').value.trim();
+            const type = document.getElementById('converterType').value;
+            const resultDiv = document.getElementById('converterResult');
+
+            if (!input) {
+                resultDiv.innerHTML = `<h3>⚠️ Error</h3><p>Ingresa un número válido.</p>`;
+                return;
+            }
+
+            let resultado = '';
+            let valor = parseFloat(input);
+
+            if (type === 'decimalAPorcentaje') {
+                if (isNaN(valor)) {
+                    resultDiv.innerHTML = `<h3>⚠️ Error</h3><p>Ingresa un número decimal (ej. 0.45).</p>`;
+                    return;
+                }
+                resultado =
+                    `${valor} × 100 = <span class="highlight">${(valor * 100).toFixed(2)}%</span>`;
+            } else if (type === 'porcentajeADecimal') {
+                if (isNaN(valor)) {
+                    resultDiv.innerHTML = `<h3>⚠️ Error</h3><p>Ingresa un número (ej. 45).</p>`;
+                    return;
+                }
+                resultado =
+                    `${valor}% = ${valor}/100 = <span class="highlight">${(valor / 100).toFixed(4)}</span>`;
+            } else if (type === 'fraccionAPorcentaje') {
+                if (!input.includes('/')) {
+                    resultDiv.innerHTML = `<h3>⚠️ Error</h3><p>Usa el formato fracción (ej. 3/4).</p>`;
+                    return;
+                }
+                const partes = input.split('/');
+                if (partes.length !== 2 || isNaN(partes[0]) || isNaN(partes[1]) || parseFloat(partes[1]) === 0) {
+                    resultDiv.innerHTML = `<h3>⚠️ Error</h3><p>Formato inválido. Usa (ej. 3/4).</p>`;
+                    return;
+                }
+                const num = parseFloat(partes[0]);
+                const den = parseFloat(partes[1]);
+                resultado =
+                    `${num}/${den} = ${(num/den).toFixed(4)} × 100 = <span class="highlight">${((num/den)*100).toFixed(2)}%</span>`;
+            }
+
+            resultDiv.innerHTML = `<h3>✅ Resultado</h3><p>${resultado}</p>`;
+        }
+
+        // =============================================================
+        // 3. EJERCICIOS INTERACTIVOS (PRACTICAR)
+        // =============================================================
+        const ejercicios = [{
+            pregunta: '¿Cuánto es el 30% de 200?',
+            opciones: ['30', '60', '600', '20'],
+            correcta: 1
+        }, {
+            pregunta: '¿Qué porcentaje representa 15 de 50?',
+            opciones: ['30%', '15%', '50%', '25%'],
+            correcta: 0
+        }, {
+            pregunta: 'Si un producto cuesta S/80 y tiene 25% de descuento, ¿cuánto pagas?',
+            opciones: ['S/20', 'S/60', 'S/55', 'S/40'],
+            correcta: 1
+        }, {
+            pregunta: 'Convierte 0.65 a porcentaje.',
+            opciones: ['6.5%', '65%', '0.65%', '650%'],
+            correcta: 1
+        }, {
+            pregunta: '¿Cuál es el 15% de 300?',
+            opciones: ['45', '30', '150', '15'],
+            correcta: 0
+        }];
+
+        function renderEjercicios() {
+            const container = document.getElementById('ejerciciosContainer');
+            container.innerHTML = '';
+            ejercicios.forEach((ej, idx) => {
+                const div = document.createElement('div');
+                div.className = 'exercise';
+                div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        function responderEjercicio(ejIdx, optIdx) {
+            const ejercicio = ejercicios[ejIdx];
+            const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+            const buttons = optionsDiv.querySelectorAll('button');
+            const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+            buttons.forEach(b => b.disabled = true);
+
+            buttons.forEach((b, i) => {
+                if (i === ejercicio.correcta) {
+                    b.classList.add('correct');
+                } else if (i === optIdx && i !== ejercicio.correcta) {
+                    b.classList.add('wrong');
+                }
+            });
+
+            if (optIdx === ejercicio.correcta) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ ¡Correcto! Muy bien.';
+            } else {
+                feedback.className = 'feedback wrong';
+                feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ejercicio.opciones[ejercicio.correcta]}`;
+            }
+        }
+
+        // =============================================================
+        // 4. RETOS (CONTEXTO PERUANO)
+        // =============================================================
+        const retos = [{
+            pregunta: '🍫 En una tienda de Chocotejas, 8 de cada 20 turistas compran una caja. ¿Qué porcentaje compra?',
+            opciones: ['40%', '20%', '80%', '8%'],
+            correcta: 0
+        }, {
+            pregunta: '👕 Una polera en Gamarra cuesta S/120. Si hay 30% de descuento, ¿cuánto pagas?',
+            opciones: ['S/36', 'S/84', 'S/90', 'S/100'],
+            correcta: 1
+        }, {
+            pregunta: '📱 Un celular cuesta S/800. Si pagas al contado, te descuentan el 15%. ¿Cuánto ahorras?',
+            opciones: ['S/120', 'S/680', 'S/150', 'S/80'],
+            correcta: 0
+        }, {
+            pregunta: '🥤 Un emprendedor vende 60 jugos de 200 que preparó. ¿Qué porcentaje vendió?',
+            opciones: ['60%', '30%', '40%', '20%'],
+            correcta: 1
+        }, {
+            pregunta: '🏪 Una bodega compra gaseosas a S/2.50 y las vende con 40% de ganancia. ¿A cuánto las vende?',
+            opciones: ['S/3.00', 'S/3.50', 'S/4.00', 'S/2.90'],
+            correcta: 1
+        }];
+
+        function renderRetos() {
+            const container = document.getElementById('retosContainer');
+            container.innerHTML = '';
+            retos.forEach((reto, idx) => {
+                const div = document.createElement('div');
+                div.className = 'exercise';
+                div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${reto.pregunta}</p>
+                        <div class="options" data-retidx="${idx}">
+                            ${reto.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderReto(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackReto${idx}" class="feedback"></div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        function responderReto(retoIdx, optIdx) {
+            const reto = retos[retoIdx];
+            const optionsDiv = document.querySelector(`.exercise .options[data-retidx="${retoIdx}"]`);
+            const buttons = optionsDiv.querySelectorAll('button');
+            const feedback = document.getElementById(`feedbackReto${retoIdx}`);
+
+            buttons.forEach(b => b.disabled = true);
+
+            buttons.forEach((b, i) => {
+                if (i === reto.correcta) {
+                    b.classList.add('correct');
+                } else if (i === optIdx && i !== reto.correcta) {
+                    b.classList.add('wrong');
+                }
+            });
+
+            if (optIdx === reto.correcta) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ ¡Excelente! Sigue así.';
+            } else {
+                feedback.className = 'feedback wrong';
+                feedback.textContent = `❌ La respuesta correcta era: ${reto.opciones[reto.correcta]}`;
+            }
+        }
+
+        // =============================================================
+        // 5. EVALUACIÓN (10 EJERCICIOS)
+        // =============================================================
+        const evaluacionPreguntas = [{
+            pregunta: '¿Cuánto es el 25% de 400?',
+            opciones: ['100', '25', '400', '50'],
+            correcta: 0
+        }, {
+            pregunta: '¿Qué porcentaje es 18 de 60?',
+            opciones: ['30%', '18%', '60%', '40%'],
+            correcta: 0
+        }, {
+            pregunta: 'Un artículo cuesta S/200 y tiene 10% de descuento. ¿Cuánto pagas?',
+            opciones: ['S/20', 'S/180', 'S/190', 'S/160'],
+            correcta: 1
+        }, {
+            pregunta: 'Convierte 0.05 a porcentaje.',
+            opciones: ['0.5%', '5%', '50%', '0.05%'],
+            correcta: 1
+        }, {
+            pregunta: '¿Cuál es el 12% de 250?',
+            opciones: ['30', '12', '25', '50'],
+            correcta: 0
+        }, {
+            pregunta: 'Si un producto sube de S/50 a S/60, ¿qué porcentaje aumentó?',
+            opciones: ['10%', '20%', '15%', '25%'],
+            correcta: 1
+        }, {
+            pregunta: '¿Qué porcentaje representa 7 de 28?',
+            opciones: ['25%', '7%', '28%', '14%'],
+            correcta: 0
+        }, {
+            pregunta: 'Una laptop cuesta S/1200. Con 18% de IGV, ¿cuánto es el impuesto?',
+            opciones: ['S/216', 'S/180', 'S/200', 'S/150'],
+            correcta: 0
+        }, {
+            pregunta: 'Si ahorras S/45 de un sueldo de S/300, ¿qué porcentaje ahorras?',
+            opciones: ['15%', '45%', '30%', '20%'],
+            correcta: 0
+        }, {
+            pregunta: 'Un emprendedor vende 35 de 50 productos. ¿Qué porcentaje vendió?',
+            opciones: ['35%', '50%', '70%', '85%'],
+            correcta: 2
+        }];
+
+        function renderEvaluacion() {
+            const container = document.getElementById('evaluacionContainer');
+            container.innerHTML = '';
+            evaluacionPreguntas.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.id = `evalQ${idx}`;
+                div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        function calificarEvaluacion() {
+            let correctas = 0;
+            let total = evaluacionPreguntas.length;
+            let todasRespondidas = true;
+
+            evaluacionPreguntas.forEach((p, idx) => {
+                const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                const questionDiv = document.getElementById(`evalQ${idx}`);
+
+                questionDiv.classList.remove('correct', 'wrong');
+
+                if (selected) {
+                    const valor = parseInt(selected.value);
+                    if (valor === p.correcta) {
+                        correctas++;
+                        questionDiv.classList.add('correct');
+                    } else {
+                        questionDiv.classList.add('wrong');
+                    }
+                } else {
+                    todasRespondidas = false;
+                    questionDiv.classList.add('wrong');
+                }
+            });
+
+            const resultDiv = document.getElementById('evaluacionResultado');
+            resultDiv.style.display = 'block';
+
+            if (!todasRespondidas) {
+                resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No has respondido todas las preguntas.
+                        <br>📊 Tienes <strong>${correctas}</strong> de <strong>${total}</strong> correctas hasta ahora.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                return;
+            }
+
+            const nota = (correctas / total) * 20;
+            let mensaje = '';
+            let emoji = '';
+            if (nota >= 18) {
+                mensaje = '🌟 ¡Excelente! Dominas los porcentajes.';
+                emoji = '🏅';
+            } else if (nota >= 14) {
+                mensaje = '👍 Muy bien. Sigue practicando.';
+                emoji = '📈';
+            } else if (nota >= 11) {
+                mensaje = '📖 Vas bien. Revisa los conceptos.';
+                emoji = '📚';
+            } else {
+                mensaje = '🔄 Necesitas repasar. Vuelve a la sección Aprender.';
+                emoji = '🔁';
+            }
+
+            resultDiv.innerHTML = `
+                        ${emoji} <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>📊 Nota: <strong>${nota.toFixed(1)} / 20</strong>
+                        <br>💬 ${mensaje}
+                    `;
+
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // =============================================================
+        // 6. INICIALIZAR
+        // =============================================================
+        renderEjercicios();
+        renderRetos();
+        renderEvaluacion();
+    </script>
+
+</body>
+</html>
