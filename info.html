@@ -1,4 +1,4 @@
-S<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -28,60 +28,91 @@ body{background:#0a0a14;min-height:100vh;font-family:Arial,sans-serif;padding:16
 </head>
 <body>
 <div class="header">
-  <div class="school">I.E. Pedro Emilio Paulet Mostajo</div>
-  <div class="brand">⚡ NOVA QR</div>
+<div class="school">I.E. Pedro Emilio Paulet Mostajo</div>
+<div class="brand">⚡ NOVA QR</div>
 </div>
-
 <div id="contenido">
-  <div class="loading">Cargando información...</div>
+<div class="loading">Cargando información...</div>
 </div>
-
 <div class="footer">Nova QR • Biblioteca Digital</div>
 
 <script>
+// ============================================================
+// MAPA DE CÓDIGOS QR -> PÁGINA HTML CON EL CONTENIDO INTERACTIVO
+// Agrega aquí cualquier código nuevo que quieras conectar.
+// ============================================================
+const paginas = {
+  mat001: 'porcentajes.html',
+  mat002: 'ecuaciones.html',
+  mat003: 'estadistica.html',
+  mat004: 'geometria.html',
+  mat005: 'regla de tres.html',
+
+  com001: 'comprension lectora.html',
+  com002: 'contenidos digitales.html',
+  com003: 'inferimos informacion.html',
+  com004: 'informacion en internet.html',
+  com005: 'texto argumentativo.html',
+
+  cyt001: 'cuidado del ambiente.html',
+  cyt002: 'ecosistemas.html',
+  cyt003: 'energia.html',
+  cyt004: 'salud y alimentacion.html',
+  cyt005: 'tecnologia y soluciones.html'
+};
+
+// Imágenes usadas solo por la tarjeta genérica de Firebase (respaldo)
 const imagenes = {
   mat001: 'https://xdarwinarevalo-beep.github.io/nova/mat.jpg',
   cyt001: 'https://xdarwinarevalo-beep.github.io/nova/cyt.jpg',
   com001: 'https://xdarwinarevalo-beep.github.io/nova/com.jpg'
 };
 
-const id = new URLSearchParams(window.location.search).get('id') || 'mat001'; if (id === 'mat001') { window.location.replace('porcentajes.html'); }
-const base = 'https://nova-qr-facf5-default-rtdb.firebaseio.com/';
-const curso_key = {
-  'Matemática':'Matemática',
-  'Ciencia y Tecnología':'CienciayTecnología',
-  'Comunicación':'Comunicación'
-};
+const id = new URLSearchParams(window.location.search).get('id') || 'mat001';
 
-fetch(base + 'temas/' + id + '.json')
-  .then(r => r.json())
-  .then(data => {
-    if(!data){
-      document.getElementById('contenido').innerHTML = '<div class="loading">No se encontró información.</div>';
-      return;
-    }
-    const img = imagenes[id] || '';
-    const badge = curso_key[data.curso] || 'Matemática';
-  document.getElementById('contenido').innerHTML = `
-      <div class="card">
-        <div class="card-body">
-          <span class="badge ${badge}">${data.curso}</span>
-          <span class="badge grado">${data.grado}</span>
-          <div class="titulo">${data.titulo}</div>
-          <div class="divider"></div>
-          <div class="section-label">Descripción</div>
-          <div class="desc">${data.descripcion}</div>
-          ${img ? `<img class="card-img" src="${img}" alt="${data.titulo}">` : ''}
-          <div class="divider"></div>
-          <div class="section-label">Contenido</div>
-          <div class="contenido">${data.contenido}</div>
+if (paginas[id]) {
+  // Si el código tiene página propia, redirige directo a ella
+  window.location.replace(encodeURI(paginas[id]));
+} else {
+  // Si no está en la lista, busca la info genérica en Firebase (respaldo)
+  const base = 'https://nova-qr-facf5-default-rtdb.firebaseio.com/';
+
+  const curso_key = {
+    'Matemática':'Matemática',
+    'Ciencia y Tecnología':'CienciayTecnología',
+    'Comunicación':'Comunicación'
+  };
+
+  fetch(base + 'temas/' + id + '.json')
+    .then(r => r.json())
+    .then(data => {
+      if(!data){
+        document.getElementById('contenido').innerHTML = '<div class="loading">No se encontró información.</div>';
+        return;
+      }
+      const img = imagenes[id] || '';
+      const badge = curso_key[data.curso] || 'Matemática';
+      document.getElementById('contenido').innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <span class="badge ${badge}">${data.curso}</span>
+            <span class="badge grado">${data.grado}</span>
+            <div class="titulo">${data.titulo}</div>
+            <div class="divider"></div>
+            <div class="section-label">Descripción</div>
+            <div class="desc">${data.descripcion}</div>
+            ${img ? `<img class="card-img" src="${img}" alt="${data.titulo}">` : ''}
+            <div class="divider"></div>
+            <div class="section-label">Contenido</div>
+            <div class="contenido">${data.contenido}</div>
+          </div>
         </div>
-      </div>
-    `;
-  })
-  .catch(()=>{
-    document.getElementById('contenido').innerHTML = '<div class="loading">Error al cargar.</div>';
-  });
+      `;
+    })
+    .catch(()=>{
+      document.getElementById('contenido').innerHTML = '<div class="loading">Error al cargar.</div>';
+    });
+}
 </script>
 </body>
 </html>
