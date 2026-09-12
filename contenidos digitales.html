@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🎨 Creamos contenidos digitales</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #0e6655;
+            --secondary: #148f77;
+            --accent: #f39c12;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE FORMATOS */
+        .formatos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .formatos-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        }
+
+        .formato-card {
+            background: #f4f9f9;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .formato-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .formato-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .formato-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: 0.4rem; }
+        .formato-card p { font-size: 0.92rem; margin-bottom: 0.4rem; }
+        .formato-card .uso { font-size: 0.85rem; color: #555; font-style: italic; }
+
+        /* TABLA COMPARATIVA */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 600px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f9fdfd; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #e8f8f5;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .campo-reto {
+            margin-bottom: 0.8rem;
+        }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(20, 143, 119, 0.2);
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--secondary); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #f9fdfd;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #e8f8f5; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .checklist li {
+            padding: 0.6rem 0.8rem;
+            background: #f9fdfd;
+            border-radius: 8px;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+        }
+        .checklist li::before {
+            content: "✅";
+            font-size: 1.1rem;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎨 Creamos contenidos digitales</h1>
+        <p>Aprende a comunicar tus ideas con infografías, presentaciones, blogs, videos y publicaciones digitales</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para descubrir qué son los contenidos digitales y cómo elegir el formato adecuado según tu objetivo.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=contenido_digital"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CONCEPTOS: FORMATOS -->
+            <div class="card">
+                <h2>📌 Los 5 formatos de contenido digital</h2>
+                <p>Cada formato tiene un propósito distinto. Conocerlos te ayuda a elegir el mejor para comunicar tu mensaje.</p>
+
+                <div class="formatos-grid">
+                    <div class="formato-card">
+                        <span class="icono">📊</span>
+                        <h4>Infografía</h4>
+                        <p>Representación visual que combina imágenes, gráficos y texto breve para explicar información compleja de forma clara.</p>
+                        <p class="uso">💡 Ideal para: datos, estadísticas, procesos y resúmenes visuales.</p>
+                    </div>
+
+                    <div class="formato-card">
+                        <span class="icono">📽️</span>
+                        <h4>Presentación</h4>
+                        <p>Secuencia de diapositivas que apoyan una exposición oral. Combina texto, imágenes y multimedia.</p>
+                        <p class="uso">💡 Ideal para: exponer proyectos, enseñar un tema, presentar resultados.</p>
+                    </div>
+
+                    <div class="formato-card">
+                        <span class="icono">📝</span>
+                        <h4>Blog</h4>
+                        <p>Publicación digital periódica con artículos sobre temas específicos. Permite comentarios e interacción.</p>
+                        <p class="uso">💡 Ideal para: compartir opiniones, tutoriales, noticias o experiencias.</p>
+                    </div>
+
+                    <div class="formato-card">
+                        <span class="icono">🎬</span>
+                        <h4>Video</h4>
+                        <p>Contenido audiovisual que combina imagen en movimiento, sonido y texto. Alto impacto emocional.</p>
+                        <p class="uso">💡 Ideal para: tutoriales, entrevistas, campañas, storytelling.</p>
+                    </div>
+
+                    <div class="formato-card">
+                        <span class="icono">📱</span>
+                        <h4>Publicación digital</h4>
+                        <p>Contenido breve para redes sociales (post, reel, story, tweet). Rápido, visual y con alto alcance.</p>
+                        <p class="uso">💡 Ideal para: anuncios, reflexiones, datos curiosos, promociones.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA COMPARATIVA -->
+            <div class="card">
+                <h2>📋 Tabla comparativa: ¿cuál elegir?</h2>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Formato</th>
+                                <th>Objetivo principal</th>
+                                <th>Público típico</th>
+                                <th>Herramientas</th>
+                                <th>Tiempo de creación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>📊 Infografía</td>
+                                <td>Explicar datos visualmente</td>
+                                <td>Estudiantes, público general</td>
+                                <td>Canva, Piktochart, Genially</td>
+                                <td>Medio</td>
+                            </tr>
+                            <tr>
+                                <td>📽️ Presentación</td>
+                                <td>Exponer y enseñar</td>
+                                <td>Compañeros, docentes</td>
+                                <td>PowerPoint, Google Slides, Prezi</td>
+                                <td>Medio</td>
+                            </tr>
+                            <tr>
+                                <td>📝 Blog</td>
+                                <td>Compartir y opinar</td>
+                                <td>Lectores interesados</td>
+                                <td>Blogger, WordPress, Medium</td>
+                                <td>Alto</td>
+                            </tr>
+                            <tr>
+                                <td>🎬 Video</td>
+                                <td>Impactar y emocionar</td>
+                                <td>Redes sociales, YouTube</td>
+                                <td>CapCut, InShot, Filmora</td>
+                                <td>Alto</td>
+                            </tr>
+                            <tr>
+                                <td>📱 Publicación digital</td>
+                                <td>Difundir rápido</td>
+                                <td>Seguidores en redes</td>
+                                <td>Instagram, TikTok, X</td>
+                                <td>Bajo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CONCEPTOS CLAVE -->
+            <div class="card">
+                <h2>🧠 Conceptos clave de la comunicación digital</h2>
+                <h3>🎯 Público objetivo</h3>
+                <p>Grupo de personas al que diriges tu contenido. Conocer su edad, intereses y necesidades es clave para elegir formato y lenguaje.</p>
+
+                <h3>🎯 Objetivo comunicativo</h3>
+                <p>Lo que quieres lograr: informar, persuadir, entretener, enseñar o inspirar. Define el tono y la estructura.</p>
+
+                <h3>🎨 Lenguaje multimedia</h3>
+                <p>Combinación de texto, imagen, audio y video. Un buen contenido digital integra varios lenguajes para ser más efectivo.</p>
+
+                <h3>⚖️ Licencias y derechos</h3>
+                <p>Usa imágenes, música y videos con licencia libre (Creative Commons, dominio público) o cita correctamente la fuente.</p>
+
+                <h3>🤝 Netiqueta digital</h3>
+                <p>Normas de convivencia en entornos digitales: respeto, veracidad, no spam, citar fuentes y cuidar el tono.</p>
+            </div>
+
+            <!-- GLOSARIO INTERACTIVO -->
+            <div class="card">
+                <h2>📚 Mini-glosario interactivo</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Infografía</strong>
+                        <div class="definicion">Recurso visual que combina gráficos, iconos y texto breve para explicar información compleja de manera atractiva.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Storytelling</strong>
+                        <div class="definicion">Técnica de contar historias para conectar emocionalmente con el público y transmitir un mensaje memorable.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Call to Action (CTA)</strong>
+                        <div class="definicion">Llamado a la acción: frase que invita al público a hacer algo (comentar, compartir, suscribirse, visitar un enlace).</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Creative Commons</strong>
+                        <div class="definicion">Licencias que permiten usar y compartir obras con ciertas condiciones, respetando los derechos del autor.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Engagement</strong>
+                        <div class="definicion">Nivel de interacción del público con tu contenido: likes, comentarios, compartidos y tiempo de visualización.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHECKLIST -->
+            <div class="card">
+                <h2>✅ Checklist de buena comunicación digital</h2>
+                <p>Antes de publicar tu contenido, verifica:</p>
+                <ul class="checklist">
+                    <li>¿Tengo claro mi público objetivo?</li>
+                    <li>¿Mi mensaje principal es claro y directo?</li>
+                    <li>¿El formato elegido es el más adecuado?</li>
+                    <li>¿Las imágenes y música tienen licencia libre o están citadas?</li>
+                    <li>¿Revisé la ortografía y la redacción?</li>
+                    <li>¿Incluí un llamado a la acción?</li>
+                    <li>¿Cumple con las normas de netiqueta?</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ ¿Qué recurso utilizar en cada situación?</h2>
+                <p>Lee cada caso y elige el formato digital más adecuado.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Crea tu propuesta de contenido digital</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🎯 Imagina que tu colegio quiere promover el cuidado del agua. Completa la propuesta:
+                    </p>
+                    <div class="campo-reto">
+                        <label>📌 Título de tu contenido</label>
+                        <input type="text" id="retoTitulo" placeholder="Ej: 'El agua se agota: actúa ahora'">
+                    </div>
+                    <div class="campo-reto">
+                        <label>🎯 Formato elegido</label>
+                        <select id="retoFormato">
+                            <option value="">-- Selecciona un formato --</option>
+                            <option value="Infografía">📊 Infografía</option>
+                            <option value="Presentación">📽️ Presentación</option>
+                            <option value="Blog">📝 Blog</option>
+                            <option value="Video">🎬 Video</option>
+                            <option value="Publicación digital">📱 Publicación digital</option>
+                        </select>
+                    </div>
+                    <div class="campo-reto">
+                        <label>👥 Público objetivo</label>
+                        <input type="text" id="retoPublico" placeholder="Ej: Estudiantes de secundaria">
+                    </div>
+                    <div class="campo-reto">
+                        <label>🎯 Objetivo comunicativo</label>
+                        <input type="text" id="retoObjetivo" placeholder="Ej: Persuadir para reducir el consumo de agua">
+                    </div>
+                    <div class="campo-reto">
+                        <label>📝 Justificación (¿por qué ese formato?)</label>
+                        <textarea id="retoJustificacion" placeholder="Explica por qué elegiste ese formato y cómo ayudará a lograr tu objetivo..."></textarea>
+                    </div>
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar propuesta</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Comunicación digital</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) {
+                el.classList.toggle('abierto');
+            };
+
+            // =============================================================
+            // EJERCICIOS (PRACTICAR)
+            // =============================================================
+            const ejercicios = [{
+                caso: '🎓 La profesora pide a sus estudiantes explicar los resultados de una encuesta sobre reciclaje en el colegio, con muchos datos numéricos.',
+                pregunta: '¿Qué formato es más adecuado?',
+                opciones: ['Video', 'Infografía', 'Blog', 'Presentación'],
+                correcta: 1,
+                razon: 'La infografía permite mostrar datos y estadísticas de forma visual y clara.'
+            }, {
+                caso: '📢 Un grupo de vecinos quiere denunciar la acumulación de basura en su calle y busca que las autoridades y vecinos reaccionen rápido.',
+                pregunta: '¿Qué formato es más adecuado?',
+                opciones: ['Blog', 'Presentación', 'Publicación digital', 'Informe'],
+                correcta: 2,
+                razon: 'Una publicación digital en redes tiene alto alcance y rapidez para movilizar a la comunidad.'
+            }, {
+                caso: '📚 Un estudiante quiere compartir cada semana sus reflexiones sobre libros que lee, con tiempo para escribir y recibir comentarios.',
+                pregunta: '¿Qué formato es más adecuado?',
+                opciones: ['Video', 'Blog', 'Infografía', 'Publicación digital'],
+                correcta: 1,
+                razon: 'El blog permite publicaciones periódicas extensas y comentarios de lectores.'
+            }, {
+                caso: '🎤 Un grupo debe exponer ante toda la clase un proyecto sobre el cuidado del medio ambiente durante 10 minutos.',
+                pregunta: '¿Qué formato es más adecuado?',
+                opciones: ['Publicación digital', 'Infografía', 'Presentación', 'Blog'],
+                correcta: 2,
+                razon: 'La presentación apoya la exposición oral con diapositivas ordenadas.'
+            }, {
+                caso: '🎬 Una campaña busca emocionar a los estudiantes para que donen útiles escolares a niños de zonas rurales.',
+                pregunta: '¿Qué formato es más adecuado?',
+                opciones: ['Infografía', 'Blog', 'Video', 'Presentación'],
+                correcta: 2,
+                razon: 'El video combina imagen, música y emoción, generando mayor impacto y conexión.'
+            }];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ej = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ej.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ej.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ej.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = `✅ ¡Correcto! ${ej.razon}`;
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ej.opciones[ej.correcta]}. ${ej.razon}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <div style="background:#e8f8f5; padding:0.8rem; border-radius:8px; margin-bottom:0.8rem;">
+                            <p style="margin-bottom:0.2rem;"><strong>Caso ${idx + 1}:</strong></p>
+                            <p style="color:#2c3e50;">${ej.caso}</p>
+                        </div>
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const titulo = document.getElementById('retoTitulo').value.trim();
+                const formato = document.getElementById('retoFormato').value;
+                const publico = document.getElementById('retoPublico').value.trim();
+                const objetivo = document.getElementById('retoObjetivo').value.trim();
+                const justificacion = document.getElementById('retoJustificacion').value.trim();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                let camposLlenos = 0;
+                let total = 5;
+                if (titulo.length > 3) camposLlenos++;
+                if (formato) camposLlenos++;
+                if (publico.length > 3) camposLlenos++;
+                if (objetivo.length > 3) camposLlenos++;
+                if (justificacion.length > 20) camposLlenos++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (camposLlenos === total) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Propuesta completa!</h3>
+                        <p>Tu propuesta incluye todos los elementos necesarios:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li><strong>Título:</strong> ${titulo}</li>
+                            <li><strong>Formato:</strong> ${formato}</li>
+                            <li><strong>Público:</strong> ${publico}</li>
+                            <li><strong>Objetivo:</strong> ${objetivo}</li>
+                            <li><strong>Justificación:</strong> ${justificacion.substring(0, 100)}${justificacion.length > 100 ? '…' : ''}</li>
+                        </ul>
+                        <p style="margin-top:0.8rem; color:var(--success); font-weight:600;">✅ ¡Excelente trabajo! Estás listo para crear contenido digital de calidad.</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">📖 Propuesta incompleta (${camposLlenos}/${total})</h3>
+                        <p>Revisa lo que falta:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li>${titulo.length > 3 ? '✅' : '❌'} Título descriptivo</li>
+                            <li>${formato ? '✅' : '❌'} Formato elegido</li>
+                            <li>${publico.length > 3 ? '✅' : '❌'} Público objetivo definido</li>
+                            <li>${objetivo.length > 3 ? '✅' : '❌'} Objetivo comunicativo claro</li>
+                            <li>${justificacion.length > 20 ? '✅' : '❌'} Justificación (mínimo 20 caracteres)</li>
+                        </ul>
+                        <p style="margin-top:0.8rem;">💡 Completa todos los campos para una propuesta sólida.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '¿Qué formato es más adecuado para presentar muchos datos estadísticos de forma visual?', opciones: ['Blog', 'Infografía', 'Video', 'Presentación'], correcta: 1 },
+                { pregunta: '¿Qué característica define mejor a una publicación digital en redes sociales?', opciones: ['Extensa y detallada', 'Breve, visual y de alto alcance', 'Solo para expertos', 'Requiere mucha edición'], correcta: 1 },
+                { pregunta: '¿Qué debes verificar antes de usar una imagen de internet en tu contenido?', opciones: ['Que sea bonita', 'Que tenga licencia libre o citar la fuente', 'Que sea grande', 'Que tenga muchos colores'], correcta: 1 },
+                { pregunta: '¿Qué es el "público objetivo"?', opciones: ['El grupo al que diriges tu contenido', 'Tus amigos de clase', 'Los que comentan', 'Los que pagan'], correcta: 0 },
+                { pregunta: '¿Cuál es el objetivo principal de un video en una campaña social?', opciones: ['Informar con datos', 'Entretener sin mensaje', 'Impactar y conectar emocionalmente', 'Vender un producto'], correcta: 2 },
+                { pregunta: '¿Qué es la netiqueta digital?', opciones: ['Una red social', 'Normas de convivencia respetuosa en entornos digitales', 'Un tipo de video', 'Una app de edición'], correcta: 1 },
+                { pregunta: '¿Qué formato permite publicaciones periódicas extensas con comentarios de lectores?', opciones: ['Infografía', 'Blog', 'Video', 'Publicación digital'], correcta: 1 },
+                { pregunta: '¿Qué elemento NO debe faltar en un contenido digital efectivo?', opciones: ['Muchos colores', 'Un llamado a la acción (CTA)', 'Texto extenso', 'Música fuerte'], correcta: 1 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Dominas la comunicación digital. 🏅';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue creando contenido de calidad. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los formatos y conceptos clave. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderEjercicios();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

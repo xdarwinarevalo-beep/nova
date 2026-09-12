@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>📖 Inferimos información</title>
+    <style>
+        /* ======== RESET Y VARIABLES ======== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1a5276;
+            --secondary: #2e86c1;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 0.2rem;
+        }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            flex: 0 1 auto;
+            touch-action: manipulation;
+        }
+
+        nav button:active {
+            transform: scale(0.95);
+        }
+
+        nav button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0.8rem auto;
+            padding: 0 0.8rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--secondary);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* ======== VIDEO RESPONSIVE ======== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .video-card p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            header h1 {
+                font-size: 2.6rem;
+            }
+            .container {
+                max-width: 1100px;
+                padding: 0 1.5rem;
+            }
+        }
+
+        .badge-lectura {
+            background: #d6eaf8;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .badge-lectura strong {
+            color: var(--primary);
+        }
+
+        .texto-ejemplo {
+            background: #ebf5fb;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            margin: 1rem 0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .texto-ejemplo .pregunta {
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.8rem;
+        }
+
+        /* ======== LECTURA PARA PRÁCTICAR ======== */
+        .lectura-container {
+            background: #f4f9fd;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .lectura-container .titulo-lectura {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .lectura-container .texto-lectura {
+            font-size: 1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise p {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+        }
+
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 80px;
+            touch-action: manipulation;
+        }
+
+        .exercise .options button:active {
+            transform: scale(0.95);
+        }
+
+        .exercise .options button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .exercise .options button.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .exercise .options button.wrong {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .exercise .options button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+            background: #eafaf1;
+        }
+        .feedback.wrong {
+            color: var(--danger);
+            background: #fdedec;
+        }
+
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+
+        .question.correct {
+            border-color: var(--success);
+            background: #f0faf0;
+        }
+
+        .question.wrong {
+            border-color: var(--danger);
+            background: #fdf0f0;
+        }
+
+        .question p {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .question .options label:active {
+            transform: scale(0.95);
+        }
+
+        .question .options label:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .question .options input[type="radio"] {
+            display: none;
+        }
+
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .score strong {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                width: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #1e8e3e;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #d4ac0d;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.25);
+        }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        .result-box .highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .contenedor-reto {
+            background: #ebf5fb;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .contenedor-reto textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 80px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .contenedor-reto .btn-resolver {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            margin-top: 0.5rem;
+        }
+
+        .contenedor-reto .btn-resolver:hover {
+            background: #1a3f5a;
+        }
+
+        /* ======== SCROLLBAR ======== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        @media print {
+            nav {
+                display: none;
+            }
+            .section {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📖 Inferimos información</h1>
+        <p>Aprende a leer entre líneas y descubrir lo que el texto no dice explícitamente 🇵🇪</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- ======== VIDEO EXPLICATIVO ======== -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender cómo hacer inferencias al leer un texto y descubrir significados ocultos.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=inferimso_informacion"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- ======== CONCEPTOS ======== -->
+            <div class="card">
+                <h2>📌 Conceptos Fundamentales</h2>
+
+                <h3>📄 Información explícita</h3>
+                <p>Es la información que aparece <strong>directamente escrita</strong> en el texto. No requiere interpretación adicional. <br>
+                <strong>Ejemplo:</strong> "María tiene 10 años" → información explícita.</p>
+
+                <h3>🔍 Información implícita</h3>
+                <p>Es la información que <strong>no está escrita</strong> directamente, pero se puede deducir a partir de pistas o indicios del texto. <br>
+                <strong>Ejemplo:</strong> "María llevaba su mochila y su uniforme" → podemos inferir que va a la escuela.</p>
+
+                <h3>🧠 Inferencias</h3>
+                <p>Son <strong>conclusiones lógicas</strong> que se obtienen al combinar la información del texto con nuestros conocimientos previos. <br>
+                <strong>Proceso:</strong> Texto + Conocimientos previos = Inferencia.</p>
+
+                <h3>🎯 Interpretación</h3>
+                <p>Es la <strong>comprensión profunda</strong> del mensaje del texto, más allá de lo literal. Implica dar sentido a las ideas del autor.</p>
+
+                <div class="badge-lectura">
+                    <strong>📖 Ejemplo completo:</strong>
+                    <div class="texto-ejemplo">
+                        <p><strong>Texto:</strong> "Carlos llegó tarde a la reunión. Tenía el cabello desordenado y la camisa arrugada. Se disculpó y dijo que el tráfico había estado terrible."</p>
+                        <p class="pregunta">🔍 ¿Qué podemos inferir?</p>
+                        <p>✅ <strong>Información explícita:</strong> Carlos llegó tarde, tenía el cabello desordenado y la camisa arrugada.</p>
+                        <p>✅ <strong>Inferencia:</strong> Carlos probablemente <strong>corrió o se apresuró</strong> para llegar, y el tráfico fue la causa de su retraso.</p>
+                        <p>✅ <strong>Interpretación:</strong> Carlos <strong>valora la reunión</strong> porque se disculpó y dio una explicación.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== ANALIZADOR DE TEXTOS ======== -->
+            <div class="card">
+                <h2>🧠 Practica la inferencia</h2>
+                <p>Ingresa un texto breve y te ayudaré a identificar información explícita e implícita.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0;">
+                    <textarea id="textoInferencia" placeholder="Escribe un texto breve para analizar..." style="min-height:100px; padding:0.8rem; border:2px solid #ddd; border-radius:8px; font-size:1rem; font-family:inherit; resize:vertical;"></textarea>
+                    <button class="btn btn-resolver" style="background:var(--primary);" onclick="analizarInferencia()">🔍 Analizar</button>
+                </div>
+                <div id="inferenciaResultado" class="result-box" style="display:none;">
+                    <h3>📋 Análisis</h3>
+                    <div id="analisisContenido"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+
+            <div class="card">
+                <h2>✏️ Textos breves con preguntas</h2>
+                <p>Lee cada texto y responde las preguntas inferenciales.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+
+            <div class="card">
+                <h2>🏆 Reto: Lectura Inferencial</h2>
+                <div class="badge-lectura">
+                    <strong>🇵🇪 Contexto peruano:</strong> La respuesta no aparece directamente en el texto. Debes inferirla.
+                </div>
+                <div id="retosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+
+            <div class="card">
+                <h2>📝 Evaluación: Preguntas Inferenciales</h2>
+                <p>Responde los 10 ejercicios. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN CORREGIDA
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => {
+                    if (s) s.classList.remove('active');
+                });
+                if (sections[id]) {
+                    sections[id].classList.add('active');
+                }
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // ANALIZADOR DE INFERENCIAS
+            // =============================================================
+            window.analizarInferencia = function() {
+                const texto = document.getElementById('textoInferencia').value.trim();
+                const resultadoDiv = document.getElementById('inferenciaResultado');
+                const contenidoDiv = document.getElementById('analisisContenido');
+
+                if (!texto) {
+                    resultadoDiv.style.display = 'block';
+                    contenidoDiv.innerHTML = '⚠️ Escribe un texto para analizar.';
+                    return;
+                }
+
+                // Análisis simple: detectar oraciones y palabras clave
+                const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                const palabrasClave = ['porque', 'ya que', 'como', 'cuando', 'si', 'entonces', 'pero', 'aunque', 'sin embargo'];
+
+                let explícitas = [];
+                let implícitas = [];
+
+                oraciones.forEach(oro => {
+                    const limpia = oro.trim();
+                    if (limpia.length > 5) {
+                        let tieneClave = false;
+                        palabrasClave.forEach(pal => {
+                            if (limpia.toLowerCase().includes(pal)) {
+                                tieneClave = true;
+                            }
+                        });
+                        if (tieneClave) {
+                            implícitas.push(limpia);
+                        } else {
+                            explícitas.push(limpia);
+                        }
+                    }
+                });
+
+                let html = '';
+                html += `<p><strong>📄 Información explícita (${explícitas.length}):</strong></p>`;
+                if (explícitas.length > 0) {
+                    html += `<ul style="margin-left:1.2rem;">`;
+                    explícitas.slice(0, 5).forEach(e => {
+                        html += `<li>"${e}"</li>`;
+                    });
+                    html += `</ul>`;
+                } else {
+                    html += `<p style="color:#666;">No se identificaron afirmaciones explícitas claras.</p>`;
+                }
+
+                html += `<p style="margin-top:0.8rem;"><strong>🔍 Posibles inferencias (${implícitas.length}):</strong></p>`;
+                if (implícitas.length > 0) {
+                    html += `<ul style="margin-left:1.2rem;">`;
+                    implícitas.slice(0, 5).forEach(e => {
+                        html += `<li>"${e}" → <span style="color:var(--secondary);">[Contiene conectores que sugieren relaciones lógicas]</span></li>`;
+                    });
+                    html += `</ul>`;
+                } else {
+                    html += `<p style="color:#666;">No se detectaron oraciones con conectores lógicos.</p>`;
+                }
+
+                html += `<p style="margin-top:0.8rem;"><strong>💡 Consejo:</strong> Para inferir, busca pistas como:</p>`;
+                html += `<ul style="margin-left:1.2rem; color:#666;">
+                            <li>Palabras que indiquen causa-efecto (porque, ya que)</li>
+                            <li>Descripciones de acciones o estados</li>
+                            <li>Contexto y conocimientos previos</li>
+                        </ul>`;
+
+                resultadoDiv.style.display = 'block';
+                contenidoDiv.innerHTML = html;
+            };
+
+            // =============================================================
+            // EJERCICIOS (PRACTICAR)
+            // =============================================================
+            const ejercicios = [{
+                texto: '📖 "Ana tomó su paraguas y salió rápidamente de casa. El cielo estaba gris y el viento soplaba fuerte."',
+                pregunta: '¿Qué podemos inferir que va a pasar?',
+                opciones: ['Va a hacer sol', 'Va a llover', 'Va a nevar', 'Va a haber un terremoto'],
+                correcta: 1
+            }, {
+                texto: '📖 "Luis llegó a la oficina con los ojos rojos y bostezó varias veces durante la reunión."',
+                pregunta: '¿Qué podemos inferir sobre Luis?',
+                opciones: ['Está feliz', 'Durmió poco', 'Está enfermo', 'Está enojado'],
+                correcta: 1
+            }, {
+                texto: '📖 "La casa tenía el jardín descuidado, las cortinas cerradas y el buzón lleno de cartas."',
+                pregunta: '¿Qué podemos inferir de la casa?',
+                opciones: ['La familia está de vacaciones', 'La casa está abandonada', 'Es una casa nueva', 'Viven muchas personas'],
+                correcta: 1
+            }, {
+                texto: '📖 "María preparó la mesa con dos platos, dos vasos y dos sillas. Luego encendió dos velas."',
+                pregunta: '¿Qué podemos inferir?',
+                opciones: ['Espera una visita', 'Está sola', 'Va a cenar sola', 'Es su cumpleaños'],
+                correcta: 0
+            }, {
+                texto: '📖 "El niño miraba el escaparate con ojos brillantes. Su madre lo tomó de la mano y se fueron."',
+                pregunta: '¿Qué podemos inferir?',
+                opciones: ['El niño quería un juguete', 'El niño estaba asustado', 'El niño se perdió', 'El niño estaba enfermo'],
+                correcta: 0
+            }];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ejercicio = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ejercicio.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ejercicio.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ejercicio.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ ¡Correcto! Excelente inferencia.';
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ejercicio.opciones[ejercicio.correcta]}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <div style="background:#ebf5fb; padding:0.8rem; border-radius:8px; margin-bottom:0.8rem;">
+                            <p style="margin-bottom:0.2rem;"><strong>📖 Texto ${idx + 1}:</strong></p>
+                            <p style="font-style:italic; color:#2c3e50;">${ej.texto}</p>
+                        </div>
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO: LECTURA INFERENCIAL
+            // =============================================================
+            function renderRetos() {
+                const container = document.getElementById('retosContainer');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="contenedor-reto">
+                        <div style="background:white; padding:1rem; border-radius:8px; margin-bottom:1rem;">
+                            <p style="font-weight:700; color:var(--primary); text-align:center; font-size:1.1rem;">📖 "El misterio del cuaderno perdido"</p>
+                            <div style="background:#f4f9fd; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                <p style="font-style:italic; line-height:1.8;">"El profesor revisó los trabajos entregados. Solo faltaba el cuaderno de Carlos. Cuando preguntó por él, Carlos miró al suelo y dijo: 'Lo dejé en mi casa, profesor'. Sus compañeros notaron que sus manos temblaban ligeramente."</p>
+                            </div>
+                            <p style="font-weight:600; margin-top:0.8rem;">🔍 Pregunta inferencial:</p>
+                            <p style="font-weight:500;">¿Qué podemos inferir sobre la situación de Carlos?</p>
+                        </div>
+                        <textarea id="retoRespuesta" placeholder="Escribe tu respuesta aquí... ¿Qué crees que pasó realmente?"></textarea>
+                        <button class="btn btn-resolver" style="background:var(--primary); margin-top:0.5rem;" onclick="evaluarReto()">
+                            ✅ Evaluar mi respuesta
+                        </button>
+                        <div id="retoResultado" class="result-box" style="margin-top:1rem; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            window.evaluarReto = function() {
+                const respuesta = document.getElementById('retoRespuesta').value.trim();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                if (!respuesta) {
+                    resultadoDiv.style.display = 'block';
+                    resultadoDiv.innerHTML = '⚠️ Escribe tu respuesta antes de evaluar.';
+                    return;
+                }
+
+                const palabrasClave = ['temblar', 'temblor', 'nervioso', 'miedo', 'olvidó', 'excusa', 'culpa', 'vergüenza', 'mentira', 'ocultar'];
+                let coincidencias = 0;
+                palabrasClave.forEach(pal => {
+                    if (respuesta.toLowerCase().includes(pal)) {
+                        coincidencias++;
+                    }
+                });
+
+                resultadoDiv.style.display = 'block';
+                if (coincidencias >= 3) {
+                    resultadoDiv.innerHTML = `
+                        <h3>🎉 ¡Excelente inferencia!</h3>
+                        <p>Has identificado correctamente que Carlos probablemente <strong>está nervioso o escondiendo algo</strong>.</p>
+                        <p style="font-size:0.9rem; color:#666;">💡 Pistas clave: "miró al suelo", "manos temblaban", "lo dejé en mi casa" → indicios de incomodidad o posible mentira.</p>
+                        <p style="font-size:0.9rem; color:#666;">📌 Podría haber olvidado el trabajo, o tal vez no lo hizo y está dando una excusa.</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3>📖 Buena respuesta</h3>
+                        <p>Has hecho un buen intento. Recuerda que para inferir debes fijarte en los <strong>detalles ocultos</strong>.</p>
+                        <p style="font-size:0.9rem; color:#666;">💡 Pistas importantes: "miró al suelo" (evita contacto visual), "manos temblaban" (nerviosismo), "lo dejé en mi casa" (excusa común).</p>
+                        <p style="font-size:0.9rem; color:#666;">📌 Lo más probable es que Carlos <strong>esté nervioso porque no hizo el trabajo</strong> o está ocultando algo.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (10 PREGUNTAS INFERENCIALES)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '📖 "El perro ladró insistentemente y el cartero se detuvo a medio camino." ¿Qué podemos inferir?', opciones: ['El perro está feliz', 'El perro es agresivo', 'El cartero tiene miedo', 'El cartero se fue'], correcta: 2 },
+                { pregunta: '📖 "La abuela guardó el recibo en el bolsillo y sonrió con satisfacción." ¿Qué podemos inferir?', opciones: ['Pagó una deuda', 'Compró algo barato', 'Ganó un premio', 'Está triste'], correcta: 1 },
+                { pregunta: '📖 "El examen era muy difícil, pero nadie se rindió." ¿Qué podemos inferir de los estudiantes?', opciones: ['Son perezosos', 'Son perseverantes', 'Están desanimados', 'Son inteligentes'], correcta: 1 },
+                { pregunta: '📖 "María se puso el abrigo y se fue sin desayunar." ¿Qué podemos inferir?', opciones: ['Tiene prisa', 'No tiene hambre', 'Hace calor', 'Es de noche'], correcta: 0 },
+                { pregunta: '📖 "El semáforo se puso rojo y todos los autos se detuvieron, excepto uno." ¿Qué podemos inferir?', opciones: ['El conductor es imprudente', 'El conductor no ve bien', 'El semáforo está dañado', 'Los autos están parados'], correcta: 0 },
+                { pregunta: '📖 "La ventana estaba abierta y el jarrón en el suelo hecho pedazos." ¿Qué podemos inferir?', opciones: ['Alguien entró', 'El viento lo tiró', 'El gato lo tiró', 'Se cayó solo'], correcta: 2 },
+                { pregunta: '📖 "El niño se comió todo el pastel y luego se fue a jugar." ¿Qué podemos inferir?', opciones: ['Le gusta el pastel', 'Estaba muy triste', 'No le gusta el pastel', 'El pastel era pequeño'], correcta: 0 },
+                { pregunta: '📖 "La señora se sentó en el banco del parque y comenzó a leer un libro." ¿Qué podemos inferir?', opciones: ['No tiene dónde ir', 'Le gusta leer', 'Está esperando a alguien', 'Hace ejercicio'], correcta: 1 },
+                { pregunta: '📖 "El teléfono sonó varias veces pero nadie respondió." ¿Qué podemos inferir?', opciones: ['No había nadie en casa', 'Estaban ocupados', 'No querían contestar', 'El teléfono estaba roto'], correcta: 0 },
+                { pregunta: '📖 "El equipo de fútbol jugó muy bien a pesar de la lluvia." ¿Qué podemos inferir?', opciones: ['Perdieron el partido', 'Ganaron el partido', 'Jugaron con dificultad', 'No les importa la lluvia'], correcta: 2 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                let total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+
+                    questionDiv.classList.remove('correct', 'wrong');
+
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                if (!resultDiv) return;
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No has respondido todas las preguntas.
+                        <br>📊 Tienes <strong>${correctas}</strong> de <strong>${total}</strong> correctas hasta ahora.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Eres un maestro de la inferencia. 🏅';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue practicando para mejorar tus habilidades. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Revisa los conceptos básicos de inferencia. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // Renderizar todo al cargar
+            renderEjercicios();
+            renderRetos();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

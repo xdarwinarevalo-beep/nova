@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🛡️ Información confiable en Internet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #154360;
+            --secondary: #2874a6;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE CRITERIOS */
+        .criterios-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .criterios-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        }
+
+        .criterio-card {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .criterio-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .criterio-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .criterio-card h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .criterio-card p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .criterio-card .pregunta-clave { font-size: 0.85rem; color: var(--secondary); font-style: italic; font-weight: 600; }
+
+        /* TABLA BANDERAS ROJAS */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f9fdfd; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 120px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* COMPARACIÓN DE FUENTES */
+        .fuentes-comparar {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        @media (min-width: 700px) {
+            .fuentes-comparar { grid-template-columns: 1fr 1fr; }
+        }
+        .fuente-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 2px solid #ddd;
+            box-shadow: var(--shadow);
+        }
+        .fuente-card.confiable { border-color: var(--success); background: #f0faf3; }
+        .fuente-card.dudosa { border-color: var(--danger); background: #fdf2f2; }
+        .fuente-card h5 {
+            color: var(--primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .fuente-card .meta { font-size: 0.78rem; color: #666; margin-bottom: 0.4rem; }
+        .fuente-card .cuerpo { font-size: 0.88rem; line-height: 1.5; }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .campo-reto { margin-bottom: 0.9rem; }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(40, 116, 166, 0.2);
+        }
+        .noticia-reto {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--warning);
+            margin-bottom: 1rem;
+            font-size: 0.92rem;
+        }
+        .noticia-reto .titular {
+            font-weight: 700;
+            color: var(--danger);
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--secondary); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #f9fdfd;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #eaf2f8; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* DECÁLOGO */
+        .decalogo {
+            counter-reset: item;
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .decalogo li {
+            counter-increment: item;
+            padding: 0.7rem 0.9rem 0.7rem 3rem;
+            background: #eaf2f8;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        .decalogo li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            width: 1.6rem;
+            height: 1.6rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🛡️ Información confiable en Internet</h1>
+        <p>Aprende a distinguir fuentes confiables, detectar noticias falsas y verificar antes de compartir</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para aprender a identificar fuentes confiables y a detectar noticias falsas antes de compartirlas.</p>
+                <div class="video-container">
+                   <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=C%C3%B3mo_detectar_noticias_falsas_con_el_m%C3%A9todo_CRITIC"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CRITERIOS DE CONFIABILIDAD -->
+            <div class="card">
+                <h2>📌 ¿Cómo saber si una fuente es confiable?</h2>
+                <p>Usa estos <strong>6 criterios</strong> (método <strong>C.R.I.T.I.C.</strong>) para evaluar cualquier información que encuentres en Internet.</p>
+
+                <div class="criterios-grid">
+                    <div class="criterio-card">
+                        <span class="icono">👤</span>
+                        <h4>C — Autor</h4>
+                        <p>¿Quién escribió? ¿Es un experto, institución o medio reconocido?</p>
+                        <p class="pregunta-clave">❓ ¿Tiene nombre, cargo y respaldo?</p>
+                    </div>
+
+                    <div class="criterio-card">
+                        <span class="icono">📅</span>
+                        <h4>R — Reciente</h4>
+                        <p>¿Cuándo se publicó? La información debe ser actual, sobre todo en temas científicos.</p>
+                        <p class="pregunta-clave">❓ ¿La fecha es reciente y visible?</p>
+                    </div>
+
+                    <div class="criterio-card">
+                        <span class="icono">📊</span>
+                        <h4>I — Intención</h4>
+                        <p>¿Busca informar, vender, persuadir o manipular? Analiza el propósito del texto.</p>
+                        <p class="pregunta-clave">❓ ¿Hay publicidad oculta o sesgo?</p>
+                    </div>
+
+                    <div class="criterio-card">
+                        <span class="icono">🔍</span>
+                        <h4>T — Testigos / Evidencia</h4>
+                        <p>¿Menciona fuentes, datos o estudios verificables? ¿Cita de dónde saca la información?</p>
+                        <p class="pregunta-clave">❓ ¿Se puede rastrear la fuente original?</p>
+                    </div>
+
+                    <div class="criterio-card">
+                        <span class="icono">🔗</span>
+                        <h4>I — Independencia</h4>
+                        <p>¿La fuente es imparcial o está vinculada a un solo interés? Compara con otras fuentes.</p>
+                        <p class="pregunta-clave">❓ ¿Otras fuentes dicen lo mismo?</p>
+                    </div>
+
+                    <div class="criterio-card">
+                        <span class="icono">✅</span>
+                        <h4>C — Comprobable</h4>
+                        <p>¿Se puede verificar la información en sitios oficiales o medios reconocidos?</p>
+                        <p class="pregunta-clave">❓ ¿Aparece en 2 o más fuentes confiables?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BANDERAS ROJAS -->
+            <div class="card">
+                <h2>🚩 Banderas rojas: señales de noticia falsa</h2>
+                <p>Si una noticia presenta varias de estas señales, sospecha.</p>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Señal de alerta</th>
+                                <th>¿Qué significa?</th>
+                                <th>Ejemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>😱 Titular alarmista</td>
+                                <td>Usa exageraciones o mayúsculas para llamar la atención</td>
+                                <td>"¡¡URGENTE!! El agua se ACABARÁ mañana"</td>
+                            </tr>
+                            <tr>
+                                <td>👤 Autor desconocido</td>
+                                <td>No hay firma ni perfil verificable</td>
+                                <td>Publicado por "Anónimo" o cuenta creada ayer</td>
+                            </tr>
+                            <tr>
+                                <td>📅 Sin fecha</td>
+                                <td>No se sabe cuándo se publicó o es muy antigua</td>
+                                <td>"Hace unos años..." sin fecha exacta</td>
+                            </tr>
+                            <tr>
+                                <td>📸 Imágenes fuera de contexto</td>
+                                <td>Fotos viejas o manipuladas usadas como prueba</td>
+                                <td>Foto de otro país para hablar del propio</td>
+                            </tr>
+                            <tr>
+                                <td>🚫 Sin fuentes</td>
+                                <td>No menciona estudios, medios o testigos</td>
+                                <td>"Según expertos..." sin decir quiénes</td>
+                            </tr>
+                            <tr>
+                                <td>😡 Lenguaje emocional</td>
+                                <td>Busca indignar o asustar más que informar</td>
+                                <td>"¡Indignante! Nadie dice esto"</td>
+                            </tr>
+                            <tr>
+                                <td>🔁 Cadena de WhatsApp</td>
+                                <td>Texto reenviado muchas veces sin fuente original</td>
+                                <td>"Reenvía a 10 personas o..."</td>
+                            </tr>
+                            <tr>
+                                <td>💰 Publicidad encubierta</td>
+                                <td>Parece noticia, pero vende algo</td>
+                                <td>"Descubre el remedio milagroso..."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GLOSARIO -->
+            <div class="card">
+                <h2>📚 Mini-glosario del verificador</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Fake news</strong>
+                        <div class="definicion">Noticias falsas creadas para desinformar, manipular opiniones o generar tráfico. Pueden imitar el estilo de medios reales.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Clickbait</strong>
+                        <div class="definicion">Titular o contenido diseñado para atraer clics exagerando, engañando o generando curiosidad extrema.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Fuente primaria</strong>
+                        <div class="definicion">Documento o testimonio original: una entrevista, un informe oficial, un estudio científico, una ley.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Sesgo informativo</strong>
+                        <div class="definicion">Inclinación de una fuente hacia una postura política, comercial o ideológica que afecta cómo presenta la información.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Verificación de hechos (fact-checking)</strong>
+                        <div class="definicion">Proceso de comprobar si una información es verdadera consultando fuentes oficiales y medios independientes.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Deepfake</strong>
+                        <div class="definicion">Video, audio o imagen manipulada con inteligencia artificial para hacer parecer real algo que no lo es.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DECÁLOGO -->
+            <div class="card">
+                <h2>✍️ Decálogo del buen verificador</h2>
+                <ol class="decalogo">
+                    <li>Desconfía de titulares escandalosos.</li>
+                    <li>Verifica siempre el autor y la fecha.</li>
+                    <li>Busca la misma noticia en 2 o 3 fuentes distintas.</li>
+                    <li>Revisa si la imagen o video corresponde realmente al hecho.</li>
+                    <li>Consulta sitios oficiales (gobiernos, universidades, medios reconocidos).</li>
+                    <li>No compartas si no estás seguro.</li>
+                    <li>Pregúntate: ¿a quién beneficia esta noticia?</li>
+                    <li>Reconoce tus propios sesgos al leer.</li>
+                    <li>Usa verificadores como AFP Factual, Colombia Check, Convoca.</li>
+                    <li>Enseña a otros a verificar. La desinformación se combate en comunidad.</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ Comparar diferentes fuentes</h2>
+                <p>Lee estas dos versiones sobre el mismo hecho y responde.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Detective de noticias</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🔍 Analiza esta noticia que apareció en un grupo de WhatsApp. Determina si es confiable o no, y explica por qué.
+                    </p>
+
+                    <div class="noticia-reto">
+                        <p class="titular">😱 ¡¡URGENTE!! Encuentran bacteria peligrosa en el agua de todo el país</p>
+                        <p class="meta">📱 Publicado en grupo "Vecinos Unidos" · Sin fecha · Reenviado 47 veces</p>
+                        <p style="margin-top:0.5rem;">"Un científico anónimo reveló que el agua de caño contiene una bacteria mortal. Las autoridades lo ocultan. ¡HIERVE el agua antes de beberla y reenvía este mensaje a 10 personas para salvar vidas!"</p>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🔎 ¿Cuál es el criterio más evidente que falla?</label>
+                        <select id="retoCriterio">
+                            <option value="">-- Selecciona un criterio --</option>
+                            <option value="Autor">👤 Autor</option>
+                            <option value="Fecha">📅 Fecha</option>
+                            <option value="Evidencia">🔍 Evidencia</option>
+                            <option value="Verificación">✅ Verificación</option>
+                            <option value="Titular">😱 Titular alarmista</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>📝 Explica por qué esta noticia NO es confiable</label>
+                        <textarea id="retoExplicacion" placeholder="Menciona al menos 2 razones (autor, fecha, evidencia, tono, etc.)..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🔎 ¿Qué harías para verificarla?</label>
+                        <textarea id="retoVerificacion" placeholder="Ej: buscar en sitios oficiales, consultar medios reconocidos, revisar si otras fuentes lo confirman..."></textarea>
+                    </div>
+
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar mi análisis</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Análisis de fuentes</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) { el.classList.toggle('abierto'); };
+
+            // =============================================================
+            // EJERCICIOS (comparar fuentes)
+            // =============================================================
+            const ejercicios = [
+                {
+                    titulo: 'Caso 1: El nuevo parque de la ciudad',
+                    fuentes: [
+                        {
+                            tipo: 'confiable',
+                            nombre: '🏛️ Municipalidad de Lima (sitio oficial)',
+                            meta: '📅 Publicado: 12 de marzo, 2024 · Autor: Gerencia de Espacios Públicos',
+                            cuerpo: '"El nuevo parque del distrito será inaugurado el próximo sábado. Contará con áreas verdes, juegos para niños y ciclovía. Presupuesto aprobado: S/ 2.5 millones."'
+                        },
+                        {
+                            tipo: 'dudosa',
+                            nombre: '📰 Blog "NoticiasYa.pe"',
+                            meta: '📅 Sin fecha · Autor: "Redacción"',
+                            cuerpo: '"EL PARQUE NUNCA SE HARÁ. Los vecinos están hartos porque el alcalde se queda con el dinero. ¡Comparte antes de que borren esto!"'
+                        }
+                    ],
+                    pregunta: '¿Cuál fuente es más confiable y por qué?',
+                    opciones: ['La Municipalidad, porque es fuente oficial con fecha y responsable', 'El blog, porque dice la verdad que ocultan', 'Ambas son igual de confiables', 'Ninguna es confiable'],
+                    correcta: 0,
+                    razon: 'La Municipalidad es una fuente oficial, con fecha, autor institucional y datos verificables. El blog no tiene fecha, autor, y usa lenguaje alarmista.'
+                },
+                {
+                    titulo: 'Caso 2: Estudio sobre el uso del celular',
+                    fuentes: [
+                        {
+                            tipo: 'confiable',
+                            nombre: '🎓 Universidad Nacional Mayor de San Marcos',
+                            meta: '📅 Publicado: 5 de junio, 2024 · Autor: Dra. Ana Quispe (investigadora)',
+                            cuerpo: '"Un estudio con 500 estudiantes de secundaria mostró que el uso moderado del celular con fines educativos mejora el rendimiento en un 15%."'
+                        },
+                        {
+                            tipo: 'dudosa',
+                            nombre: '📱 Cuenta de TikTok @tips_virales',
+                            meta: '📅 Publicado: hace 2 días · Autor: Anónimo',
+                            cuerpo: '"¡Los celulares NO dañan el cerebro! Un amigo de mi primo es doctor y dice que puedes usarlo 10 horas sin problema."'
+                        }
+                    ],
+                    pregunta: '¿Qué hace que la fuente de la universidad sea confiable?',
+                    opciones: ['Tiene muchos likes', 'Es de una universidad, con autor y fecha verificables', 'Es de TikTok', 'Lo dijo un amigo'],
+                    correcta: 1,
+                    razon: 'Una universidad es institución de prestigio; el estudio tiene autora identificada, fecha y metodología.'
+                },
+                {
+                    titulo: 'Caso 3: Vacunas y salud',
+                    fuentes: [
+                        {
+                            tipo: 'confiable',
+                            nombre: '🌐 Organización Mundial de la Salud (OMS)',
+                            meta: '📅 Actualizado: enero 2024 · Autor: Equipo técnico OMS',
+                            cuerpo: '"Las vacunas aprobadas por la OMS han demostrado ser seguras y eficaces. Cualquier efecto secundario es monitoreado constantemente."'
+                        },
+                        {
+                            tipo: 'dudosa',
+                            nombre: '🔗 Página "SaludNaturalTotal"',
+                            meta: '📅 Sin fecha · Autor: "Dr. Natural"',
+                            cuerpo: '"Las vacunas contienen sustancias peligrosas que las farmacéuticas ocultan. ¡La naturaleza es la única cura! Compra nuestro libro."'
+                        }
+                    ],
+                    pregunta: '¿Cuál es la principal señal de alerta en la segunda fuente?',
+                    opciones: ['Habla de salud', 'Tiene página web', 'Busca vender un libro y usa lenguaje alarmista sin fuentes', 'Está en español'],
+                    correcta: 2,
+                    razon: 'Es publicidad disfrazada de información médica, sin autor real, sin fecha, y con lenguaje que busca asustar y vender.'
+                }
+            ];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ej = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ej.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ej.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ej.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = `✅ ¡Correcto! ${ej.razon}`;
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ej.opciones[ej.correcta]}. ${ej.razon}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    const fuentesHTML = ej.fuentes.map(f => `
+                        <div class="fuente-card ${f.tipo}">
+                            <h5>${f.nombre}</h5>
+                            <p class="meta">${f.meta}</p>
+                            <p class="cuerpo">${f.cuerpo}</p>
+                        </div>
+                    `).join('');
+
+                    div.innerHTML = `
+                        <div style="background:#eaf2f8; padding:0.8rem; border-radius:8px; margin-bottom:0.8rem;">
+                            <p style="font-weight:700; color:var(--primary);">📰 ${ej.titulo}</p>
+                        </div>
+                        <div class="fuentes-comparar">${fuentesHTML}</div>
+                        <p style="margin-top:0.8rem;"><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const criterio = document.getElementById('retoCriterio').value;
+                const explicacion = document.getElementById('retoExplicacion').value.trim().toLowerCase();
+                const verificacion = document.getElementById('retoVerificacion').value.trim().toLowerCase();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                if (!criterio || !explicacion || !verificacion) {
+                    resultadoDiv.style.display = 'block';
+                    resultadoDiv.innerHTML = '⚠️ Completa todos los campos para evaluar tu análisis.';
+                    return;
+                }
+
+                // Criterios correctos (varios son válidos)
+                const criteriosValidos = ['Autor', 'Fecha', 'Evidencia', 'Verificación', 'Titular'];
+                let criterioOk = criteriosValidos.includes(criterio);
+
+                // Palabras clave esperadas
+                const palabrasClaveExplicacion = ['sin autor', 'anónimo', 'sin fecha', 'sin evidencia', 'alarmista', 'exagerado', 'cadena', 'reenvía', 'sin fuente', 'urgencia', 'miedo'];
+                const palabrasClaveVerificacion = ['buscar', 'medios', 'oficial', 'fuente', 'verificar', 'consultar', 'gobierno', 'oms', 'universidad', 'fact', 'comprobar', 'confirmar'];
+
+                let aciertosExplicacion = 0;
+                palabrasClaveExplicacion.forEach(p => { if (explicacion.includes(p)) aciertosExplicacion++; });
+
+                let aciertosVerificacion = 0;
+                palabrasClaveVerificacion.forEach(p => { if (verificacion.includes(p)) aciertosVerificacion++; });
+
+                let puntaje = 0;
+                if (criterioOk) puntaje++;
+                if (aciertosExplicacion >= 2) puntaje++;
+                if (aciertosVerificacion >= 2) puntaje++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (puntaje === 3) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Excelente detective!</h3>
+                        <p>Has identificado correctamente por qué esta noticia es falsa y cómo verificarla.</p>
+                        <p style="margin-top:0.6rem;"><strong>Razones de la falsedad:</strong></p>
+                        <ul style="margin-left:1.2rem;">
+                            <li>❌ No tiene autor identificable ("científico anónimo").</li>
+                            <li>❌ No tiene fecha de publicación.</li>
+                            <li>❌ No menciona fuente ni estudio verificable.</li>
+                            <li>❌ Usa lenguaje alarmista ("URGENTE", "mortal").</li>
+                            <li>❌ Pide reenviar a 10 personas (típico de cadenas).</li>
+                            <li>❌ El criterio seleccionado (${criterio}) es efectivamente uno de los fallos.</li>
+                        </ul>
+                        <p style="margin-top:0.6rem;"><strong>Verificación:</strong> Buscar en sitios oficiales (MINSA, OMS), consultar medios reconocidos, usar verificadores como AFP Factual o Convoca.</p>
+                    `;
+                } else if (puntaje === 2) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">👍 Buen análisis (${puntaje}/3)</h3>
+                        <p>Vas bien, pero refuerza algunos puntos:</p>
+                        <ul style="margin-left:1.2rem;">
+                            <li>${criterioOk ? '✅' : '❌'} Identificación del criterio que falla</li>
+                            <li>${aciertosExplicacion >= 2 ? '✅' : '❌'} Explicación de por qué no es confiable (mínimo 2 razones)</li>
+                            <li>${aciertosVerificacion >= 2 ? '✅' : '❌'} Pasos para verificarla (mínimo 2 acciones)</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;">💡 Recuerda: sin autor, sin fecha, con alarmismo y pidiendo reenvíos = noticia falsa casi segura.</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--danger);">📖 Necesitas repasar (${puntaje}/3)</h3>
+                        <p>Revisa los criterios de confiabilidad. Aquí las claves:</p>
+                        <ul style="margin-left:1.2rem;">
+                            <li>🔴 No hay autor verificable: dice "científico anónimo".</li>
+                            <li>🔴 No hay fecha de publicación.</li>
+                            <li>🔴 No hay fuente ni estudio que respalde.</li>
+                            <li>🔴 Usa alarmismo ("URGENTE", "mortal").</li>
+                            <li>🔴 Pide reenviar a 10 personas (cadena).</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;"><strong>Para verificar:</strong> busca en sitios oficiales como MINSA u OMS, revisa si otros medios reconocidos lo publican, usa verificadores de hechos.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '¿Cuál de estos elementos indica que una fuente es confiable?', opciones: ['Muchos likes', 'Autor identificado y fecha reciente', 'Título llamativo', 'Se comparte mucho'], correcta: 1 },
+                { pregunta: '¿Qué señal de alerta muestra una noticia falsa?', opciones: ['Cita fuentes oficiales', 'Tiene autor con cargo', 'Pide reenviar a 10 personas', 'Menciona fecha exacta'], correcta: 2 },
+                { pregunta: 'Un titular que dice "¡¡URGENTE!! Descubre el secreto que NADIE te dice" es probablemente...', opciones: ['Noticia confiable', 'Clickbait o noticia falsa', 'Estudio científico', 'Informe oficial'], correcta: 1 },
+                { pregunta: '¿Cuál es la mejor forma de verificar una noticia dudosa?', opciones: ['Preguntar a un amigo', 'Buscar en 2 o 3 fuentes confiables', 'Confiar en el primer resultado de Google', 'Ver cuántos likes tiene'], correcta: 1 },
+                { pregunta: '¿Qué significa "sesgo informativo"?', opciones: ['Una noticia con muchos datos', 'Una inclinación que afecta cómo se presenta la información', 'Un video viral', 'Una fuente oficial'], correcta: 1 },
+                { pregunta: '¿Qué es un "deepfake"?', opciones: ['Una noticia antigua', 'Un video o audio manipulado con IA', 'Un titular exagerado', 'Un sitio oficial'], correcta: 1 },
+                { pregunta: 'Si un mensaje de WhatsApp no tiene autor, fecha ni fuente, lo mejor es...', opciones: ['Reenviarlo rápido', 'Compartirlo con amigos', 'No compartirlo y verificar antes', 'Ignorarlo siempre'], correcta: 2 },
+                { pregunta: '¿Cuál de estas es una fuente primaria?', opciones: ['Un tuit de un famoso', 'Un informe oficial del MINSA', 'Un video de TikTok', 'Un blog anónimo'], correcta: 1 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Eres un verificador experto. 🕵️';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue practicando tu ojo crítico. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los criterios C.R.I.T.I.C. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderEjercicios();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

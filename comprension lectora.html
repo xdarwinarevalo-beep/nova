@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>📘 Comprensión lectora · Aprender, Practicar y Retar</title>
+    <style>
+        /* ======== RESET Y VARIABLES ======== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1a5276;
+            --secondary: #2e86c1;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 0.2rem;
+        }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            flex: 0 1 auto;
+            touch-action: manipulation;
+        }
+
+        nav button:active {
+            transform: scale(0.95);
+        }
+
+        nav button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0.8rem auto;
+            padding: 0 0.8rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--secondary);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* ======== VIDEO RESPONSIVE ======== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .video-card p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            header h1 {
+                font-size: 2.6rem;
+            }
+            .container {
+                max-width: 1100px;
+                padding: 0 1.5rem;
+            }
+        }
+
+        .badge-lectura {
+            background: #d6eaf8;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .badge-lectura strong {
+            color: var(--primary);
+        }
+
+        .texto-ejemplo {
+            background: #ebf5fb;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            margin: 1rem 0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .texto-ejemplo .pregunta {
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.8rem;
+        }
+
+        /* ======== LECTURA PARA PRACTICAR ======== */
+        .lectura-container {
+            background: #f4f9fd;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .lectura-container .titulo-lectura {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .lectura-container .texto-lectura {
+            font-size: 1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise p {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+        }
+
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 80px;
+            touch-action: manipulation;
+        }
+
+        .exercise .options button:active {
+            transform: scale(0.95);
+        }
+
+        .exercise .options button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .exercise .options button.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .exercise .options button.wrong {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .exercise .options button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+            background: #eafaf1;
+        }
+        .feedback.wrong {
+            color: var(--danger);
+            background: #fdedec;
+        }
+
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+
+        .question.correct {
+            border-color: var(--success);
+            background: #f0faf0;
+        }
+
+        .question.wrong {
+            border-color: var(--danger);
+            background: #fdf0f0;
+        }
+
+        .question p {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .question .options label:active {
+            transform: scale(0.95);
+        }
+
+        .question .options label:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .question .options input[type="radio"] {
+            display: none;
+        }
+
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .score strong {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                width: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #1e8e3e;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #d4ac0d;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.25);
+        }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        .result-box .highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .contenedor-reto {
+            background: #ebf5fb;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .contenedor-reto textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 80px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .contenedor-reto .btn-resolver {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            margin-top: 0.5rem;
+        }
+
+        .contenedor-reto .btn-resolver:hover {
+            background: #1a3f5a;
+        }
+
+        /* ======== SCROLLBAR ======== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        @media print {
+            nav {
+                display: none;
+            }
+            .section {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* ----- estilos específicos para listas en aprender ----- */
+        .lista-conceptos {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .lista-conceptos li {
+            margin-bottom: 0.4rem;
+        }
+        .ejemplo-box {
+            background: #fef9e7;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid #f1c40f;
+            margin-top: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📘 Comprensión lectora</h1>
+        <p>Aprende, practica y reta tu mente · Tema, idea principal, ideas secundarias y propósito</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- ======== VIDEO EXPLICATIVO (AL INICIO) ======== -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender los conceptos clave: tema, idea principal, ideas secundarias y propósito del autor.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=Comrpension_lectora"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- ======== CONCEPTOS ======== -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <h3>🎯 Tema</h3>
+                <p>Es el asunto general del que trata el texto. Se expresa con una frase breve o una palabra clave.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> En un texto sobre el cuidado del agua, el tema es <em>"la importancia de conservar el agua"</em>.
+                </div>
+
+                <h3>💡 Idea principal</h3>
+                <p>Es la idea más importante que el autor quiere transmitir. Generalmente aparece en el primer o último párrafo.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "El reciclaje reduce la contaminación y ahorra recursos naturales". Esa es la idea principal.
+                </div>
+
+                <h3>🔹 Ideas secundarias</h3>
+                <p>Complementan, explican o ejemplifican la idea principal. Sin ellas, el texto seguiría teniendo sentido, pero estaría menos desarrollado.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "El reciclaje de papel evita la tala de árboles" / "El vidrio puede reciclarse infinitas veces". Son ideas secundarias.
+                </div>
+
+                <h3>🎯 Propósito</h3>
+                <p>Es la intención del autor: informar, persuadir, entretener, explicar, etc. Se descubre preguntándose: ¿Para qué escribió esto?</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> Un texto que invita a votar tiene propósito <em>persuasivo</em>; un artículo científico, <em>informar</em>.
+                </div>
+
+                <div class="badge-lectura" style="margin-top:1.2rem;">
+                    <strong>📖 Ejemplo completo:</strong>
+                    <div class="texto-ejemplo">
+                        <p><strong>Texto:</strong> "La contaminación del aire en las ciudades aumenta cada año. Los automóviles y las fábricas liberan gases tóxicos que afectan la salud respiratoria. Además, el uso excesivo de plásticos contribuye a la contaminación. Por eso, es urgente tomar medidas para reducir las emisiones."</p>
+                        <p><strong>Tema:</strong> La contaminación ambiental.</p>
+                        <p><strong>Idea principal:</strong> La contaminación del aire aumenta y es urgente reducir las emisiones.</p>
+                        <p><strong>Ideas secundarias:</strong> Los automóviles y fábricas liberan gases tóxicos; el plástico también contamina.</p>
+                        <p><strong>Propósito:</strong> Persuadir al lector sobre la necesidad de tomar medidas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== ANALIZADOR DE TEXTOS (extra, pero útil) ======== -->
+            <div class="card">
+                <h2>🧠 Practica el análisis</h2>
+                <p>Escribe un texto breve y te ayudaré a identificar pistas sobre tema, idea principal y propósito.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0;">
+                    <textarea id="textoAnalisis" placeholder="Escribe un texto breve para analizar..." style="min-height:100px; padding:0.8rem; border:2px solid #ddd; border-radius:8px; font-size:1rem; font-family:inherit; resize:vertical;"></textarea>
+                    <button class="btn btn-resolver" style="background:var(--primary);" onclick="analizarTexto()">🔍 Analizar</button>
+                </div>
+                <div id="analisisResultado" class="result-box" style="display:none;">
+                    <h3>📋 Análisis orientativo</h3>
+                    <div id="analisisContenido"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+
+            <div class="card">
+                <h2>✏️ Lecturas cortas</h2>
+                <p>Lee cada texto y responde las preguntas sobre tema, idea principal e ideas secundarias.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+
+            <div class="card">
+                <h2>🏆 Reto: problema comunitario</h2>
+                <div class="badge-lectura">
+                    <strong>🇵🇪 Contexto comunitario:</strong> Lee el siguiente texto y analiza sus componentes. Luego responde.
+                </div>
+                <div id="retosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+
+            <div class="card">
+                <h2>📝 Evaluación: Comprensión lectora</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN CORREGIDA
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => {
+                    if (s) s.classList.remove('active');
+                });
+                if (sections[id]) {
+                    sections[id].classList.add('active');
+                }
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // ANALIZADOR DE TEXTOS (orientativo)
+            // =============================================================
+            window.analizarTexto = function() {
+                const texto = document.getElementById('textoAnalisis').value.trim();
+                const resultadoDiv = document.getElementById('analisisResultado');
+                const contenidoDiv = document.getElementById('analisisContenido');
+
+                if (!texto) {
+                    resultadoDiv.style.display = 'block';
+                    contenidoDiv.innerHTML = '⚠️ Escribe un texto para analizar.';
+                    return;
+                }
+
+                // heurística simple
+                const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                const palabrasClave = ['porque', 'ya que', 'como', 'cuando', 'si', 'entonces', 'pero', 'aunque', 'sin embargo', 'por eso', 'por lo tanto'];
+                let posibleTema = '';
+                if (oraciones.length > 0) {
+                    const primera = oraciones[0].trim();
+                    posibleTema = primera.length > 40 ? primera.substring(0, 40) + '…' : primera;
+                }
+
+                let html = `<p><strong>🔎 Posible tema:</strong> "${posibleTema}"</p>`;
+                html += `<p><strong>💡 Posible idea principal (primera oración):</strong> "${oraciones[0]?.trim() || '—'}"</p>`;
+                html += `<p><strong>📌 Posible propósito:</strong> `;
+                if (texto.includes('deberíamos') || texto.includes('urgente') || texto.includes('importante')) {
+                    html += `Persuadir / Concientizar`;
+                } else if (texto.includes('por ejemplo') || texto.includes('consiste') || texto.includes('definición')) {
+                    html += `Explicar / Informar`;
+                } else {
+                    html += `Informar o narrar (según contexto)`;
+                }
+                html += `</p>`;
+                html += `<p style="margin-top:0.8rem; color:#666;"><strong>💡 Consejo:</strong> Fíjate en la primera y última oración para descubrir la idea principal. Las ideas secundarias suelen repetir o ejemplificar.</p>`;
+
+                resultadoDiv.style.display = 'block';
+                contenidoDiv.innerHTML = html;
+            };
+
+            // =============================================================
+            // EJERCICIOS (PRACTICAR) - Lecturas cortas con preguntas
+            // =============================================================
+            const ejercicios = [{
+                texto: '📖 "El reciclaje es una acción sencilla pero poderosa. Al separar los residuos, reducimos la contaminación y ahorramos energía. Por ejemplo, reciclar una lata de aluminio ahorra suficiente energía para ver televisión durante tres horas."',
+                pregunta: '¿Cuál es la idea principal del texto?',
+                opciones: ['El reciclaje es sencillo', 'El reciclaje reduce contaminación y ahorra energía', 'Reciclar latas ahorra energía', 'Ver televisión consume energía'],
+                correcta: 1
+            }, {
+                texto: '📖 "La lectura diaria mejora la concentración y amplía el vocabulario. Además, estimula la imaginación y reduce el estrés. Por eso, se recomienda leer al menos 20 minutos al día."',
+                pregunta: '¿Cuál es el tema del texto?',
+                opciones: ['El estrés', 'La lectura diaria', 'El vocabulario', 'La imaginación'],
+                correcta: 1
+            }, {
+                texto: '📖 "Las abejas son esenciales para la polinización. Sin ellas, muchas plantas no podrían reproducirse. Además, producen miel y otros productos valiosos. Por eso, su desaparición sería catastrófica."',
+                pregunta: '¿Cuál es una idea secundaria?',
+                opciones: ['Las abejas son esenciales', 'Producen miel y otros productos', 'Su desaparición sería catastrófica', 'La polinización es importante'],
+                correcta: 1
+            }, {
+                texto: '📖 "El ejercicio físico regular fortalece el corazón y mejora el ánimo. También ayuda a controlar el peso y previene enfermedades. Por lo tanto, es clave para una vida saludable."',
+                pregunta: '¿Cuál es el propósito del autor?',
+                opciones: ['Informar sobre el ejercicio', 'Persuadir para hacer ejercicio', 'Entretener con anécdotas', 'Explicar cómo hacer ejercicio'],
+                correcta: 1
+            }];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ejercicio = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ejercicio.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ejercicio.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ejercicio.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ ¡Correcto! Muy buena comprensión.';
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ejercicio.opciones[ejercicio.correcta]}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <div style="background:#ebf5fb; padding:0.8rem; border-radius:8px; margin-bottom:0.8rem;">
+                            <p style="margin-bottom:0.2rem;"><strong>📖 Texto ${idx + 1}:</strong></p>
+                            <p style="font-style:italic; color:#2c3e50;">${ej.texto}</p>
+                        </div>
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO: problema comunitario (análisis)
+            // =============================================================
+            function renderRetos() {
+                const container = document.getElementById('retosContainer');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="contenedor-reto">
+                        <div style="background:white; padding:1rem; border-radius:8px; margin-bottom:1rem;">
+                            <p style="font-weight:700; color:var(--primary); text-align:center; font-size:1.1rem;">📖 "La basura en mi barrio"</p>
+                            <div style="background:#f4f9fd; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                <p style="font-style:italic; line-height:1.8;">"En mi comunidad, la acumulación de basura en las esquinas se ha convertido en un problema grave. Los vecinos ya no saben dónde ponerla porque el camión recolector pasa solo dos veces por semana. Además, los malos olores atraen moscas y roedores. Algunos niños han comenzado a enfermarse. Por eso, un grupo de vecinos propone organizar una jornada de limpieza y solicitar más frecuencia de recolección."</p>
+                            </div>
+                            <p style="font-weight:600; margin-top:0.8rem;">🔍 Preguntas de análisis:</p>
+                            <ul style="margin-left:1.2rem; margin-bottom:0.8rem;">
+                                <li>¿Cuál es el tema?</li>
+                                <li>¿Cuál es la idea principal?</li>
+                                <li>Menciona dos ideas secundarias.</li>
+                                <li>¿Cuál es el propósito del autor?</li>
+                            </ul>
+                        </div>
+                        <textarea id="retoRespuesta" placeholder="Escribe aquí tus respuestas..."></textarea>
+                        <button class="btn btn-resolver" style="background:var(--primary); margin-top:0.5rem;" onclick="evaluarReto()">
+                            ✅ Evaluar mis respuestas
+                        </button>
+                        <div id="retoResultado" class="result-box" style="margin-top:1rem; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            window.evaluarReto = function() {
+                const respuesta = document.getElementById('retoRespuesta').value.trim().toLowerCase();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                if (!respuesta) {
+                    resultadoDiv.style.display = 'block';
+                    resultadoDiv.innerHTML = '⚠️ Escribe tus respuestas antes de evaluar.';
+                    return;
+                }
+
+                // Verificar palabras clave
+                const palabrasTema = ['basura', 'contaminación', 'residuos', 'problema'];
+                const palabrasIdeaPrincipal = ['acumulación de basura', 'problema grave', 'recolección', 'jornada de limpieza'];
+                const palabrasSecundarias = ['camión', 'moscas', 'roedores', 'enfermos', 'malos olores'];
+                const palabrasProposito = ['concientizar', 'persuadir', 'solicitar', 'proponer', 'informar'];
+
+                let aciertos = 0;
+                if (palabrasTema.some(p => respuesta.includes(p))) aciertos++;
+                if (palabrasIdeaPrincipal.some(p => respuesta.includes(p))) aciertos++;
+                if (palabrasSecundarias.some(p => respuesta.includes(p))) aciertos++;
+                if (palabrasProposito.some(p => respuesta.includes(p))) aciertos++;
+
+                resultadoDiv.style.display = 'block';
+                if (aciertos >= 3) {
+                    resultadoDiv.innerHTML = `
+                        <h3>🎉 ¡Excelente análisis!</h3>
+                        <p>Has identificado correctamente los elementos del texto.</p>
+                        <p><strong>Tema:</strong> La acumulación de basura en la comunidad.</p>
+                        <p><strong>Idea principal:</strong> La basura acumulada es un problema grave que afecta a los vecinos.</p>
+                        <p><strong>Ideas secundarias:</strong> El camión pasa solo 2 veces por semana; los malos olores atraen moscas y roedores; algunos niños se enferman.</p>
+                        <p><strong>Propósito:</strong> Persuadir / proponer soluciones (jornada de limpieza y más recolección).</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3>📖 Buen intento</h3>
+                        <p>Revisa las pistas. Aquí tienes las respuestas esperadas:</p>
+                        <ul style="margin-left:1.2rem;">
+                            <li><strong>Tema:</strong> La basura en la comunidad / problema de residuos.</li>
+                            <li><strong>Idea principal:</strong> La acumulación de basura es un problema grave que requiere solución.</li>
+                            <li><strong>Ideas secundarias:</strong> El camión pasa solo 2 veces por semana, los malos olores atraen plagas, niños enfermos.</li>
+                            <li><strong>Propósito:</strong> Persuadir a los vecinos a organizarse y solicitar más recolección.</li>
+                        </ul>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (8 PREGUNTAS)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '📖 "La deforestación avanza cada año. Miles de especies pierden su hogar y el clima se altera. Por eso, es urgente proteger los bosques." ¿Cuál es la idea principal?', opciones: ['La deforestación avanza', 'Es urgente proteger los bosques', 'Miles de especies pierden hogar', 'El clima se altera'], correcta: 1 },
+                { pregunta: '📖 "El agua dulce es un recurso limitado. Solo el 3% del agua del planeta es dulce y mucha está congelada. Por eso, debemos evitar desperdiciarla." ¿Cuál es el tema?', opciones: ['El agua dulce como recurso limitado', 'El desperdicio de agua', 'Los ríos del mundo', 'La congelación del agua'], correcta: 0 },
+                { pregunta: '📖 "Un estudio reveló que los estudiantes que desayunan tienen mejor rendimiento escolar. Además, muestran mayor concentración y menos fatiga." ¿Qué tipo de idea es "muestran mayor concentración y menos fatiga"?', opciones: ['Idea principal', 'Tema', 'Idea secundaria', 'Propósito'], correcta: 2 },
+                { pregunta: '📖 "La solidaridad es un valor fundamental. Cuando ayudamos a los demás, fortalecemos la comunidad. Un ejemplo es la campaña de donación de alimentos." ¿Cuál es el propósito del autor?', opciones: ['Informar sobre donaciones', 'Promover la solidaridad', 'Describir una campaña', 'Narrar una historia'], correcta: 1 },
+                { pregunta: '📖 "Los árboles producen oxígeno, filtran el aire y regulan la temperatura. Por eso, talar árboles sin control tiene consecuencias graves." ¿Cuál es la idea principal?', opciones: ['Los árboles producen oxígeno', 'Talar árboles tiene consecuencias graves', 'Los árboles filtran el aire', 'Regulan la temperatura'], correcta: 1 },
+                { pregunta: '📖 "El uso excesivo de plásticos contamina océanos y afecta a los animales marinos. Cada año, millones de toneladas terminan en el mar." ¿Cuál es una idea secundaria?', opciones: ['El plástico contamina océanos', 'Millones de toneladas terminan en el mar', 'El uso excesivo de plásticos es dañino', 'Debemos reducir el plástico'], correcta: 1 },
+                { pregunta: '📖 "La práctica de deportes en equipo fomenta la colaboración y el respeto. Además, mejora la salud física y mental." ¿Cuál es el tema?', opciones: ['La salud mental', 'Los deportes en equipo', 'La colaboración', 'El respeto'], correcta: 1 },
+                { pregunta: '📖 "La lectura es una ventana al conocimiento. A través de los libros podemos viajar sin movernos y aprender de otras culturas." ¿Cuál es el propósito del autor?', opciones: ['Informar sobre libros', 'Persuadir para leer', 'Describir un viaje', 'Explicar una cultura'], correcta: 1 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                let total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+
+                    questionDiv.classList.remove('correct', 'wrong');
+
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                if (!resultDiv) return;
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No has respondido todas las preguntas.
+                        <br>📊 Tienes <strong>${correctas}</strong> de <strong>${total}</strong> correctas hasta ahora.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Dominas la comprensión lectora. 🏅';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue practicando para mejorar. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los conceptos de tema e idea principal. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // Renderizar todo al cargar
+            renderEjercicios();
+            renderRetos();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

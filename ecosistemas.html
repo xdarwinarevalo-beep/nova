@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🌿 CyT-01: Ecosistemas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #196f3d;
+            --secondary: #28b463;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --agua: #3498db;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE CONCEPTOS */
+        .conceptos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .conceptos-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        }
+
+        .concepto-card {
+            background: #eafaf1;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .concepto-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .concepto-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .concepto-card h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .concepto-card p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .concepto-card .ejemplo { font-size: 0.85rem; color: #555; font-style: italic; }
+
+        /* DIAGRAMA CADENA ALIMENTARIA */
+        .cadena-visual {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #fef9e7;
+            padding: 1.2rem 0.8rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border: 2px dashed var(--accent);
+        }
+        .eslabon {
+            background: white;
+            padding: 0.6rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 90px;
+        }
+        .eslabon .emoji { font-size: 1.3rem; display: block; }
+        .flecha { font-size: 1.3rem; color: var(--primary); font-weight: 700; }
+        .rol-tag {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 0.2rem;
+            color: white;
+        }
+        .rol-productor { background: var(--success); }
+        .rol-consumidor { background: var(--warning); }
+        .rol-descomponedor { background: #8e44ad; }
+
+        /* TABLA */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f9fdfd; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* SIMULADOR CADENA */
+        .simulador {
+            background: #eafaf1;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .simulador h4 { color: var(--primary); margin-bottom: 0.8rem; }
+        .simulador select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            background: white;
+        }
+        .simulador .resultado-cadena {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #eafaf1;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .campo-reto { margin-bottom: 0.9rem; }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(40, 180, 99, 0.2);
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--secondary); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #f9fdfd;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #eafaf1; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* DATOS CURIOSOS */
+        .dato-curioso {
+            background: linear-gradient(135deg, #fef9e7, #fdebd0);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        .dato-curioso strong { color: var(--warning); }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌿 CyT-01: Ecosistemas</h1>
+        <p>Descubre cómo interactúan los seres vivos con su ambiente · Factores bióticos, abióticos y cadenas alimentarias</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender qué es un ecosistema, sus componentes y cómo fluye la energía entre los seres vivos.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=gcle9bix&public_id=ecosistema"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CONCEPTOS -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <div class="conceptos-grid">
+                    <div class="concepto-card">
+                        <span class="icono">🌍</span>
+                        <h4>Ecosistema</h4>
+                        <p>Conjunto formado por los seres vivos y el ambiente físico donde interactúan. Incluye componentes bióticos y abióticos.</p>
+                        <p class="ejemplo">Ej: El lago Titicaca, el bosque amazónico, un charco de agua.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🦁</span>
+                        <h4>Factores bióticos</h4>
+                        <p>Todos los seres vivos del ecosistema: animales, plantas, hongos, bacterias. Se relacionan entre sí.</p>
+                        <p class="ejemplo">Ej: Un puma, un algarrobo, una abeja, un hongo.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">💧</span>
+                        <h4>Factores abióticos</h4>
+                        <p>Componentes no vivos que influyen en los seres vivos: agua, suelo, luz, temperatura, aire, sales minerales.</p>
+                        <p class="ejemplo">Ej: La luz solar, la temperatura, la humedad, el viento.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🔗</span>
+                        <h4>Cadena alimentaria</h4>
+                        <p>Serie que muestra cómo se transfiere la energía de un ser vivo a otro mediante la alimentación.</p>
+                        <p class="ejemplo">Ej: Planta → saltamontes → lagartija → halcón.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🦜</span>
+                        <h4>Biodiversidad</h4>
+                        <p>Variedad de especies de seres vivos que existen en un ecosistema o en el planeta. El Perú es uno de los países más biodiversos.</p>
+                        <p class="ejemplo">Ej: El Perú tiene más de 1,800 especies de aves.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CADENA ALIMENTARIA VISUAL -->
+            <div class="card">
+                <h2>🔗 ¿Cómo funciona una cadena alimentaria?</h2>
+                <p>La energía fluye desde los productores hasta los consumidores y descomponedores.</p>
+
+                <div class="cadena-visual">
+                    <div class="eslabon">
+                        <span class="emoji">🌱</span>
+                        Planta
+                        <span class="rol-tag rol-productor">Productor</span>
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">🐛</span>
+                        Oruga
+                        <span class="rol-tag rol-consumidor">Consumidor 1</span>
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">🐦</span>
+                        Pájaro
+                        <span class="rol-tag rol-consumidor">Consumidor 2</span>
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">🦅</span>
+                        Halcón
+                        <span class="rol-tag rol-consumidor">Consumidor 3</span>
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">🍄</span>
+                        Hongo
+                        <span class="rol-tag rol-descomponedor">Descomponedor</span>
+                    </div>
+                </div>
+
+                <div class="dato-curioso">
+                    <strong>💡 Dato:</strong> Los descomponedores (hongos y bacterias) cierran el ciclo: transforman la materia muerta en nutrientes que vuelven al suelo y son usados por las plantas.
+                </div>
+            </div>
+
+            <!-- TABLA COMPARATIVA -->
+            <div class="card">
+                <h2>📊 Bióticos vs. Abióticos</h2>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Factores bióticos 🦁</th>
+                                <th>Factores abióticos 💧</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tienen vida</td>
+                                <td>No tienen vida</td>
+                            </tr>
+                            <tr>
+                                <td>Animales, plantas, hongos, bacterias</td>
+                                <td>Agua, suelo, luz, temperatura, aire</td>
+                            </tr>
+                            <tr>
+                                <td>Nacen, crecen, se reproducen y mueren</td>
+                                <td>Pueden cambiar, pero no se reproducen</td>
+                            </tr>
+                            <tr>
+                                <td>Se relacionan entre sí (depredación, competencia, simbiosis)</td>
+                                <td>Influyen en los seres vivos (ej: la temperatura determina qué especies viven ahí)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SIMULADOR -->
+            <div class="card">
+                <h2>🧪 Simulador de cadena alimentaria</h2>
+                <p>Elige los eslabones y observa cómo se forma la cadena.</p>
+
+                <div class="simulador">
+                    <h4>🌱 Primer eslabón (productor)</h4>
+                    <select id="simProductor">
+                        <option value="">-- Elige --</option>
+                        <option value="🌱 Planta">🌱 Planta</option>
+                        <option value="🌿 Hierba">🌿 Hierba</option>
+                        <option value="🌳 Árbol">🌳 Árbol</option>
+                    </select>
+
+                    <h4>🐛 Segundo eslabón (consumidor 1)</h4>
+                    <select id="simConsumidor1">
+                        <option value="">-- Elige --</option>
+                        <option value="🐛 Oruga">🐛 Oruga</option>
+                        <option value="🦗 Saltamontes">🦗 Saltamontes</option>
+                        <option value="🐰 Conejo">🐰 Conejo</option>
+                    </select>
+
+                    <h4>🦎 Tercer eslabón (consumidor 2)</h4>
+                    <select id="simConsumidor2">
+                        <option value="">-- Elige --</option>
+                        <option value="🐦 Pájaro">🐦 Pájaro</option>
+                        <option value="🐸 Rana">🐸 Rana</option>
+                        <option value="🦊 Zorro">🦊 Zorro</option>
+                    </select>
+
+                    <button class="btn btn-success" onclick="construirCadena()" style="margin-top:0.5rem;">🔗 Construir cadena</button>
+
+                    <div class="resultado-cadena" id="resultadoCadena">
+                        Tu cadena aparecerá aquí...
+                    </div>
+                </div>
+            </div>
+
+            <!-- GLOSARIO -->
+            <div class="card">
+                <h2>📚 Mini-glosario</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Productor</strong>
+                        <div class="definicion">Ser vivo que fabrica su propio alimento usando la luz solar (fotosíntesis). Ej: plantas, algas.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Consumidor</strong>
+                        <div class="definicion">Ser vivo que se alimenta de otros. Puede ser herbívoro, carnívoro u omnívoro.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Descomponedor</strong>
+                        <div class="definicion">Ser vivo que transforma la materia orgánica muerta en nutrientes. Ej: hongos, bacterias.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Hábitat</strong>
+                        <div class="definicion">Lugar físico donde vive una especie. Ej: el nido de un ave, la madriguera de un conejo.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Nicho ecológico</strong>
+                        <div class="definicion">Función o "trabajo" que cumple un ser vivo dentro del ecosistema.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Red alimentaria</strong>
+                        <div class="definicion">Conjunto de varias cadenas alimentarias que se cruzan en un ecosistema.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATOS PERÚ -->
+            <div class="card">
+                <h2>🇵🇪 Ecosistemas del Perú</h2>
+                <div class="dato-curioso">
+                    <strong>🌊 Costa:</strong> Mar frío, playas, lomas costeras, manglares. Ej: la reserva de Paracas.
+                </div>
+                <div class="dato-curioso">
+                    <strong>⛰️ Sierra:</strong> Puna, valles interandinos, bosques de queñua. Ej: el cóndor andino, la vicuña.
+                </div>
+                <div class="dato-curioso">
+                    <strong>🌳 Selva:</strong> Bosque amazónico, aguajales, ríos. Es el ecosistema con mayor biodiversidad del país.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ Clasificar elementos</h2>
+                <p>Clasifica cada elemento del ecosistema según la categoría que corresponde.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Analiza el ecosistema de tu localidad</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🔍 Piensa en un ecosistema cercano (parque, río, cerro, playa, jardín). Completa el análisis.
+                    </p>
+
+                    <div class="campo-reto">
+                        <label>📍 ¿Qué ecosistema elegiste?</label>
+                        <input type="text" id="retoEcosistema" placeholder="Ej: El parque central de mi barrio">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🦁 Factores bióticos (al menos 3)</label>
+                        <textarea id="retoBioticos" placeholder="Ej: árboles, palomas, hormigas, pasto..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>💧 Factores abióticos (al menos 3)</label>
+                        <textarea id="retoAbioticos" placeholder="Ej: agua de la pileta, luz solar, suelo, temperatura..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🔗 Cadena alimentaria que observes</label>
+                        <textarea id="retoCadena" placeholder="Ej: pasto → saltamontes → pájaro → gato"></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>⚠️ ¿Qué problema ambiental identificas?</label>
+                        <textarea id="retoProblema" placeholder="Ej: basura acumulada, tala de árboles, contaminación del agua..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>💡 ¿Qué propones para mejorarlo?</label>
+                        <textarea id="retoSolucion" placeholder="Ej: campaña de limpieza, plantar árboles, no arrojar basura..."></textarea>
+                    </div>
+
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar mi análisis</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Ecosistemas (10 preguntas)</h2>
+                <p>Responde las 10 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) { el.classList.toggle('abierto'); };
+
+            // =============================================================
+            // SIMULADOR CADENA
+            // =============================================================
+            window.construirCadena = function() {
+                const p = document.getElementById('simProductor').value;
+                const c1 = document.getElementById('simConsumidor1').value;
+                const c2 = document.getElementById('simConsumidor2').value;
+                const resultado = document.getElementById('resultadoCadena');
+
+                if (!p || !c1 || !c2) {
+                    resultado.innerHTML = '<span style="color:var(--danger);">⚠️ Debes elegir los 3 eslabones.</span>';
+                    return;
+                }
+
+                resultado.innerHTML = `
+                    <span style="background:#eafaf1; padding:0.4rem 0.7rem; border-radius:20px; font-weight:600;">${p}</span>
+                    <span style="color:var(--primary); font-weight:700;">➡️</span>
+                    <span style="background:#fef5e7; padding:0.4rem 0.7rem; border-radius:20px; font-weight:600;">${c1}</span>
+                    <span style="color:var(--primary); font-weight:700;">➡️</span>
+                    <span style="background:#fadbd8; padding:0.4rem 0.7rem; border-radius:20px; font-weight:600;">${c2}</span>
+                `;
+            };
+
+            // =============================================================
+            // EJERCICIOS (clasificar)
+            // =============================================================
+            const ejercicios = [
+                {
+                    pregunta: '🌳 ¿A qué categoría pertenece un ÁRBOL?',
+                    opciones: ['Factor biótico', 'Factor abiótico'],
+                    correcta: 0,
+                    razon: 'Los árboles son seres vivos, por lo tanto son factores bióticos.'
+                },
+                {
+                    pregunta: '💧 ¿A qué categoría pertenece el AGUA?',
+                    opciones: ['Factor biótico', 'Factor abiótico'],
+                    correcta: 1,
+                    razon: 'El agua no tiene vida: es un factor abiótico.'
+                },
+                {
+                    pregunta: '🐛 ¿A qué categoría pertenece una ORUGA?',
+                    opciones: ['Factor biótico', 'Factor abiótico'],
+                    correcta: 0,
+                    razon: 'La oruga es un ser vivo: factor biótico.'
+                },
+                {
+                    pregunta: '🌡️ ¿A qué categoría pertenece la TEMPERATURA?',
+                    opciones: ['Factor biótico', 'Factor abiótico'],
+                    correcta: 1,
+                    razon: 'La temperatura no tiene vida: factor abiótico.'
+                },
+                {
+                    pregunta: '🍄 ¿Qué rol cumple un HONGO en la cadena alimentaria?',
+                    opciones: ['Productor', 'Consumidor', 'Descomponedor'],
+                    correcta: 2,
+                    razon: 'Los hongos descomponen materia orgánica y devuelven nutrientes al suelo.'
+                },
+                {
+                    pregunta: '🌱 ¿Qué rol cumple una PLANTA en la cadena alimentaria?',
+                    opciones: ['Productor', 'Consumidor', 'Descomponedor'],
+                    correcta: 0,
+                    razon: 'Las plantas producen su propio alimento mediante la fotosíntesis.'
+                },
+                {
+                    pregunta: '🦁 ¿Qué rol cumple un LEÓN en la cadena alimentaria?',
+                    opciones: ['Productor', 'Consumidor', 'Descomponedor'],
+                    correcta: 1,
+                    razon: 'El león se alimenta de otros animales: es consumidor.'
+                },
+                {
+                    pregunta: '🌳 En el ecosistema del BOSQUE AMAZÓNICO, ¿cómo se clasifica?',
+                    opciones: ['Ecosistema de costa', 'Ecosistema de sierra', 'Ecosistema de selva'],
+                    correcta: 2,
+                    razon: 'La Amazonía peruana corresponde al ecosistema de selva.'
+                }
+            ];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ej = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ej.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ej.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ej.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = `✅ ¡Correcto! ${ej.razon}`;
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ej.opciones[ej.correcta]}. ${ej.razon}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const ecosistema = document.getElementById('retoEcosistema').value.trim();
+                const bioticos = document.getElementById('retoBioticos').value.trim();
+                const abioticos = document.getElementById('retoAbioticos').value.trim();
+                const cadena = document.getElementById('retoCadena').value.trim();
+                const problema = document.getElementById('retoProblema').value.trim();
+                const solucion = document.getElementById('retoSolucion').value.trim();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                let camposOk = 0;
+                const total = 6;
+                if (ecosistema.length > 3) camposOk++;
+                if (bioticos.length > 5) camposOk++;
+                if (abioticos.length > 5) camposOk++;
+                if (cadena.length > 5) camposOk++;
+                if (problema.length > 5) camposOk++;
+                if (solucion.length > 5) camposOk++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (camposOk === total) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Excelente análisis!</h3>
+                        <p>Has completado todos los elementos de tu ecosistema local:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li><strong>Ecosistema:</strong> ${ecosistema}</li>
+                            <li><strong>Factores bióticos:</strong> ${bioticos.substring(0, 80)}${bioticos.length > 80 ? '…' : ''}</li>
+                            <li><strong>Factores abióticos:</strong> ${abioticos.substring(0, 80)}${abioticos.length > 80 ? '…' : ''}</li>
+                            <li><strong>Cadena alimentaria:</strong> ${cadena}</li>
+                            <li><strong>Problema:</strong> ${problema}</li>
+                            <li><strong>Solución:</strong> ${solucion}</li>
+                        </ul>
+                        <p style="margin-top:0.8rem; color:var(--success); font-weight:600;">✅ ¡Buen trabajo como explorador ecológico!</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">📖 Análisis incompleto (${camposOk}/${total})</h3>
+                        <p>Revisa lo que falta:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li>${ecosistema.length > 3 ? '✅' : '❌'} Ecosistema elegido</li>
+                            <li>${bioticos.length > 5 ? '✅' : '❌'} Factores bióticos (mínimo 3)</li>
+                            <li>${abioticos.length > 5 ? '✅' : '❌'} Factores abióticos (mínimo 3)</li>
+                            <li>${cadena.length > 5 ? '✅' : '❌'} Cadena alimentaria</li>
+                            <li>${problema.length > 5 ? '✅' : '❌'} Problema ambiental</li>
+                            <li>${solucion.length > 5 ? '✅' : '❌'} Propuesta de solución</li>
+                        </ul>
+                        <p style="margin-top:0.8rem;">💡 Completa todos los campos para un análisis sólido.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (10 preguntas)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '¿Qué es un ecosistema?', opciones: ['Solo los animales de un lugar', 'Los seres vivos y el ambiente donde interactúan', 'Solo las plantas', 'Un tipo de clima'], correcta: 1 },
+                { pregunta: '¿Cuál de estos es un factor biótico?', opciones: ['El agua', 'La luz solar', 'Un árbol', 'La temperatura'], correcta: 2 },
+                { pregunta: '¿Cuál de estos es un factor abiótico?', opciones: ['Un hongo', 'La humedad', 'Una abeja', 'Un pez'], correcta: 1 },
+                { pregunta: '¿Qué rol cumple una planta en la cadena alimentaria?', opciones: ['Consumidor', 'Productor', 'Descomponedor', 'Depredador'], correcta: 1 },
+                { pregunta: '¿Qué rol cumple un hongo?', opciones: ['Productor', 'Consumidor', 'Descomponedor', 'Herbívoro'], correcta: 2 },
+                { pregunta: 'En la cadena: pasto → conejo → zorro, ¿qué es el conejo?', opciones: ['Productor', 'Consumidor 1', 'Consumidor 2', 'Descomponedor'], correcta: 1 },
+                { pregunta: '¿Qué es la biodiversidad?', opciones: ['La variedad de seres vivos', 'La cantidad de agua', 'El tipo de suelo', 'El clima de un lugar'], correcta: 0 },
+                { pregunta: '¿Cuál de estos ecosistemas es propio de la costa peruana?', opciones: ['Aguajal', 'Manglar', 'Puna', 'Bosque de queñua'], correcta: 1 },
+                { pregunta: '¿Qué pasaría si desaparecieran los descomponedores?', opciones: ['Nada cambiaría', 'Los nutrientes no volverían al suelo', 'Habría más plantas', 'Aumentarían los consumidores'], correcta: 1 },
+                { pregunta: '¿Cuál es un ejemplo de factor abiótico en un río?', opciones: ['Los peces', 'Las algas', 'La temperatura del agua', 'Las bacterias'], correcta: 2 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Dominas los ecosistemas. 🌿';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue explorando la naturaleza. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los conceptos clave. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderEjercicios();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🤖 Tecnología y soluciones</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #34495e;
+            --secondary: #5d6d7e;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --tech: #3498db;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE CONCEPTOS */
+        .conceptos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .conceptos-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        }
+
+        .concepto-card {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--tech);
+            transition: var(--transition);
+        }
+        .concepto-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .concepto-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .concepto-card h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .concepto-card p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .concepto-card .ejemplo { font-size: 0.85rem; color: #555; font-style: italic; }
+
+        /* PROCESO DE DISEÑO */
+        .proceso-visual {
+            background: #fef9e7;
+            padding: 1.2rem 0.8rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--accent);
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .paso {
+            background: white;
+            padding: 0.8rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 100px;
+            max-width: 140px;
+            flex: 1 1 auto;
+        }
+        .paso .num {
+            display: inline-block;
+            background: var(--tech);
+            color: white;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            line-height: 1.5rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+        }
+        .paso .emoji { font-size: 1.5rem; display: block; }
+        .flecha { font-size: 1.2rem; color: var(--primary); font-weight: 700; }
+
+        /* TABLA */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f4f8fb; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--tech);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* RELACIONADOR */
+        .relacionador {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--tech);
+            margin: 1rem 0;
+        }
+        .problema-item {
+            background: white;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .problema-item .texto-problema { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .problema-item .opciones-relacionar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .problema-item .opciones-relacionar button {
+            border: 2px solid #ddd;
+            background: white;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            flex: 1 1 auto;
+            min-height: 40px;
+        }
+        .problema-item .opciones-relacionar button:hover { background: var(--tech); color: white; border-color: var(--tech); }
+        .problema-item .opciones-relacionar button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .problema-item .opciones-relacionar button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .problema-item .opciones-relacionar button:disabled { opacity: 0.7; cursor: not-allowed; }
+        .problema-item .feedback-relacionar {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .problema-item .feedback-relacionar.correct { color: var(--success); }
+        .problema-item .feedback-relacionar.wrong { color: var(--danger); }
+
+        /* RULETA DE PROBLEMAS */
+        .ruleta {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--tech);
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .ruleta .display-problema {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #eaf2f8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--tech);
+            margin: 1rem 0;
+        }
+        .campo-reto { margin-bottom: 0.9rem; }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--tech);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--tech); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--tech);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--tech);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #f4f8fb;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #eaf2f8; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* DATOS */
+        .dato-curioso {
+            background: linear-gradient(135deg, #fef9e7, #fdebd0);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        .dato-curioso strong { color: var(--warning); }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🤖 Tecnología y soluciones</h1>
+        <p>Ciencia, tecnología, innovación y cómo resolver problemas reales · ¡Conviértete en un solucionador!</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender qué es la tecnología, cómo se relaciona con la ciencia y cómo la innovación resuelve problemas reales.</p>
+                <div class="video-container">
+                   <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=gcle9bix&public_id=tecnologia_y_soluciones"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CONCEPTOS -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <div class="conceptos-grid">
+                    <div class="concepto-card">
+                        <span class="icono">🔬</span>
+                        <h4>Ciencia</h4>
+                        <p>Conjunto de conocimientos obtenidos mediante la observación y experimentación. Busca <strong>explicar</strong> el mundo natural.</p>
+                        <p class="ejemplo">Ej: la ley de la gravedad, la fotosíntesis, el ciclo del agua.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">⚙️</span>
+                        <h4>Tecnología</h4>
+                        <p>Conjunto de conocimientos y técnicas que se aplican para <strong>crear productos o servicios</strong> que satisfacen necesidades.</p>
+                        <p class="ejemplo">Ej: un celular, una bicicleta, un panel solar, una vacuna.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">💡</span>
+                        <h4>Innovación</h4>
+                        <p>Introducción de algo <strong>nuevo o mejorado</strong> que aporta valor. Puede ser un producto, proceso o servicio.</p>
+                        <p class="ejemplo">Ej: la billetera móvil Yape, las clases virtuales, el delivery.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">⚠️</span>
+                        <h4>Problemas tecnológicos</h4>
+                        <p>Situaciones donde las herramientas o sistemas actuales <strong>no satisfacen</strong> una necesidad o fallan.</p>
+                        <p class="ejemplo">Ej: internet lento, falta de agua potable, contaminación por residuos.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🛠️</span>
+                        <h4>Soluciones tecnológicas</h4>
+                        <p>Productos, procesos o sistemas creados para <strong>resolver</strong> un problema tecnológico de forma eficiente.</p>
+                        <p class="ejemplo">Ej: filtros de agua, paneles solares, apps de reciclaje.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROCESO DE DISEÑO -->
+            <div class="card">
+                <h2>🛠️ Proceso de diseño tecnológico</h2>
+                <p>Todo invento o solución tecnológica sigue estos 5 pasos:</p>
+
+                <div class="proceso-visual">
+                    <div class="paso">
+                        <span class="num">1</span>
+                        <span class="emoji">🔍</span>
+                        Identificar el problema
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="paso">
+                        <span class="num">2</span>
+                        <span class="emoji">💭</span>
+                        Imaginar soluciones
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="paso">
+                        <span class="num">3</span>
+                        <span class="emoji">📐</span>
+                        Diseñar y planificar
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="paso">
+                        <span class="num">4</span>
+                        <span class="emoji">🔨</span>
+                        Construir y probar
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="paso">
+                        <span class="num">5</span>
+                        <span class="emoji">📊</span>
+                        Evaluar y mejorar
+                    </div>
+                </div>
+
+                <h3>Ejemplo aplicado:</h3>
+                <ul style="margin-left:1.5rem;">
+                    <li><strong>Problema:</strong> En mi barrio hay poca iluminación en las calles.</li>
+                    <li><strong>Idea:</strong> Crear faroles con botellas recicladas y panel solar.</li>
+                    <li><strong>Diseño:</strong> Dibujar el prototipo y calcular materiales.</li>
+                    <li><strong>Construcción:</strong> Armarlo con apoyo de la familia.</li>
+                    <li><strong>Evaluación:</strong> Probarlo una semana y ver si funciona bien.</li>
+                </ul>
+            </div>
+
+            <!-- TABLA COMPARATIVA -->
+            <div class="card">
+                <h2>📊 Ciencia, tecnología e innovación</h2>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Ciencia 🔬</th>
+                                <th>Tecnología ⚙️</th>
+                                <th>Innovación 💡</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>¿Qué busca?</td>
+                                <td>Explicar el mundo</td>
+                                <td>Resolver problemas prácticos</td>
+                                <td>Introducir algo nuevo o mejorado</td>
+                            </tr>
+                            <tr>
+                                <td>Producto típico</td>
+                                <td>Teorías, leyes, conocimiento</td>
+                                <td>Herramientas, máquinas, sistemas</td>
+                                <td>Productos, procesos, servicios novedosos</td>
+                            </tr>
+                            <tr>
+                                <td>Ejemplo</td>
+                                <td>Ley de la gravedad</td>
+                                <td>Una grúa para construir</td>
+                                <td>Una grúa que funciona con energía solar</td>
+                            </tr>
+                            <tr>
+                                <td>Resultado</td>
+                                <td>Entender</td>
+                                <td>Hacer</td>
+                                <td>Mejorar o crear valor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RULETA DE PROBLEMAS -->
+            <div class="card">
+                <h2>🎲 Ruleta de problemas comunitarios</h2>
+                <p>Presiona el botón para ver un problema y piensa en una posible solución tecnológica.</p>
+
+                <div class="ruleta">
+                    <button class="btn btn-success" onclick="girarRuleta()">🎲 Girar ruleta</button>
+                    <div class="display-problema" id="displayProblema">
+                        Presiona "Girar ruleta" para empezar...
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATOS PERÚ -->
+            <div class="card">
+                <h2>🇵🇪 Datos del Perú</h2>
+                <div class="dato-curioso">
+                    <strong>📱 Billeteras digitales:</strong> Yape y Plin son innovaciones peruanas que permiten transferir dinero sin efectivo, incluso sin internet.
+                </div>
+                <div class="dato-curioso">
+                    <strong>💧 Agua segura:</strong> Existen filtros caseros y pastillas potabilizadoras que resuelven el problema del agua contaminada en zonas rurales.
+                </div>
+                <div class="dato-curioso">
+                    <strong>☀️ Energía solar:</strong> En zonas alejadas de la selva y sierra se usan paneles solares para llevar electricidad a las casas.
+                </div>
+                <div class="dato-curioso">
+                    <strong>♻️ Reciclaje tecnológico:</strong> En el Perú ya hay startups que transforman residuos plásticos en madera ecológica.
+                </div>
+            </div>
+
+            <!-- GLOSARIO -->
+            <div class="card">
+                <h2>📚 Mini-glosario</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Prototipo</strong>
+                        <div class="definicion">Primera versión de un producto o solución, que sirve para probar ideas antes de construirlo definitivamente.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Necesidad</strong>
+                        <div class="definicion">Carencia o problema que requiere ser satisfecho. Es el punto de partida de toda solución tecnológica.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Innovación disruptiva</strong>
+                        <div class="definicion">Cambio radical que transforma la forma en que vivimos o hacemos algo. Ej: el celular, la imprenta, internet.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Pensamiento de diseño</strong>
+                        <div class="definicion">Metodología que pone al usuario en el centro para crear soluciones creativas y efectivas.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Sostenibilidad</strong>
+                        <div class="definicion">Característica de una solución que satisface necesidades actuales sin comprometer a las futuras generaciones.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Obsolescencia</strong>
+                        <div class="definicion">Cuando un producto queda fuera de uso porque aparece uno mejor o deja de funcionar. Ej: celulares antiguos.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ Relaciona problemas con soluciones tecnológicas</h2>
+                <p>Lee cada problema y elige la solución más adecuada.</p>
+                <div id="relacionadorContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2>✏️ ¿Qué tecnología resuelve este problema?</h2>
+                <div id="ejerciciosContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Diseña una solución tecnológica para tu comunidad</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🛠️ Sigue el proceso de diseño tecnológico. Completa cada paso para tu propuesta.
+                    </p>
+
+                    <div class="campo-reto">
+                        <label>1️⃣ 🔍 ¿Cuál es el problema?</label>
+                        <textarea id="retoProblema" placeholder="Ej: En mi barrio hay mucha basura acumulada porque los tachos son pocos..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>2️⃣ 👥 ¿A quiénes afecta?</label>
+                        <input type="text" id="retoUsuarios" placeholder="Ej: Vecinos del barrio, especialmente niños y adultos mayores">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>3️⃣ 💭 ¿Cuál es tu idea de solución tecnológica?</label>
+                        <textarea id="retoIdea" placeholder="Ej: Crear un sistema de tachos inteligentes que separen residuos y avisen cuando estén llenos..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>4️⃣ 🔨 ¿Qué materiales o recursos necesitas?</label>
+                        <textarea id="retoMateriales" placeholder="Ej: Sensores, Arduino, tachos de colores, pintura, señaléticas..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>5️⃣ ⚙️ ¿Cómo funcionaría?</label>
+                        <textarea id="retoFuncionamiento" placeholder="Explica brevemente cómo tu solución resolvería el problema paso a paso..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>6️⃣ 📊 ¿Qué impacto tendría?</label>
+                        <textarea id="retoImpacto" placeholder="Ej: Reduciría la contaminación, mejoraría la salud y fomentaría el reciclaje..."></textarea>
+                    </div>
+
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar mi diseño</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Tecnología y soluciones (8 preguntas)</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) { el.classList.toggle('abierto'); };
+
+            // =============================================================
+            // RULETA DE PROBLEMAS
+            // =============================================================
+            const problemas = [
+                '💧 Falta de agua potable en una comunidad rural',
+                '🗑️ Acumulación de basura en las calles del barrio',
+                '🔌 Cortes frecuentes de electricidad',
+                '🚰 Aguas residuales que contaminan el río',
+                '📚 Falta de acceso a materiales educativos',
+                '🌧️ Inundaciones por lluvias intensas',
+                '🚌 Transporte público escaso y contaminante',
+                '🦟 Propagación de mosquitos por agua estancada',
+                '🏥 Falta de atención médica en zonas alejadas',
+                '🔥 Contaminación del aire por quema de basura'
+            ];
+
+            window.girarRuleta = function() {
+                const display = document.getElementById('displayProblema');
+                let contador = 0;
+                const intervalo = setInterval(() => {
+                    display.textContent = problemas[Math.floor(Math.random() * problemas.length)];
+                    contador++;
+                    if (contador > 10) {
+                        clearInterval(intervalo);
+                        display.innerHTML = `
+                            <div style="text-align:center;">
+                                <div style="font-size:1.8rem; margin-bottom:0.5rem;">🎯</div>
+                                <div>${problemas[Math.floor(Math.random() * problemas.length)]}</div>
+                                <div style="font-size:0.8rem; color:#666; margin-top:0.6rem; font-weight:normal;">
+                                    💡 ¿Qué solución tecnológica propondrías?
+                                </div>
+                            </div>
+                        `;
+                    }
+                }, 80);
+            };
+
+            // =============================================================
+            // RELACIONADOR
+            // =============================================================
+            const problemasRelacionar = [
+                {
+                    texto: '💧 Las familias de una zona rural no tienen agua potable',
+                    opciones: ['Filtro purificador de agua', 'Panel solar', 'Celular'],
+                    correcta: 'Filtro purificador de agua'
+                },
+                {
+                    texto: '🌙 Las calles del barrio están oscuras de noche',
+                    opciones: ['Faroles con panel solar', 'Bocina', 'Radio'],
+                    correcta: 'Faroles con panel solar'
+                },
+                {
+                    texto: '🗑️ La basura se acumula y no hay cómo reciclarla',
+                    opciones: ['Contenedores de reciclaje con sensores', 'Televisor', 'Ventilador'],
+                    correcta: 'Contenedores de reciclaje con sensores'
+                },
+                {
+                    texto: '📚 Los estudiantes no tienen libros en zonas alejadas',
+                    opciones: ['Biblioteca digital en tablets', 'Impresora', 'Calculadora'],
+                    correcta: 'Biblioteca digital en tablets'
+                },
+                {
+                    texto: '🌾 Los cultivos se pierden por falta de riego',
+                    opciones: ['Sistema de riego por goteo', 'Aire acondicionado', 'Aspiradora'],
+                    correcta: 'Sistema de riego por goteo'
+                },
+                {
+                    texto: '🦟 Los mosquitos transmiten enfermedades',
+                    opciones: ['Trampas con sensores', 'Ventilador', 'Bicicleta'],
+                    correcta: 'Trampas con sensores'
+                }
+            ];
+
+            window.relacionar = function(idx, opcionElegida) {
+                const problema = problemasRelacionar[idx];
+                const item = document.getElementById(`prob${idx}`);
+                const botones = item.querySelectorAll('.opciones-relacionar button');
+                const feedback = document.getElementById(`feedbackRel${idx}`);
+
+                botones.forEach(b => b.disabled = true);
+                const esCorrecto = opcionElegida === problema.correcta;
+
+                botones.forEach(b => {
+                    if (b.dataset.op === problema.correcta) b.classList.add('correct');
+                    else if (b.dataset.op === opcionElegida && !esCorrecto) b.classList.add('wrong');
+                });
+
+                if (esCorrecto) {
+                    feedback.className = 'feedback-relacionar correct';
+                    feedback.textContent = `✅ ¡Correcto! Esa solución tecnológica resuelve el problema.`;
+                } else {
+                    feedback.className = 'feedback-relacionar wrong';
+                    feedback.textContent = `❌ Incorrecto. La solución correcta era: ${problema.correcta}.`;
+                }
+            };
+
+            function renderRelacionador() {
+                const container = document.getElementById('relacionadorContainer');
+                if (!container) return;
+                container.innerHTML = '<div class="relacionador"></div>';
+                const rel = container.querySelector('.relacionador');
+
+                problemasRelacionar.forEach((prob, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'problema-item';
+                    div.id = `prob${idx}`;
+                    div.innerHTML = `
+                        <div class="texto-problema">${idx + 1}. ${prob.texto}</div>
+                        <div class="opciones-relacionar">
+                            ${prob.opciones.map(op => `
+                                <button data-op="${op}" onclick="relacionar(${idx}, '${op}')">${op}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackRel${idx}" class="feedback-relacionar"></div>
+                    `;
+                    rel.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // EJERCICIOS
+            // =============================================================
+            const ejercicios = [
+                {
+                    pregunta: '🔬 ¿Cuál es la diferencia principal entre ciencia y tecnología?',
+                    opciones: ['La ciencia explica, la tecnología resuelve', 'Son lo mismo', 'La ciencia usa máquinas', 'La tecnología estudia la naturaleza'],
+                    correcta: 0,
+                    razon: 'La ciencia busca explicar fenómenos; la tecnología aplica el conocimiento para resolver problemas.'
+                },
+                {
+                    pregunta: '💡 ¿Qué es la innovación?',
+                    opciones: ['Copiar algo que ya existe', 'Introducir algo nuevo o mejorado', 'Estudiar ciencias', 'Usar computadoras'],
+                    correcta: 1,
+                    razon: 'La innovación implica crear o mejorar algo aportando valor.'
+                },
+                {
+                    pregunta: '🛠️ ¿Cuál es el primer paso del proceso de diseño tecnológico?',
+                    opciones: ['Comprar materiales', 'Construir el prototipo', 'Identificar el problema', 'Vender la solución'],
+                    correcta: 2,
+                    razon: 'Todo diseño comienza identificando y comprendiendo el problema a resolver.'
+                },
+                {
+                    pregunta: '💧 ¿Qué solución tecnológica resolvería la falta de agua potable?',
+                    opciones: ['Panel solar', 'Filtro purificador', 'Impresora 3D', 'Celular'],
+                    correcta: 1,
+                    razon: 'Un filtro purificador elimina impurezas y hace potable el agua.'
+                }
+            ];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ej = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ej.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ej.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ej.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = `✅ ¡Correcto! ${ej.razon}`;
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ej.opciones[ej.correcta]}. ${ej.razon}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const problema = document.getElementById('retoProblema').value.trim();
+                const usuarios = document.getElementById('retoUsuarios').value.trim();
+                const idea = document.getElementById('retoIdea').value.trim();
+                const materiales = document.getElementById('retoMateriales').value.trim();
+                const funcionamiento = document.getElementById('retoFuncionamiento').value.trim();
+                const impacto = document.getElementById('retoImpacto').value.trim();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                let camposOk = 0;
+                const total = 6;
+                if (problema.length > 8) camposOk++;
+                if (usuarios.length > 3) camposOk++;
+                if (idea.length > 8) camposOk++;
+                if (materiales.length > 5) camposOk++;
+                if (funcionamiento.length > 10) camposOk++;
+                if (impacto.length > 8) camposOk++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (camposOk === total) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Excelente diseño tecnológico!</h3>
+                        <p>Tu propuesta incluye todos los pasos del proceso de diseño:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li><strong>Problema:</strong> ${problema.substring(0, 80)}${problema.length > 80 ? '…' : ''}</li>
+                            <li><strong>Afectados:</strong> ${usuarios}</li>
+                            <li><strong>Idea:</strong> ${idea.substring(0, 80)}${idea.length > 80 ? '…' : ''}</li>
+                            <li><strong>Materiales:</strong> ${materiales.substring(0, 80)}${materiales.length > 80 ? '…' : ''}</li>
+                            <li><strong>Funcionamiento:</strong> ${funcionamiento.substring(0, 100)}${funcionamiento.length > 100 ? '…' : ''}</li>
+                            <li><strong>Impacto:</strong> ${impacto.substring(0, 80)}${impacto.length > 80 ? '…' : ''}</li>
+                        </ul>
+                        <p style="margin-top:0.8rem; color:var(--success); font-weight:600;">✅ ¡Felicidades, eres un verdadero innovador!</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">📖 Diseño incompleto (${camposOk}/${total})</h3>
+                        <p>Revisa lo que falta:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li>${problema.length > 8 ? '✅' : '❌'} Problema identificado</li>
+                            <li>${usuarios.length > 3 ? '✅' : '❌'} Personas afectadas</li>
+                            <li>${idea.length > 8 ? '✅' : '❌'} Idea de solución tecnológica</li>
+                            <li>${materiales.length > 5 ? '✅' : '❌'} Materiales necesarios</li>
+                            <li>${funcionamiento.length > 10 ? '✅' : '❌'} Cómo funcionaría</li>
+                            <li>${impacto.length > 8 ? '✅' : '❌'} Impacto esperado</li>
+                        </ul>
+                        <p style="margin-top:0.8rem;">💡 Completa todos los campos para una propuesta sólida.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (8 preguntas)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '🔬 ¿Qué busca principalmente la ciencia?', opciones: ['Vender productos', 'Explicar el mundo natural', 'Construir máquinas', 'Ganar dinero'], correcta: 1 },
+                { pregunta: '⚙️ ¿Qué es la tecnología?', opciones: ['Solo computadoras', 'Conocimientos aplicados para resolver problemas', 'Un tipo de ciencia', 'Un juego'], correcta: 1 },
+                { pregunta: '💡 ¿Qué es la innovación?', opciones: ['Copiar lo que ya existe', 'Introducir algo nuevo o mejorado', 'Estudiar mucho', 'Usar celular'], correcta: 1 },
+                { pregunta: '🛠️ ¿Cuál es el primer paso del proceso de diseño?', opciones: ['Construir', 'Vender', 'Identificar el problema', 'Comprar'], correcta: 2 },
+                { pregunta: '💧 ¿Qué solución tecnológica resuelve la falta de agua segura?', opciones: ['Filtro purificador', 'Televisor', 'Bicicleta', 'Radio'], correcta: 0 },
+                { pregunta: '☀️ ¿Qué tecnología ayuda en zonas sin electricidad?', opciones: ['Panel solar', 'Ventilador', 'Refrigeradora', 'Microondas'], correcta: 0 },
+                { pregunta: '🌱 ¿Qué caracteriza a una solución sostenible?', opciones: ['Que sea barata pero dañina', 'Que satisfaga necesidades sin dañar el futuro', 'Que sea rápida', 'Que sea bonita'], correcta: 1 },
+                { pregunta: '🇵🇪 ¿Cuál es un ejemplo de innovación peruana?', opciones: ['Yape', 'Facebook', 'WhatsApp', 'Google'], correcta: 0 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Eres un verdadero innovador. 🚀';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue pensando en soluciones. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los conceptos de ciencia y tecnología. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderRelacionador();
+            renderEjercicios();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

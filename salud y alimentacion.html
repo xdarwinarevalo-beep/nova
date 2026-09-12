@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🥗 Salud y alimentación</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #c0392b;
+            --secondary: #e74c3c;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --verde: #27ae60;
+            --amarillo: #f39c12;
+            --rojo: #c0392b;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE CONCEPTOS */
+        .conceptos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .conceptos-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        }
+
+        .concepto-card {
+            background: #fdedec;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .concepto-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .concepto-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .concepto-card h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .concepto-card p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .concepto-card .ejemplo { font-size: 0.85rem; color: #555; font-style: italic; }
+
+        /* PLATO SALUDABLE */
+        .plato-visual {
+            background: #fef9e7;
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius);
+            border: 3px dashed var(--accent);
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .plato-visual .circulo {
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            overflow: hidden;
+            border: 8px solid white;
+        }
+        .plato-visual .cuadrante {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            gap: 0.2rem;
+        }
+        .plato-visual .verduras { background: #d5f5e3; color: #186a3b; }
+        .plato-visual .proteinas { background: #fadbd8; color: #7b241c; }
+        .plato-visual .carbohidratos { background: #fdebd0; color: #7e5109; }
+        .plato-visual .frutas { background: #fcf3cf; color: #7d6608; }
+        .plato-visual .cuadrante .emoji-plato { font-size: 2rem; }
+
+        /* TABLA */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #fdf3f2; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* CLASIFICADOR DE ALIMENTOS */
+        .clasificador {
+            background: #fdedec;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .alimento-item {
+            background: white;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transition: var(--transition);
+        }
+        .alimento-item .texto-alimento { flex: 1; font-size: 0.95rem; font-weight: 600; }
+        .alimento-item .botones-clasificar {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .alimento-item .botones-clasificar button {
+            border: 2px solid #ddd;
+            background: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            min-height: 38px;
+            transition: var(--transition);
+        }
+        .alimento-item .botones-clasificar button.nat:hover { background: var(--verde); color: white; border-color: var(--verde); }
+        .alimento-item .botones-clasificar button.proc:hover { background: var(--amarillo); color: white; border-color: var(--amarillo); }
+        .alimento-item .botones-clasificar button.ultra:hover { background: var(--rojo); color: white; border-color: var(--rojo); }
+        .alimento-item.resuelto .botones-clasificar button { display: none; }
+        .alimento-item.resuelto .resultado-clasif { font-weight: 700; font-size: 0.85rem; }
+        .alimento-item.resuelto.nat { background: #eafaf1; border-left: 4px solid var(--verde); }
+        .alimento-item.resuelto.proc { background: #fef9e7; border-left: 4px solid var(--amarillo); }
+        .alimento-item.resuelto.ultra { background: #fdedec; border-left: 4px solid var(--rojo); }
+
+        /* SEMÁFORO */
+        .semaforo-item {
+            background: white;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .semaforo-item .titulo-semaforo {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .semaforo-item .opciones-semaforo {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .semaforo-item .opciones-semaforo button {
+            flex: 1 1 auto;
+            min-height: 42px;
+            border: 2px solid #ddd;
+            background: white;
+            padding: 0.5rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        .semaforo-item .opciones-semaforo button.verde:hover { background: var(--verde); color: white; border-color: var(--verde); }
+        .semaforo-item .opciones-semaforo button.amarillo:hover { background: var(--amarillo); color: white; border-color: var(--amarillo); }
+        .semaforo-item .opciones-semaforo button.rojo:hover { background: var(--rojo); color: white; border-color: var(--rojo); }
+        .semaforo-item .opciones-semaforo button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .semaforo-item .opciones-semaforo button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .semaforo-item .opciones-semaforo button:disabled { opacity: 0.7; cursor: not-allowed; }
+        .semaforo-item .feedback-semaforo {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .semaforo-item .feedback-semaforo.correct { color: var(--success); }
+        .semaforo-item .feedback-semaforo.wrong { color: var(--danger); }
+
+        /* CALCULADORA IMC */
+        .calculadora {
+            background: #fdedec;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .calculadora .campo-imc {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .calculadora .campo-imc label {
+            flex: 1 1 100%;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .calculadora .campo-imc input {
+            flex: 1;
+            padding: 0.7rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            min-width: 100px;
+        }
+        .calculadora .resultado-imc {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #fdedec;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .campo-reto { margin-bottom: 0.9rem; }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--secondary); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #fdf3f2;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #fdedec; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* DATOS */
+        .dato-curioso {
+            background: linear-gradient(135deg, #fef9e7, #fdebd0);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        .dato-curioso strong { color: var(--warning); }
+
+        /* CHECKLIST HÁBITOS */
+        .checklist-habitos {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .checklist-habitos li {
+            padding: 0.6rem 0.8rem;
+            background: #fdf3f2;
+            border-radius: 8px;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+        }
+        .checklist-habitos li::before {
+            content: "✅";
+            font-size: 1.1rem;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🥗 Salud y alimentación</h1>
+        <p>Nutrientes, hábitos saludables, higiene y prevención · ¡Construye una vida más sana!</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender qué es una alimentación saludable, cuáles son los nutrientes esenciales y cómo prevenir enfermedades con buenos hábitos.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=gcle9bix&public_id=salud_y_alimentacion"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CONCEPTOS -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <div class="conceptos-grid">
+                    <div class="concepto-card">
+                        <span class="icono">🥗</span>
+                        <h4>Alimentación saludable</h4>
+                        <p>Consumir variedad de alimentos en cantidades adecuadas para cubrir las necesidades del cuerpo.</p>
+                        <p class="ejemplo">Ej: incluir frutas, verduras, cereales, proteínas y agua en cada comida.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🧬</span>
+                        <h4>Nutrientes</h4>
+                        <p>Sustancias que el cuerpo necesita para funcionar: carbohidratos, proteínas, grasas, vitaminas, minerales y agua.</p>
+                        <p class="ejemplo">Ej: las proteínas reparan tejidos; las vitaminas fortalecen las defensas.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🔄</span>
+                        <h4>Hábitos</h4>
+                        <p>Acciones que repetimos con frecuencia y que influyen en nuestra salud a largo plazo.</p>
+                        <p class="ejemplo">Ej: desayunar todos los días, hacer ejercicio, dormir 8 horas.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🧼</span>
+                        <h4>Higiene</h4>
+                        <p>Conjunto de prácticas para mantener limpio el cuerpo y los alimentos, evitando enfermedades.</p>
+                        <p class="ejemplo">Ej: lavarse las manos antes de comer, lavar frutas y verduras.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🛡️</span>
+                        <h4>Prevención</h4>
+                        <p>Acciones que evitan enfermedades: buena alimentación, higiene, vacunas, actividad física.</p>
+                        <p class="ejemplo">Ej: vacunarse, lavarse las manos, comer frutas con vitamina C.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLATO SALUDABLE -->
+            <div class="card">
+                <h2>🍽️ El plato saludable</h2>
+                <p>Una forma sencilla de armar tus comidas: divide el plato en 4 partes.</p>
+
+                <div class="plato-visual">
+                    <div class="circulo">
+                        <div class="cuadrante verduras">
+                            <span class="emoji-plato">🥦</span>
+                            <span>Verduras</span>
+                            <small>½ plato</small>
+                        </div>
+                        <div class="cuadrante proteinas">
+                            <span class="emoji-plato">🍗</span>
+                            <span>Proteínas</span>
+                            <small>¼ plato</small>
+                        </div>
+                        <div class="cuadrante carbohidratos">
+                            <span class="emoji-plato">🍚</span>
+                            <span>Cereales</span>
+                            <small>¼ plato</small>
+                        </div>
+                        <div class="cuadrante frutas">
+                            <span class="emoji-plato">🍎</span>
+                            <span>Frutas</span>
+                            <small>Postre</small>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align:center; margin-top:0.8rem; font-size:0.9rem; color:#666;">💧 Acompaña siempre con agua.</p>
+            </div>
+
+            <!-- TABLA DE NUTRIENTES -->
+            <div class="card">
+                <h2>🧬 Nutrientes esenciales</h2>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nutriente</th>
+                                <th>¿Para qué sirve?</th>
+                                <th>Alimentos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🍞 Carbohidratos</td>
+                                <td>Dan energía al cuerpo</td>
+                                <td>Arroz, papa, pan, quinua, camote</td>
+                            </tr>
+                            <tr>
+                                <td>🥚 Proteínas</td>
+                                <td>Forman y reparan tejidos</td>
+                                <td>Huevo, pollo, pescado, lentejas, leche</td>
+                            </tr>
+                            <tr>
+                                <td>🥑 Grasas saludables</td>
+                                <td>Reservan energía y protegen órganos</td>
+                                <td>Palta, aceite de oliva, nueces, pescado</td>
+                            </tr>
+                            <tr>
+                                <td>🍊 Vitaminas</td>
+                                <td>Fortalecen defensas y funciones vitales</td>
+                                <td>Frutas, verduras, cítricos</td>
+                            </tr>
+                            <tr>
+                                <td>⚙️ Minerales</td>
+                                <td>Forman huesos, dientes y sangre</td>
+                                <td>Lácteos, carnes, menestras, verduras verdes</td>
+                            </tr>
+                            <tr>
+                                <td>💧 Agua</td>
+                                <td>Hidrata, transporta nutrientes y regula temperatura</td>
+                                <td>Agua pura, frutas, verduras</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- HÁBITOS SALUDABLES -->
+            <div class="card">
+                <h2>🌟 Hábitos saludables</h2>
+                <ul class="checklist-habitos">
+                    <li>Desayunar todos los días antes de ir al colegio.</li>
+                    <li>Comer frutas y verduras de 3 a 5 veces al día.</li>
+                    <li>Tomar de 6 a 8 vasos de agua al día.</li>
+                    <li>Dormir entre 8 y 10 horas diarias.</li>
+                    <li>Hacer actividad física al menos 1 hora al día.</li>
+                    <li>Lavarse las manos antes de comer y después de ir al baño.</li>
+                    <li>Evitar bebidas azucaradas y comida ultraprocesada.</li>
+                    <li>Cepillarse los dientes después de cada comida.</li>
+                </ul>
+            </div>
+
+            <!-- CALCULADORA IMC -->
+            <div class="card">
+                <h2>⚖️ Calculadora simple de IMC</h2>
+                <p>El Índice de Masa Corporal es una referencia orientativa. No reemplaza la consulta médica.</p>
+
+                <div class="calculadora">
+                    <div class="campo-imc">
+                        <label>📏 Tu peso (kg)</label>
+                        <input type="number" id="imcPeso" placeholder="Ej: 45" min="10" max="200">
+                    </div>
+                    <div class="campo-imc">
+                        <label>📐 Tu altura (m)</label>
+                        <input type="number" id="imcAltura" placeholder="Ej: 1.50" step="0.01" min="0.5" max="2.5">
+                    </div>
+                    <button class="btn btn-success" onclick="calcularIMC()" style="margin-top:0.5rem;">⚖️ Calcular IMC</button>
+                    <div class="resultado-imc" id="resultadoIMC">
+                        Ingresa tus datos para calcular...
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATOS PERÚ -->
+            <div class="card">
+                <h2>🇵🇪 Datos del Perú</h2>
+                <div class="dato-curioso">
+                    <strong>🍽️ Alimentación:</strong> El Perú produce más de 4,000 variedades de papa y 2,000 de camote. ¡Una riqueza nutricional única!
+                </div>
+                <div class="dato-curioso">
+                    <strong>🍇 Superfoods:</strong> La quinua, la maca, el sacha inchi y el aguaymanto son reconocidos mundialmente por sus propiedades nutricionales.
+                </div>
+                <div class="dato-curioso">
+                    <strong>💧 Agua segura:</strong> Beber agua hervida o tratada previene enfermedades diarreicas.
+                </div>
+                <div class="dato-curioso">
+                    <strong>🦠 Higiene:</strong> Lavarse las manos con agua y jabón puede reducir hasta en un 50% las infecciones respiratorias y diarreicas.
+                </div>
+            </div>
+
+            <!-- GLOSARIO -->
+            <div class="card">
+                <h2>📚 Mini-glosario</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Alimento ultraprocesado</strong>
+                        <div class="definicion">Producto industrial con muchos aditivos, azúcares, grasas y sal. Ej: gaseosas, snacks, embutidos.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Dieta balanceada</strong>
+                        <div class="definicion">Alimentación que incluye todos los nutrientes en las cantidades adecuadas para mantener la salud.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Anemia</strong>
+                        <div class="definicion">Falta de hierro en la sangre. Se previene consumiendo carnes rojas, menestras y alimentos con vitamina C.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Obesidad</strong>
+                        <div class="definicion">Acumulación excesiva de grasa corporal que puede afectar la salud. Se previene con buena alimentación y ejercicio.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Inocuidad alimentaria</strong>
+                        <div class="definicion">Conjunto de prácticas que garantizan que los alimentos no causen daño a la salud.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Sistema inmunológico</strong>
+                        <div class="definicion">Defensas naturales del cuerpo. Se fortalece con vitaminas, minerales, descanso y ejercicio.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ Analiza los alimentos: ¿natural, procesado o ultraprocesado?</h2>
+                <p>Clasifica cada alimento según su nivel de procesamiento.</p>
+                <div id="clasificadorContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2>✏️ Semáforo nutricional</h2>
+                <p>Elige el color que corresponde a cada alimento según su impacto en la salud.</p>
+                <div id="semaforoContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Diseña un menú saludable para tu día</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🍽️ Arma tu propuesta de alimentación saludable. Debe ser variada, balanceada e incluir agua.
+                    </p>
+
+                    <div class="campo-reto">
+                        <label>🌅 Desayuno (alimentos y bebida)</label>
+                        <textarea id="retoDesayuno" placeholder="Ej: Avena con leche, plátano y pan con palta. Vaso de agua."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🍎 Media mañana (snack)</label>
+                        <textarea id="retoSnack" placeholder="Ej: Una manzana y un puñado de nueces."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🍛 Almuerzo</label>
+                        <textarea id="retoAlmuerzo" placeholder="Ej: Arroz, pollo al horno, ensalada de verduras. Limonada sin azúcar."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>🌙 Cena</label>
+                        <textarea id="retoCena" placeholder="Ej: Sopa de verduras, tortilla de huevo, pan integral. Agua."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>💧 ¿Cuánta agua tomarás al día?</label>
+                        <input type="text" id="retoAgua" placeholder="Ej: 8 vasos al día">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>💡 ¿Por qué este menú es saludable?</label>
+                        <textarea id="retoJustificacion" placeholder="Menciona al menos 2 nutrientes que aporta y por qué es balanceado..."></textarea>
+                    </div>
+
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar mi menú</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Salud y alimentación (8 preguntas)</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) { el.classList.toggle('abierto'); };
+
+            // =============================================================
+            // CALCULADORA IMC
+            // =============================================================
+            window.calcularIMC = function() {
+                const peso = parseFloat(document.getElementById('imcPeso').value);
+                const altura = parseFloat(document.getElementById('imcAltura').value);
+                const resultado = document.getElementById('resultadoIMC');
+
+                if (!peso || !altura || peso <= 0 || altura <= 0) {
+                    resultado.innerHTML = '<span style="color:var(--danger);">⚠️ Ingresa peso y altura válidos.</span>';
+                    return;
+                }
+
+                const imc = peso / (altura * altura);
+                let clasificacion, emoji, mensaje, color;
+
+                if (imc < 18.5) {
+                    clasificacion = 'Bajo peso';
+                    emoji = '🥣';
+                    color = 'var(--warning)';
+                    mensaje = 'Necesitas mejorar tu alimentación y consultar con un especialista.';
+                } else if (imc < 25) {
+                    clasificacion = 'Peso saludable';
+                    emoji = '✅';
+                    color = 'var(--success)';
+                    mensaje = '¡Bien! Mantén tus hábitos saludables.';
+                } else if (imc < 30) {
+                    clasificacion = 'Sobrepeso';
+                    emoji = '⚠️';
+                    color = 'var(--amarillo)';
+                    mensaje = 'Conviene mejorar tu alimentación y hacer más actividad física.';
+                } else {
+                    clasificacion = 'Obesidad';
+                    emoji = '🔴';
+                    color = 'var(--danger)';
+                    mensaje = 'Es importante consultar con un especialista y mejorar tus hábitos.';
+                }
+
+                resultado.innerHTML = `
+                    <span style="font-size:1.5rem; color:${color};">${emoji}</span>
+                    <br>Tu IMC es: <strong style="color:${color};">${imc.toFixed(1)}</strong>
+                    <br>Clasificación: <strong>${clasificacion}</strong>
+                    <br><span style="font-size:0.85rem; font-weight:normal;">${mensaje}</span>
+                `;
+            };
+
+            // =============================================================
+            // CLASIFICADOR DE ALIMENTOS
+            // =============================================================
+            const alimentos = [
+                { texto: '🍎 Manzana', tipo: 'nat' },
+                { texto: '🥛 Yogur natural', tipo: 'nat' },
+                { texto: '🥤 Gaseosa', tipo: 'ultra' },
+                { texto: '🍞 Pan integral', tipo: 'proc' },
+                { texto: '🍟 Papas fritas de bolsa', tipo: 'ultra' },
+                { texto: '🥚 Huevo sancochado', tipo: 'nat' },
+                { texto: '🌭 Hot dog', tipo: 'ultra' },
+                { texto: '🧀 Queso fresco', tipo: 'proc' },
+                { texto: '🍚 Arroz cocido', tipo: 'nat' },
+                { texto: '🍫 Chocolate con relleno', tipo: 'ultra' }
+            ];
+
+            window.clasificarAlimento = function(idx, eleccion) {
+                const item = document.getElementById(`alimento${idx}`);
+                const alimento = alimentos[idx];
+                const esCorrecto = eleccion === alimento.tipo;
+
+                item.classList.add('resuelto', eleccion);
+
+                const resultado = document.createElement('div');
+                resultado.className = 'resultado-clasif';
+                const nombres = { nat: 'Natural', proc: 'Procesado', ultra: 'Ultraprocesado' };
+                resultado.innerHTML = esCorrecto
+                    ? `✅ ${nombres[eleccion]} — ¡Correcto!`
+                    : `❌ Era ${nombres[alimento.tipo]}`;
+
+                item.appendChild(resultado);
+            };
+
+            function renderClasificador() {
+                const container = document.getElementById('clasificadorContainer');
+                if (!container) return;
+                container.innerHTML = '<div class="clasificador"></div>';
+                const clasif = container.querySelector('.clasificador');
+
+                alimentos.forEach((al, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'alimento-item';
+                    div.id = `alimento${idx}`;
+                    div.innerHTML = `
+                        <span class="texto-alimento">${al.texto}</span>
+                        <div class="botones-clasificar">
+                            <button class="nat" onclick="clasificarAlimento(${idx}, 'nat')">🥬 Natural</button>
+                            <button class="proc" onclick="clasificarAlimento(${idx}, 'proc')">🥫 Procesado</button>
+                            <button class="ultra" onclick="clasificarAlimento(${idx}, 'ultra')">🍟 Ultraprocesado</button>
+                        </div>
+                    `;
+                    clasif.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // SEMÁFORO NUTRICIONAL
+            // =============================================================
+            const semaforoItems = [
+                { texto: '🥦 Verduras frescas', correcta: 'verde', razon: 'Las verduras frescas son bajas en calorías, ricas en vitaminas y fibra.' },
+                { texto: '🍫 Chocolate con relleno', correcta: 'rojo', razon: 'Alto en azúcar, grasas y calorías vacías.' },
+                { texto: '🐟 Pescado al horno', correcta: 'verde', razon: 'Rico en proteínas y omega-3, muy saludable.' },
+                { texto: '🥤 Bebida azucarada', correcta: 'rojo', razon: 'Exceso de azúcar y calorías vacías.' },
+                { texto: '🧀 Queso fresco', correcta: 'amarillo', razon: 'Aporta proteínas y calcio, pero también grasa: consumo moderado.' },
+                { texto: '🍞 Pan blanco', correcta: 'amarillo', razon: 'Aporta energía, pero menos fibra que el pan integral: consumo moderado.' },
+                { texto: '🍎 Fruta', correcta: 'verde', razon: 'Aporta vitaminas, minerales y fibra. Consumo diario recomendado.' },
+                { texto: '🌭 Embutidos', correcta: 'rojo', razon: 'Altos en sodio, grasas saturadas y conservantes.' }
+            ];
+
+            window.elegirSemaforo = function(idx, color) {
+                const item = document.getElementById(`semaforo${idx}`);
+                const botones = item.querySelectorAll('.opciones-semaforo button');
+                const feedback = document.getElementById(`feedbackSem${idx}`);
+                const correcta = semaforoItems[idx].correcta;
+                const esCorrecto = color === correcta;
+
+                botones.forEach(b => b.disabled = true);
+                botones.forEach(b => {
+                    if (b.dataset.color === correcta) b.classList.add('correct');
+                    else if (b.dataset.color === color && !esCorrecto) b.classList.add('wrong');
+                });
+
+                if (esCorrecto) {
+                    feedback.className = 'feedback-semaforo correct';
+                    feedback.textContent = `✅ ¡Correcto! ${semaforoItems[idx].razon}`;
+                } else {
+                    feedback.className = 'feedback-semaforo wrong';
+                    feedback.textContent = `❌ Incorrecto. Es ${correcta}. ${semaforoItems[idx].razon}`;
+                }
+            };
+
+            function renderSemaforo() {
+                const container = document.getElementById('semaforoContainer');
+                if (!container) return;
+                container.innerHTML = '';
+
+                semaforoItems.forEach((s, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'semaforo-item';
+                    div.id = `semaforo${idx}`;
+                    div.innerHTML = `
+                        <div class="titulo-semaforo">
+                            <span>${idx + 1}. ${s.texto}</span>
+                        </div>
+                        <div class="opciones-semaforo">
+                            <button class="verde" data-color="verde" onclick="elegirSemaforo(${idx}, 'verde')">🟢 Consumo libre</button>
+                            <button class="amarillo" data-color="amarillo" onclick="elegirSemaforo(${idx}, 'amarillo')">🟡 Moderado</button>
+                            <button class="rojo" data-color="rojo" onclick="elegirSemaforo(${idx}, 'rojo')">🔴 Evitar</button>
+                        </div>
+                        <div id="feedbackSem${idx}" class="feedback-semaforo"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const desayuno = document.getElementById('retoDesayuno').value.trim();
+                const snack = document.getElementById('retoSnack').value.trim();
+                const almuerzo = document.getElementById('retoAlmuerzo').value.trim();
+                const cena = document.getElementById('retoCena').value.trim();
+                const agua = document.getElementById('retoAgua').value.trim();
+                const justificacion = document.getElementById('retoJustificacion').value.trim();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                let camposOk = 0;
+                const total = 6;
+                if (desayuno.length > 5) camposOk++;
+                if (snack.length > 3) camposOk++;
+                if (almuerzo.length > 5) camposOk++;
+                if (cena.length > 5) camposOk++;
+                if (agua.length > 2) camposOk++;
+                if (justificacion.length > 15) camposOk++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (camposOk === total) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Excelente menú saludable!</h3>
+                        <p>Tu propuesta de alimentación diaria está completa:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li><strong>Desayuno:</strong> ${desayuno.substring(0, 80)}${desayuno.length > 80 ? '…' : ''}</li>
+                            <li><strong>Snack:</strong> ${snack}</li>
+                            <li><strong>Almuerzo:</strong> ${almuerzo.substring(0, 80)}${almuerzo.length > 80 ? '…' : ''}</li>
+                            <li><strong>Cena:</strong> ${cena.substring(0, 80)}${cena.length > 80 ? '…' : ''}</li>
+                            <li><strong>Agua:</strong> ${agua}</li>
+                            <li><strong>Justificación:</strong> ${justificacion.substring(0, 100)}${justificacion.length > 100 ? '…' : ''}</li>
+                        </ul>
+                        <p style="margin-top:0.8rem; color:var(--success); font-weight:600;">✅ ¡Felicidades, tu menú promueve una vida saludable!</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">📖 Menú incompleto (${camposOk}/${total})</h3>
+                        <p>Revisa lo que falta:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li>${desayuno.length > 5 ? '✅' : '❌'} Desayuno</li>
+                            <li>${snack.length > 3 ? '✅' : '❌'} Snack de media mañana</li>
+                            <li>${almuerzo.length > 5 ? '✅' : '❌'} Almuerzo</li>
+                            <li>${cena.length > 5 ? '✅' : '❌'} Cena</li>
+                            <li>${agua.length > 2 ? '✅' : '❌'} Consumo de agua</li>
+                            <li>${justificacion.length > 15 ? '✅' : '❌'} Justificación nutricional</li>
+                        </ul>
+                        <p style="margin-top:0.8rem;">💡 Completa todos los campos para un menú sólido.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (8 preguntas)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '🥗 ¿Qué es una alimentación saludable?', opciones: ['Comer solo frutas', 'Comer variado y en cantidades adecuadas', 'Comer mucho de todo', 'Saltarse comidas'], correcta: 1 },
+                { pregunta: '🧬 ¿Qué nutriente da energía al cuerpo?', opciones: ['Vitaminas', 'Carbohidratos', 'Minerales', 'Agua'], correcta: 1 },
+                { pregunta: '🥚 ¿Qué nutriente repara tejidos?', opciones: ['Proteínas', 'Grasas', 'Agua', 'Vitaminas'], correcta: 0 },
+                { pregunta: '💧 ¿Cuánta agua se recomienda tomar al día?', opciones: ['1 vaso', '2 vasos', '6 a 8 vasos', 'Ninguna'], correcta: 2 },
+                { pregunta: '🧼 ¿Cuál es un hábito de higiene importante?', opciones: ['Lavarse las manos antes de comer', 'Comer sin lavarse', 'No cepillarse', 'Comer con las manos sucias'], correcta: 0 },
+                { pregunta: '🛡️ ¿Qué acción previene enfermedades?', opciones: ['Comer solo dulces', 'Vacunarse y lavarse las manos', 'No dormir', 'No hacer ejercicio'], correcta: 1 },
+                { pregunta: '🍟 ¿Qué alimento es ultraprocesado?', opciones: ['Manzana', 'Huevo', 'Papas fritas de bolsa', 'Lechuga'], correcta: 2 },
+                { pregunta: '🌟 ¿Cuántas horas se recomienda dormir?', opciones: ['2-3 horas', '4-5 horas', '8-10 horas', '12-15 horas'], correcta: 2 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Eres un ejemplo de vida saludable. 🥗';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue mejorando tus hábitos. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los nutrientes y hábitos clave. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderClasificador();
+            renderSemaforo();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

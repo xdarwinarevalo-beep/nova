@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>⚡ Energía</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #b9770e;
+            --secondary: #f39c12;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --electric: #f1c40f;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 { font-size: 2rem; letter-spacing: 0.5px; word-break: break-word; }
+        header p { font-size: 1rem; opacity: 0.92; margin-top: 0.2rem; }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+        }
+        nav button:active { transform: scale(0.95); }
+        nav button:hover { background: var(--secondary); color: white; }
+        nav button.active { background: var(--primary); color: white; border-color: var(--accent); }
+
+        .container { max-width: 100%; margin: 0.8rem auto; padding: 0 0.8rem; }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; color: var(--secondary); }
+        .card p { font-size: 1rem; margin-bottom: 0.5rem; }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 600px) {
+            header h1 { font-size: 2.6rem; }
+            .container { max-width: 1100px; padding: 0 1.5rem; }
+        }
+
+        /* TARJETAS DE CONCEPTOS */
+        .conceptos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 600px) {
+            .conceptos-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        }
+
+        .concepto-card {
+            background: #fef5e7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .concepto-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .concepto-card .icono { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+        .concepto-card h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .concepto-card p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .concepto-card .ejemplo { font-size: 0.85rem; color: #555; font-style: italic; }
+
+        /* TABLA */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #fef9f3; }
+
+        /* DIAGRAMA TRANSFORMACIONES */
+        .transformacion-visual {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #fef9e7;
+            padding: 1.2rem 0.8rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border: 2px dashed var(--accent);
+        }
+        .eslabon {
+            background: white;
+            padding: 0.6rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 90px;
+        }
+        .eslabon .emoji { font-size: 1.3rem; display: block; }
+        .flecha { font-size: 1.3rem; color: var(--primary); font-weight: 700; }
+
+        /* EJERCICIOS */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .exercise p { font-weight: 500; font-size: 1rem; margin-bottom: 0.8rem; }
+        .exercise .options {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0;
+        }
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+        .exercise .options button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .exercise .options button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .exercise .options button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .exercise .options button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .feedback { margin-top: 0.6rem; font-weight: 600; padding: 0.6rem; border-radius: 6px; font-size: 0.95rem; }
+        .feedback.correct { color: var(--success); background: #eafaf1; }
+        .feedback.wrong { color: var(--danger); background: #fdedec; }
+
+        /* RELACIONADOR */
+        .relacionador {
+            background: #fef9e7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .situacion-item {
+            background: white;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .situacion-item .texto-sit { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .situacion-item .opciones-relacionar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .situacion-item .opciones-relacionar button {
+            border: 2px solid #ddd;
+            background: white;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            flex: 1 1 auto;
+            min-height: 40px;
+        }
+        .situacion-item .opciones-relacionar button:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .situacion-item .opciones-relacionar button.correct { background: var(--success); color: white; border-color: var(--success); }
+        .situacion-item .opciones-relacionar button.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+        .situacion-item .opciones-relacionar button:disabled { opacity: 0.7; cursor: not-allowed; }
+        .situacion-item .feedback-relacionar {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .situacion-item .feedback-relacionar.correct { color: var(--success); }
+        .situacion-item .feedback-relacionar.wrong { color: var(--danger); }
+
+        /* SIMULADOR TRANSFORMACIONES */
+        .simulador {
+            background: #fef5e7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .simulador h4 { color: var(--primary); margin-bottom: 0.8rem; }
+        .simulador select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            background: white;
+        }
+        .simulador .resultado-cadena {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        /* CALCULADORA AHORRO */
+        .calculadora {
+            background: #fef9e7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .calculadora label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+            border-bottom: 1px dashed #ccc;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .calculadora label:last-of-type { border-bottom: none; }
+        .calculadora input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--secondary);
+        }
+        .calculadora .resultado-ahorro {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* RETO */
+        .contenedor-reto {
+            background: #fef5e7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+        .campo-reto { margin-bottom: 0.9rem; }
+        .campo-reto label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .campo-reto input,
+        .campo-reto textarea,
+        .campo-reto select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+        }
+        .campo-reto textarea { min-height: 70px; resize: vertical; }
+        .campo-reto input:focus,
+        .campo-reto textarea:focus,
+        .campo-reto select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+        }
+
+        /* EVALUACIÓN */
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+        .question.correct { border-color: var(--success); background: #f0faf0; }
+        .question.wrong { border-color: var(--danger); background: #fdf0f0; }
+        .question p { font-weight: 500; font-size: 1rem; }
+        .question .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        .question .options label:hover { background: var(--secondary); color: white; }
+        .question .options input[type="radio"] { display: none; }
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary); color: white; border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 480px) { .btn { width: auto; } }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #1e8e3e; }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        /* GLOSARIO */
+        .glosario-item {
+            background: #fef9f3;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .glosario-item:hover { background: #fef5e7; }
+        .glosario-item strong { color: var(--primary); }
+        .glosario-item .definicion {
+            display: none;
+            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            color: #555;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #ccc;
+        }
+        .glosario-item.abierto .definicion { display: block; }
+
+        /* DATOS */
+        .dato-curioso {
+            background: linear-gradient(135deg, #fef9e7, #fdebd0);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        .dato-curioso strong { color: var(--warning); }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+        @media print {
+            nav { display: none; }
+            .section { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚡ Energía</h1>
+        <p>Tipos, transformaciones y energías renovables · ¡Aprende a ahorrar energía en tu día a día!</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- VIDEO -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender qué es la energía, sus tipos, cómo se transforma y por qué es clave usar energías renovables.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=gcle9bix&public_id=energia"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- CONCEPTOS -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <div class="conceptos-grid">
+                    <div class="concepto-card">
+                        <span class="icono">⚡</span>
+                        <h4>Energía</h4>
+                        <p>Capacidad de un cuerpo o sistema para realizar un trabajo o producir un cambio.</p>
+                        <p class="ejemplo">Ej: la energía que usas al caminar, la que mueve un auto.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🔋</span>
+                        <h4>Tipos de energía</h4>
+                        <p>Cinética, potencial, térmica, lumínica, sonora, eléctrica, química y nuclear.</p>
+                        <p class="ejemplo">Ej: un auto en movimiento tiene energía cinética.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🔄</span>
+                        <h4>Transformaciones</h4>
+                        <p>La energía no se crea ni se destruye, solo se transforma de un tipo a otro.</p>
+                        <p class="ejemplo">Ej: en una linterna: química → eléctrica → lumínica.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🌞</span>
+                        <h4>Energías renovables</h4>
+                        <p>Provienen de fuentes naturales inagotables: sol, viento, agua, biomasa, geotermia.</p>
+                        <p class="ejemplo">Ej: paneles solares, molinos de viento, centrales hidroeléctricas.</p>
+                    </div>
+
+                    <div class="concepto-card">
+                        <span class="icono">🛢️</span>
+                        <h4>Energías no renovables</h4>
+                        <p>Provienen de recursos limitados que se agotan: petróleo, carbón, gas natural, uranio.</p>
+                        <p class="ejemplo">Ej: gasolina, diésel, energía nuclear.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRANSFORMACIONES -->
+            <div class="card">
+                <h2>🔄 Transformaciones de la energía</h2>
+                <p>La energía pasa de un tipo a otro en cualquier proceso. Aquí un ejemplo:</p>
+
+                <div class="transformacion-visual">
+                    <div class="eslabon">
+                        <span class="emoji">🔋</span>
+                        Química
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">⚡</span>
+                        Eléctrica
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">💡</span>
+                        Lumínica
+                    </div>
+                    <span class="flecha">➡️</span>
+                    <div class="eslabon">
+                        <span class="emoji">🌡️</span>
+                        Térmica
+                    </div>
+                </div>
+
+                <h3>Otros ejemplos:</h3>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li><strong>Ventilador:</strong> eléctrica → cinética + sonora.</li>
+                    <li><strong>Celular:</strong> eléctrica → química (batería) → lumínica y sonora.</li>
+                    <li><strong>Auto:</strong> química (gasolina) → térmica → cinética.</li>
+                    <li><strong>Panel solar:</strong> lumínica → eléctrica.</li>
+                </ul>
+            </div>
+
+            <!-- TABLA RENOVABLES VS NO RENOVABLES -->
+            <div class="card">
+                <h2>📊 Renovables vs. No renovables</h2>
+                <div class="tabla-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Energías renovables 🌞</th>
+                                <th>Energías no renovables 🛢️</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Inagotables (sol, viento, agua)</td>
+                                <td>Limitadas (petróleo, carbón, gas)</td>
+                            </tr>
+                            <tr>
+                                <td>Contaminan poco o nada</td>
+                                <td>Generan gases de efecto invernadero</td>
+                            </tr>
+                            <tr>
+                                <td>Bajo costo de mantenimiento</td>
+                                <td>Alto costo de extracción</td>
+                            </tr>
+                            <tr>
+                                <td>Ej: solar, eólica, hidráulica, biomasa, geotérmica</td>
+                                <td>Ej: petróleo, carbón, gas natural, uranio</td>
+                            </tr>
+                            <tr>
+                                <td>Dependen del clima o ubicación</td>
+                                <td>Se agotan y dañan el ambiente</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SIMULADOR -->
+            <div class="card">
+                <h2>🧪 Simulador de transformaciones</h2>
+                <p>Elige una situación y observa qué transformaciones de energía ocurren.</p>
+
+                <div class="simulador">
+                    <h4>🎯 Elige una situación</h4>
+                    <select id="simSituacion">
+                        <option value="">-- Elige --</option>
+                        <option value="linterna">🔦 Encender una linterna</option>
+                        <option value="ventilador">🌀 Encender un ventilador</option>
+                        <option value="auto">🚗 Mover un auto</option>
+                        <option value="panel">☀️ Panel solar cargando una batería</option>
+                        <option value="radio">📻 Encender una radio a pilas</option>
+                    </select>
+
+                    <button class="btn btn-success" onclick="simularTransformacion()" style="margin-top:0.5rem;">🔄 Ver transformaciones</button>
+
+                    <div class="resultado-cadena" id="resultadoSimulador">
+                        Elige una situación para ver las transformaciones...
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATOS PERÚ -->
+            <div class="card">
+                <h2>🇵🇪 Datos del Perú</h2>
+                <div class="dato-curioso">
+                    <strong>💧 Hidroeléctrica:</strong> Más del 50% de la electricidad del Perú proviene de centrales hidroeléctricas.
+                </div>
+                <div class="dato-curioso">
+                    <strong>☀️ Solar:</strong> El Perú tiene uno de los mayores niveles de radiación solar del mundo, ideal para paneles solares.
+                </div>
+                <div class="dato-curioso">
+                    <strong>💨 Eólica:</strong> En la costa norte (Piura, La Libertad) hay parques eólicos que aprovechan vientos constantes.
+                </div>
+                <div class="dato-curioso">
+                    <strong>🏠 Ahorro:</strong> Apagar luces y desconectar aparatos puede reducir hasta un 15% tu recibo de luz.
+                </div>
+            </div>
+
+            <!-- CALCULADORA AHORRO -->
+            <div class="card">
+                <h2>💡 Calculadora simple de ahorro energético</h2>
+                <p>Marca las acciones que ya realizas en casa o colegio.</p>
+
+                <div class="calculadora">
+                    <label>
+                        <span>💡 Apago luces que no uso</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="2">
+                    </label>
+                    <label>
+                        <span>🔌 Desconecto cargadores y aparatos en desuso</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="2">
+                    </label>
+                    <label>
+                        <span>❄️ Uso ventilador en vez de aire acondicionado</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="1">
+                    </label>
+                    <label>
+                        <span>🚶 Camino o uso bici en vez de auto para distancias cortas</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="2">
+                    </label>
+                    <label>
+                        <span>🌞 Aprovecho la luz natural durante el día</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="2">
+                    </label>
+                    <label>
+                        <span>🔋 Uso pilas recargables en vez de desechables</span>
+                        <input type="checkbox" class="ahorro-check" data-valor="1">
+                    </label>
+
+                    <button class="btn btn-success" onclick="calcularAhorro()" style="margin-top:0.8rem;">💡 Calcular mi ahorro</button>
+
+                    <div class="resultado-ahorro" id="resultadoAhorro">
+                        Marca tus acciones para ver tu resultado...
+                    </div>
+                </div>
+            </div>
+
+            <!-- GLOSARIO -->
+            <div class="card">
+                <h2>📚 Mini-glosario</h2>
+                <p style="font-size:0.9rem; color:#666;">Toca cada término para ver su definición.</p>
+                <div id="glosario">
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía cinética</strong>
+                        <div class="definicion">Energía que posee un cuerpo en movimiento. Depende de su masa y velocidad. Ej: un auto en marcha.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía potencial</strong>
+                        <div class="definicion">Energía almacenada por la posición o altura de un cuerpo. Ej: una piedra en lo alto de una colina.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía química</strong>
+                        <div class="definicion">Energía almacenada en los enlaces de las moléculas. Ej: los alimentos, la gasolina, las baterías.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía térmica</strong>
+                        <div class="definicion">Energía asociada al movimiento de las partículas de un cuerpo, relacionada con su temperatura.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía lumínica</strong>
+                        <div class="definicion">Energía transportada por la luz. Ej: la luz del sol, la de un foco encendido.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Energía sonora</strong>
+                        <div class="definicion">Energía asociada a las ondas de sonido. Ej: el sonido de un tambor, la voz humana.</div>
+                    </div>
+                    <div class="glosario-item" onclick="toggleGlosario(this)">
+                        <strong>Eficiencia energética</strong>
+                        <div class="definicion">Usar menos energía para obtener el mismo resultado o servicio. Ej: focos LED vs. focos incandescentes.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+            <div class="card">
+                <h2>✏️ Relaciona situaciones con tipos de energía</h2>
+                <p>Lee cada situación y elige qué tipo de energía predomina.</p>
+                <div id="relacionadorContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2>✏️ Ejercicios de transformaciones</h2>
+                <div id="ejerciciosContainer"></div>
+            </div>
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+            <div class="card">
+                <h2>🏆 Reto: Diseña un plan para ahorrar energía en tu colegio</h2>
+                <div class="contenedor-reto">
+                    <p style="margin-bottom:1rem; font-weight:600; color:var(--primary);">
+                        🔍 Identifica un lugar o práctica donde se desperdicia energía y propone una solución concreta.
+                    </p>
+
+                    <div class="campo-reto">
+                        <label>📍 ¿En qué zona del colegio se desperdicia energía?</label>
+                        <input type="text" id="retoZona" placeholder="Ej: aulas con luces encendidas sin necesidad, pasillos de noche...">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>⚠️ Describe el problema observado</label>
+                        <textarea id="retoProblema" placeholder="Ej: En mi aula dejamos las luces encendidas cuando salimos al recreo..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>💡 ¿Cuál es tu propuesta de ahorro?</label>
+                        <textarea id="retoPropuesta" placeholder="Ej: Colocar letreros recordatorios, nombrar un responsable de apagar luces, usar sensores de movimiento..."></textarea>
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>📊 ¿Qué ahorro estimas lograr? (en % o en soles)</label>
+                        <input type="text" id="retoAhorro" placeholder="Ej: Reducir hasta un 20% el consumo de electricidad">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>👥 ¿Quiénes deben participar?</label>
+                        <input type="text" id="retoResponsables" placeholder="Ej: Estudiantes, docentes, personal de mantenimiento, dirección">
+                    </div>
+
+                    <div class="campo-reto">
+                        <label>📅 ¿En cuánto tiempo se puede implementar?</label>
+                        <select id="retoPlazo">
+                            <option value="">-- Elige un plazo --</option>
+                            <option value="Inmediato (esta semana)">Inmediato (esta semana)</option>
+                            <option value="Corto plazo (1-2 semanas)">Corto plazo (1-2 semanas)</option>
+                            <option value="Mediano plazo (1 mes)">Mediano plazo (1 mes)</option>
+                            <option value="Largo plazo (todo el año)">Largo plazo (todo el año)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success" onclick="evaluarReto()">✅ Evaluar mi propuesta</button>
+                    <div id="retoResultado" class="result-box" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+            <div class="card">
+                <h2>📝 Evaluación: Energía (8 preguntas)</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => { if (s) s.classList.remove('active'); });
+                if (sections[id]) sections[id].classList.add('active');
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) b.classList.add('active');
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // GLOSARIO
+            // =============================================================
+            window.toggleGlosario = function(el) { el.classList.toggle('abierto'); };
+
+            // =============================================================
+            // SIMULADOR TRANSFORMACIONES
+            // =============================================================
+            const transformaciones = {
+                linterna: {
+                    pasos: ['🔋 Química', '⚡ Eléctrica', '💡 Lumínica', '🌡️ Térmica'],
+                    nota: 'La batería (química) genera electricidad, la cual se convierte en luz (lumínica) y una pequeña parte en calor (térmica).'
+                },
+                ventilador: {
+                    pasos: ['⚡ Eléctrica', '🌀 Cinética', '🔊 Sonora'],
+                    nota: 'La electricidad mueve las aspas (cinética) y también produce un poco de sonido (sonora).'
+                },
+                auto: {
+                    pasos: ['🛢️ Química', '🌡️ Térmica', '🚗 Cinética', '🔊 Sonora'],
+                    nota: 'La gasolina (química) genera calor al quemarse (térmica) que mueve el auto (cinética) y produce ruido (sonora).'
+                },
+                panel: {
+                    pasos: ['☀️ Lumínica', '⚡ Eléctrica', '🔋 Química'],
+                    nota: 'La luz solar (lumínica) se convierte en electricidad (eléctrica) que se almacena en baterías (química).'
+                },
+                radio: {
+                    pasos: ['🔋 Química', '⚡ Eléctrica', '🔊 Sonora'],
+                    nota: 'Las pilas (química) generan electricidad que se transforma en sonido (sonora).'
+                }
+            };
+
+            window.simularTransformacion = function() {
+                const situacion = document.getElementById('simSituacion').value;
+                const resultado = document.getElementById('resultadoSimulador');
+
+                if (!situacion) {
+                    resultado.innerHTML = '<span style="color:var(--danger);">⚠️ Elige una situación.</span>';
+                    return;
+                }
+
+                const datos = transformaciones[situacion];
+                let html = '';
+                datos.pasos.forEach((paso, i) => {
+                    html += `<span style="background:#fef9e7; padding:0.4rem 0.7rem; border-radius:20px; font-weight:600;">${paso}</span>`;
+                    if (i < datos.pasos.length - 1) {
+                        html += `<span style="color:var(--primary); font-weight:700;">➡️</span>`;
+                    }
+                });
+                html += `<div style="width:100%; margin-top:0.8rem; font-size:0.85rem; color:#555; font-weight:normal;">💡 ${datos.nota}</div>`;
+
+                resultado.innerHTML = html;
+            };
+
+            // =============================================================
+            // CALCULADORA AHORRO
+            // =============================================================
+            window.calcularAhorro = function() {
+                const checks = document.querySelectorAll('.ahorro-check:checked');
+                let puntos = 0;
+                checks.forEach(c => { puntos += parseInt(c.dataset.valor); });
+
+                const resultado = document.getElementById('resultadoAhorro');
+
+                let nivel, emoji, mensaje;
+                if (puntos >= 8) {
+                    nivel = '¡Excelente!';
+                    emoji = '🌟';
+                    mensaje = 'Eres un verdadero ahorrador de energía. ¡Comparte tus hábitos!';
+                } else if (puntos >= 5) {
+                    nivel = '¡Muy bien!';
+                    emoji = '👍';
+                    mensaje = 'Vas por buen camino. Puedes adoptar más acciones para ahorrar aún más.';
+                } else if (puntos >= 2) {
+                    nivel = 'Puedes mejorar';
+                    emoji = '💡';
+                    mensaje = 'Aún hay varias acciones que puedes incorporar. ¡Empieza hoy!';
+                } else {
+                    nivel = 'Necesitas actuar';
+                    emoji = '⚡';
+                    mensaje = 'El ahorro de energía empieza con pequeñas acciones. Elige una y hazla tuya.';
+                }
+
+                resultado.innerHTML = `${emoji} <strong>${nivel}</strong><br>Puntaje: ${puntos} puntos<br><span style="font-size:0.9rem; font-weight:normal;">${mensaje}</span>`;
+            };
+
+            // =============================================================
+            // RELACIONADOR
+            // =============================================================
+            const situaciones = [
+                { texto: '🔦 Encender una linterna', tipos: ['Química', 'Eléctrica', 'Lumínica'], correcta: 'Lumínica' },
+                { texto: '🚗 Un auto en movimiento', tipos: ['Cinética', 'Térmica', 'Sonora'], correcta: 'Cinética' },
+                { texto: '🍎 Un alimento que comes', tipos: ['Química', 'Lumínica', 'Nuclear'], correcta: 'Química' },
+                { texto: '🔊 Sonar una campana', tipos: ['Sonora', 'Cinética', 'Lumínica'], correcta: 'Sonora' },
+                { texto: '☀️ Una mañana soleada', tipos: ['Lumínica', 'Térmica', 'Eléctrica'], correcta: 'Lumínica' },
+                { texto: '🔥 Una taza de café caliente', tipos: ['Térmica', 'Cinética', 'Sonora'], correcta: 'Térmica' },
+                { texto: '💧 Agua cayendo de una represa', tipos: ['Potencial', 'Cinética', 'Lumínica'], correcta: 'Potencial' },
+                { texto: '💡 Un foco encendido', tipos: ['Lumínica', 'Sonora', 'Química'], correcta: 'Lumínica' }
+            ];
+
+            window.relacionar = function(idx, tipoElegido) {
+                const sit = situaciones[idx];
+                const item = document.getElementById(`sit${idx}`);
+                const botones = item.querySelectorAll('.opciones-relacionar button');
+                const feedback = document.getElementById(`feedbackRel${idx}`);
+
+                botones.forEach(b => b.disabled = true);
+                const esCorrecto = tipoElegido === sit.correcta;
+
+                botones.forEach(b => {
+                    if (b.dataset.tipo === sit.correcta) b.classList.add('correct');
+                    else if (b.dataset.tipo === tipoElegido && !esCorrecto) b.classList.add('wrong');
+                });
+
+                if (esCorrecto) {
+                    feedback.className = 'feedback-relacionar correct';
+                    feedback.textContent = `✅ ¡Correcto! El tipo de energía es ${sit.correcta}.`;
+                } else {
+                    feedback.className = 'feedback-relacionar wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${sit.correcta}.`;
+                }
+            };
+
+            function renderRelacionador() {
+                const container = document.getElementById('relacionadorContainer');
+                if (!container) return;
+                container.innerHTML = '<div class="relacionador"></div>';
+                const rel = container.querySelector('.relacionador');
+
+                situaciones.forEach((sit, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'situacion-item';
+                    div.id = `sit${idx}`;
+                    div.innerHTML = `
+                        <div class="texto-sit">${idx + 1}. ${sit.texto}</div>
+                        <div class="opciones-relacionar">
+                            ${sit.tipos.map(t => `
+                                <button data-tipo="${t}" onclick="relacionar(${idx}, '${t}')">${t}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackRel${idx}" class="feedback-relacionar"></div>
+                    `;
+                    rel.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // EJERCICIOS (transformaciones)
+            // =============================================================
+            const ejercicios = [
+                {
+                    pregunta: '🔦 ¿Qué transformación ocurre en una linterna?',
+                    opciones: ['Lumínica → Eléctrica', 'Química → Eléctrica → Lumínica', 'Térmica → Sonora', 'Cinética → Química'],
+                    correcta: 1,
+                    razon: 'La batería (química) genera electricidad que se transforma en luz (lumínica).'
+                },
+                {
+                    pregunta: '🌀 ¿Qué transformación ocurre en un ventilador?',
+                    opciones: ['Eléctrica → Cinética', 'Química → Lumínica', 'Térmica → Eléctrica', 'Sonora → Química'],
+                    correcta: 0,
+                    razon: 'La electricidad mueve las aspas produciendo energía cinética.'
+                },
+                {
+                    pregunta: '🚗 ¿Qué transformación ocurre al mover un auto con gasolina?',
+                    opciones: ['Lumínica → Cinética', 'Química → Térmica → Cinética', 'Eléctrica → Térmica', 'Sonora → Eléctrica'],
+                    correcta: 1,
+                    razon: 'La gasolina (química) se quema generando calor (térmica) que mueve el auto (cinética).'
+                },
+                {
+                    pregunta: '☀️ ¿Qué transformación ocurre en un panel solar?',
+                    opciones: ['Química → Sonora', 'Lumínica → Eléctrica', 'Cinética → Térmica', 'Nuclear → Lumínica'],
+                    correcta: 1,
+                    razon: 'Los paneles solares convierten la luz (lumínica) en electricidad.'
+                }
+            ];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ej = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ej.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ej.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ej.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = `✅ ¡Correcto! ${ej.razon}`;
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ej.opciones[ej.correcta]}. ${ej.razon}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO
+            // =============================================================
+            window.evaluarReto = function() {
+                const zona = document.getElementById('retoZona').value.trim();
+                const problema = document.getElementById('retoProblema').value.trim();
+                const propuesta = document.getElementById('retoPropuesta').value.trim();
+                const ahorro = document.getElementById('retoAhorro').value.trim();
+                const responsables = document.getElementById('retoResponsables').value.trim();
+                const plazo = document.getElementById('retoPlazo').value;
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                let camposOk = 0;
+                const total = 6;
+                if (zona.length > 3) camposOk++;
+                if (problema.length > 5) camposOk++;
+                if (propuesta.length > 5) camposOk++;
+                if (ahorro.length > 2) camposOk++;
+                if (responsables.length > 3) camposOk++;
+                if (plazo) camposOk++;
+
+                resultadoDiv.style.display = 'block';
+
+                if (camposOk === total) {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--success);">🎉 ¡Excelente propuesta energética!</h3>
+                        <p>Tu plan de ahorro está completo:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li><strong>Zona:</strong> ${zona}</li>
+                            <li><strong>Problema:</strong> ${problema.substring(0, 80)}${problema.length > 80 ? '…' : ''}</li>
+                            <li><strong>Propuesta:</strong> ${propuesta.substring(0, 100)}${propuesta.length > 100 ? '…' : ''}</li>
+                            <li><strong>Ahorro estimado:</strong> ${ahorro}</li>
+                            <li><strong>Responsables:</strong> ${responsables}</li>
+                            <li><strong>Plazo:</strong> ${plazo}</li>
+                        </ul>
+                        <p style="margin-top:0.8rem; color:var(--success); font-weight:600;">✅ ¡Felicidades, tu colegio puede ser más eficiente gracias a ti!</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3 style="color:var(--accent);">📖 Propuesta incompleta (${camposOk}/${total})</h3>
+                        <p>Revisa lo que falta:</p>
+                        <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+                            <li>${zona.length > 3 ? '✅' : '❌'} Zona del colegio identificada</li>
+                            <li>${problema.length > 5 ? '✅' : '❌'} Descripción del problema</li>
+                            <li>${propuesta.length > 5 ? '✅' : '❌'} Propuesta de ahorro</li>
+                            <li>${ahorro.length > 2 ? '✅' : '❌'} Ahorro estimado</li>
+                            <li>${responsables.length > 3 ? '✅' : '❌'} Responsables</li>
+                            <li>${plazo ? '✅' : '❌'} Plazo de implementación</li>
+                        </ul>
+                        <p style="margin-top:0.8rem;">💡 Completa todos los campos para una propuesta sólida.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (8 preguntas)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '⚡ ¿Qué es la energía?', opciones: ['Un tipo de materia', 'La capacidad de realizar un trabajo', 'Un objeto físico', 'Una fuerza'], correcta: 1 },
+                { pregunta: '🔋 ¿Cuál es un tipo de energía?', opciones: ['Energía roja', 'Energía cinética', 'Energía verde', 'Energía blanca'], correcta: 1 },
+                { pregunta: '🔄 ¿Qué dice el principio de conservación de la energía?', opciones: ['La energía se destruye', 'La energía se transforma', 'La energía se crea', 'La energía desaparece'], correcta: 1 },
+                { pregunta: '🌞 ¿Cuál es una energía renovable?', opciones: ['Petróleo', 'Carbón', 'Solar', 'Gas natural'], correcta: 2 },
+                { pregunta: '🛢️ ¿Cuál es una energía NO renovable?', opciones: ['Eólica', 'Solar', 'Petróleo', 'Hidráulica'], correcta: 2 },
+                { pregunta: '🔦 En una linterna, la energía química se transforma en...', opciones: ['Sonora y nuclear', 'Eléctrica y lumínica', 'Cinética y potencial', 'Nuclear y térmica'], correcta: 1 },
+                { pregunta: '🌀 En un ventilador, ¿qué transformación ocurre?', opciones: ['Eléctrica → Cinética', 'Química → Lumínica', 'Térmica → Química', 'Sonora → Nuclear'], correcta: 0 },
+                { pregunta: '💡 ¿Cuál es una acción de ahorro energético?', opciones: ['Dejar luces encendidas', 'Apagar luces que no uso', 'Usar más aparatos', 'Dejar cargadores conectados'], correcta: 1 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                const total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+                    questionDiv.classList.remove('correct', 'wrong');
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No respondiste todas las preguntas.
+                        <br>📊 Llevas <strong>${correctas}</strong> de <strong>${total}</strong> correctas.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Dominas el tema de energía. ⚡';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue ahorrando energía cada día. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los tipos y transformaciones. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            renderRelacionador();
+            renderEjercicios();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

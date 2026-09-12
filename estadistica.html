@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>📊 Estadística · Aprende y Practica</title>
+    <style>
+        /* ======== RESET Y VARIABLES ======== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1a6e5c;
+            --secondary: #28b89c;
+            --accent: #f39c12;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 0.2rem;
+        }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            flex: 0 1 auto;
+            touch-action: manipulation;
+        }
+
+        nav button:active {
+            transform: scale(0.95);
+        }
+
+        nav button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0.8rem auto;
+            padding: 0 0.8rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--secondary);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* ======== VIDEO RESPONSIVE ======== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .video-card p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            header h1 {
+                font-size: 2.6rem;
+            }
+            .container {
+                max-width: 1100px;
+                padding: 0 1.5rem;
+            }
+        }
+
+        .badge-estadistica {
+            background: #d5f5e3;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .badge-estadistica strong {
+            color: var(--primary);
+        }
+
+        /* ======== GRÁFICO DE BARRAS SIMPLE ======== */
+        .grafico-barras {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 1.5rem;
+            height: 200px;
+            padding: 1rem 0.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+        }
+
+        .barra {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            width: 50px;
+        }
+
+        .barra .valor {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .barra .barra-fill {
+            width: 40px;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            min-height: 10px;
+        }
+
+        .barra .label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise p {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+        }
+
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 80px;
+            touch-action: manipulation;
+        }
+
+        .exercise .options button:active {
+            transform: scale(0.95);
+        }
+
+        .exercise .options button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .exercise .options button.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .exercise .options button.wrong {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .exercise .options button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+            background: #eafaf1;
+        }
+        .feedback.wrong {
+            color: var(--danger);
+            background: #fdedec;
+        }
+
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+
+        .question.correct {
+            border-color: var(--success);
+            background: #f0faf0;
+        }
+
+        .question.wrong {
+            border-color: var(--danger);
+            background: #fdf0f0;
+        }
+
+        .question p {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .question .options label:active {
+            transform: scale(0.95);
+        }
+
+        .question .options label:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .question .options input[type="radio"] {
+            display: none;
+        }
+
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .score strong {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                width: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #1e8e3e;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #d4ac0d;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(40, 184, 156, 0.25);
+        }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        .result-box .highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .contenedor-encuesta {
+            background: #f4fcf8;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .contenedor-encuesta textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 100px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .contenedor-encuesta textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(40, 184, 156, 0.25);
+        }
+
+        /* ======== SCROLLBAR ======== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        @media print {
+            nav {
+                display: none;
+            }
+            .section {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📊 Estadística</h1>
+        <p>Aprende, practica y domina la estadística con retos interactivos 🇵🇪</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- ======== VIDEO EXPLICATIVO ======== -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender los conceptos básicos de la estadística y su aplicación en la vida cotidiana.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=Estad%C3%ADstica_con_NovaQR"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- ======== CONCEPTOS ======== -->
+            <div class="card">
+                <h2>📌 Conceptos Fundamentales</h2>
+
+                <h3>📋 Datos</h3>
+                <p>Son las observaciones o mediciones que se recopilan para ser analizadas. Ejemplo: edades, pesos, notas, etc.</p>
+
+                <h3>👥 Población</h3>
+                <p>Es el conjunto completo de todos los elementos que se desea estudiar. Ejemplo: Todos los estudiantes de un colegio.</p>
+
+                <h3>🔍 Muestra</h3>
+                <p>Es un subconjunto representativo de la población. Ejemplo: 30 estudiantes de un colegio.</p>
+
+                <h3>📊 Tabla</h3>
+                <p>Es una forma organizada de presentar los datos en filas y columnas para facilitar su análisis.</p>
+
+                <h3>📈 Gráfico</h3>
+                <p>Es una representación visual de los datos que permite identificar patrones y tendencias fácilmente.</p>
+
+                <h3>➕ Media (Promedio)</h3>
+                <p>Es la suma de todos los datos dividida entre la cantidad de datos. <br>
+                <strong>Fórmula:</strong> Media = (x₁ + x₂ + ... + xₙ) / n</p>
+
+                <h3>📊 Mediana</h3>
+                <p>Es el valor central cuando los datos están ordenados de menor a mayor. Si hay un número par de datos, se promedian los dos centrales.</p>
+
+                <h3>👕 Moda</h3>
+                <p>Es el valor que más se repite en el conjunto de datos.</p>
+
+                <div class="badge-estadistica">
+                    <strong>📖 Ejemplo completo:</strong> Datos: 4, 6, 6, 8, 10 <br>
+                    <strong>Media:</strong> (4+6+6+8+10)/5 = 6.8 <br>
+                    <strong>Mediana:</strong> 6 (valor central) <br>
+                    <strong>Moda:</strong> 6 (se repite 2 veces)
+                </div>
+            </div>
+
+            <!-- ======== GRÁFICO DE BARRAS DEMOSTRATIVO ======== -->
+            <div class="card">
+                <h2>📈 Gráfico de Barras</h2>
+                <p>Ejemplo: Frecuencia de colores favoritos en un salón de clases.</p>
+                <div class="grafico-barras" id="graficoDemo">
+                    <div class="barra">
+                        <span class="valor">8</span>
+                        <div class="barra-fill" style="height:80px; background:#2ecc71;"></div>
+                        <span class="label">Rojo</span>
+                    </div>
+                    <div class="barra">
+                        <span class="valor">5</span>
+                        <div class="barra-fill" style="height:50px; background:#3498db;"></div>
+                        <span class="label">Azul</span>
+                    </div>
+                    <div class="barra">
+                        <span class="valor">3</span>
+                        <div class="barra-fill" style="height:30px; background:#f1c40f;"></div>
+                        <span class="label">Verde</span>
+                    </div>
+                    <div class="barra">
+                        <span class="valor">6</span>
+                        <div class="barra-fill" style="height:60px; background:#e74c3c;"></div>
+                        <span class="label">Amarillo</span>
+                    </div>
+                </div>
+                <p style="text-align:center; font-size:0.9rem; color:#666;">Los gráficos ayudan a visualizar los datos de forma rápida y sencilla.</p>
+            </div>
+
+            <!-- ======== CALCULADORA DE MEDIDAS ======== -->
+            <div class="card">
+                <h2>🧮 Calculadora de Medidas</h2>
+                <p>Ingresa una lista de números separados por comas y calcula la media, mediana y moda.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0;">
+                    <input type="text" id="datosInput" placeholder="Ej: 4, 6, 6, 8, 10" style="font-size:1.1rem;">
+                    <button class="btn btn-accent" onclick="calcularMedidas()">📊 Calcular medidas</button>
+                </div>
+                <div id="medidasResultado" class="result-box">
+                    <h3>📋 Resultados</h3>
+                    <p><strong>Media:</strong> <span id="mediaResult" style="font-weight:700; color:var(--accent);">—</span></p>
+                    <p><strong>Mediana:</strong> <span id="medianaResult" style="font-weight:700; color:var(--accent);">—</span></p>
+                    <p><strong>Moda:</strong> <span id="modaResult" style="font-weight:700; color:var(--accent);">—</span></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+
+            <div class="card">
+                <h2>✏️ Interpretar Gráficos</h2>
+                <p>Observa el gráfico y responde las preguntas.</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+
+            <div class="card">
+                <h2>🏆 Reto: Realiza una Encuesta</h2>
+                <div class="badge-estadistica">
+                    <strong>🇵🇪 Contexto peruano:</strong> Realiza una pequeña encuesta a tus compañeros sobre un tema de interés y analiza los resultados.
+                </div>
+                <div id="retosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+
+            <div class="card">
+                <h2>📝 Evaluación: Interpretación de Datos</h2>
+                <p>Responde los 10 ejercicios. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN CORREGIDA
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => {
+                    if (s) s.classList.remove('active');
+                });
+                if (sections[id]) {
+                    sections[id].classList.add('active');
+                }
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // CALCULADORA DE MEDIDAS
+            // =============================================================
+            window.calcularMedidas = function() {
+                const input = document.getElementById('datosInput').value.trim();
+                const mediaSpan = document.getElementById('mediaResult');
+                const medianaSpan = document.getElementById('medianaResult');
+                const modaSpan = document.getElementById('modaResult');
+
+                if (!input) {
+                    mediaSpan.textContent = '❌ Ingresa datos válidos';
+                    medianaSpan.textContent = '❌';
+                    modaSpan.textContent = '❌';
+                    return;
+                }
+
+                const datos = input.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+
+                if (datos.length === 0) {
+                    mediaSpan.textContent = '❌ Ingresa números válidos';
+                    medianaSpan.textContent = '❌';
+                    modaSpan.textContent = '❌';
+                    return;
+                }
+
+                // Media
+                const suma = datos.reduce((a, b) => a + b, 0);
+                const media = suma / datos.length;
+                mediaSpan.textContent = media.toFixed(2);
+
+                // Mediana
+                const ordenados = [...datos].sort((a, b) => a - b);
+                const mitad = Math.floor(ordenados.length / 2);
+                let mediana;
+                if (ordenados.length % 2 === 0) {
+                    mediana = (ordenados[mitad - 1] + ordenados[mitad]) / 2;
+                } else {
+                    mediana = ordenados[mitad];
+                }
+                medianaSpan.textContent = mediana.toFixed(2);
+
+                // Moda
+                const frecuencias = {};
+                datos.forEach(num => {
+                    frecuencias[num] = (frecuencias[num] || 0) + 1;
+                });
+                let maxFrecuencia = 0;
+                let modas = [];
+                for (const [num, freq] of Object.entries(frecuencias)) {
+                    if (freq > maxFrecuencia) {
+                        maxFrecuencia = freq;
+                        modas = [num];
+                    } else if (freq === maxFrecuencia && freq > 1) {
+                        modas.push(num);
+                    }
+                }
+                if (maxFrecuencia <= 1) {
+                    modaSpan.textContent = 'No hay moda (todos únicos)';
+                } else {
+                    modaSpan.textContent = modas.map(n => parseFloat(n).toFixed(2)).join(', ');
+                }
+            };
+
+            // =============================================================
+            // EJERCICIOS (PRACTICAR - INTERPRETAR GRÁFICOS)
+            // =============================================================
+            const ejercicios = [
+                { pregunta: '📊 En el gráfico de barras, ¿qué color es el más popular?', opciones: ['Rojo', 'Azul', 'Verde', 'Amarillo'], correcta: 0 },
+                { pregunta: '📊 ¿Cuántos estudiantes prefieren el color Azul?', opciones: ['3', '5', '6', '8'], correcta: 1 },
+                { pregunta: '📊 ¿Cuántos estudiantes prefieren el color Amarillo?', opciones: ['3', '5', '6', '8'], correcta: 2 },
+                { pregunta: '📊 ¿Cuál es el color menos popular?', opciones: ['Rojo', 'Azul', 'Verde', 'Amarillo'], correcta: 2 },
+                { pregunta: '📊 ¿Cuántos estudiantes participaron en la encuesta?', opciones: ['20', '22', '24', '26'], correcta: 1 }
+            ];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ejercicio = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ejercicio.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ejercicio.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ejercicio.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ ¡Correcto! Muy bien.';
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ejercicio.opciones[ejercicio.correcta]}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = `
+                    <div style="background:#f4fcf8; padding:1rem; border-radius:12px; margin-bottom:1.5rem; border:1px solid #28b89c;">
+                        <p style="font-weight:600; margin-bottom:0.5rem;">📊 Gráfico de referencia:</p>
+                        <div class="grafico-barras" style="height:150px;">
+                            <div class="barra">
+                                <span class="valor">8</span>
+                                <div class="barra-fill" style="height:80px; background:#2ecc71;"></div>
+                                <span class="label">Rojo</span>
+                            </div>
+                            <div class="barra">
+                                <span class="valor">5</span>
+                                <div class="barra-fill" style="height:50px; background:#3498db;"></div>
+                                <span class="label">Azul</span>
+                            </div>
+                            <div class="barra">
+                                <span class="valor">3</span>
+                                <div class="barra-fill" style="height:30px; background:#f1c40f;"></div>
+                                <span class="label">Verde</span>
+                            </div>
+                            <div class="barra">
+                                <span class="valor">6</span>
+                                <div class="barra-fill" style="height:60px; background:#e74c3c;"></div>
+                                <span class="label">Amarillo</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO: REALIZA UNA ENCUESTA
+            // =============================================================
+            function renderRetos() {
+                const container = document.getElementById('retosContainer');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="contenedor-encuesta">
+                        <h3 style="color:var(--primary); margin-bottom:0.8rem;">📋 Pasos para tu encuesta</h3>
+                        <ol style="margin-left:1.2rem; margin-bottom:1rem;">
+                            <li>Elige un tema de interés (deporte, música, comida, etc.)</li>
+                            <li>Pregunta a 10 compañeros sobre su preferencia</li>
+                            <li>Registra los datos en la tabla</li>
+                            <li>Calcula la media, mediana y moda</li>
+                        </ol>
+                        <p><strong>📝 Registra tus datos aquí:</strong></p>
+                        <textarea id="encuestaDatos" placeholder="Ejemplo: Fútbol: 4, Vóley: 3, Básquet: 2, Tenis: 1&#10;Escribe tus resultados..."></textarea>
+                        <button class="btn btn-resolver" style="margin-top:0.8rem; background:var(--primary);" onclick="analizarEncuesta()">
+                            📊 Analizar resultados
+                        </button>
+                        <div id="encuestaResultado" class="result-box" style="margin-top:1rem; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            window.analizarEncuesta = function() {
+                const texto = document.getElementById('encuestaDatos').value.trim();
+                const resultadoDiv = document.getElementById('encuestaResultado');
+                if (!texto) {
+                    resultadoDiv.style.display = 'block';
+                    resultadoDiv.innerHTML = '⚠️ Escribe tus datos primero.';
+                    return;
+                }
+
+                const lineas = texto.split('\n').filter(l => l.trim());
+                let html = '<h3>📊 Resultados de tu encuesta</h3><ul style="margin-left:1.2rem;">';
+                lineas.forEach(linea => {
+                    const partes = linea.split(':');
+                    if (partes.length === 2) {
+                        const categoria = partes[0].trim();
+                        const valores = partes[1].trim().split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+                        if (valores.length > 0) {
+                            const suma = valores.reduce((a, b) => a + b, 0);
+                            const media = suma / valores.length;
+                            const ordenados = [...valores].sort((a, b) => a - b);
+                            const mitad = Math.floor(ordenados.length / 2);
+                            let mediana = ordenados.length % 2 === 0 ? (ordenados[mitad - 1] + ordenados[mitad]) / 2 : ordenados[mitad];
+                            const frecuencias = {};
+                            valores.forEach(v => frecuencias[v] = (frecuencias[v] || 0) + 1);
+                            let maxFreq = 0, moda = 'No hay moda';
+                            for (const [num, freq] of Object.entries(frecuencias)) {
+                                if (freq > maxFreq) { maxFreq = freq; moda = num; }
+                            }
+                            if (maxFreq <= 1) moda = 'No hay moda';
+                            html += `<li><strong>${categoria}:</strong> Media = ${media.toFixed(2)}, Mediana = ${mediana.toFixed(2)}, Moda = ${moda}</li>`;
+                        }
+                    }
+                });
+                html += '</ul>';
+                if (lineas.length === 0) {
+                    html = '⚠️ Asegúrate de escribir cada categoría en una línea: "Categoría: 4, 3, 5"';
+                }
+                resultadoDiv.style.display = 'block';
+                resultadoDiv.innerHTML = html;
+            };
+
+            // =============================================================
+            // EVALUACIÓN (10 PREGUNTAS)
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '¿Qué es la población en estadística?', opciones: ['Un grupo pequeño', 'El conjunto completo a estudiar', 'Una muestra', 'Un gráfico'], correcta: 1 },
+                { pregunta: '¿Qué es la moda?', opciones: ['El valor central', 'El valor que más se repite', 'El promedio', 'El gráfico'], correcta: 1 },
+                { pregunta: '¿Qué es la mediana?', opciones: ['El valor central ordenado', 'El valor más repetido', 'El promedio', 'La diferencia entre valores'], correcta: 0 },
+                { pregunta: '¿Para qué sirve un gráfico de barras?', opciones: ['Para mostrar tendencias', 'Para comparar categorías', 'Para calcular promedios', 'Para ordenar datos'], correcta: 1 },
+                { pregunta: '¿Qué es una muestra?', opciones: ['Todo el grupo', 'Un subconjunto representativo', 'Un gráfico', 'Una tabla'], correcta: 1 },
+                { pregunta: 'Datos: 2, 4, 4, 6, 8. ¿Cuál es la moda?', opciones: ['2', '4', '6', '8'], correcta: 1 },
+                { pregunta: 'Datos: 2, 4, 4, 6, 8. ¿Cuál es la mediana?', opciones: ['2', '4', '6', '8'], correcta: 1 },
+                { pregunta: 'Datos: 2, 4, 4, 6, 8. ¿Cuál es la media?', opciones: ['4', '4.8', '5', '5.2'], correcta: 1 },
+                { pregunta: '¿Qué tipo de gráfico es mejor para mostrar porcentajes?', opciones: ['Barras', 'Líneas', 'Circular', 'Puntos'], correcta: 2 },
+                { pregunta: '¿Cuál es el primer paso para hacer una encuesta?', opciones: ['Analizar datos', 'Elegir un tema', 'Hacer gráficos', 'Calcular medidas'], correcta: 1 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                let total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+
+                    questionDiv.classList.remove('correct', 'wrong');
+
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                if (!resultDiv) return;
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No has respondido todas las preguntas.
+                        <br>📊 Tienes <strong>${correctas}</strong> de <strong>${total}</strong> correctas hasta ahora.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Dominas la estadística. 🏅';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue practicando para mejorar. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Revisa los conceptos básicos. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // Renderizar todo al cargar
+            renderEjercicios();
+            renderRetos();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>

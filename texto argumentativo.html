@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🗣️ Argumentamos nuestras ideas</title>
+    <style>
+        /* ======== RESET Y VARIABLES ======== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #6c3483;
+            --secondary: #8e44ad;
+            --accent: #f1c40f;
+            --success: #28b463;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --transition: all 0.25s ease;
+            --touch-min: 44px;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 0.2rem;
+        }
+
+        nav {
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.8rem 0.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        nav button {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            flex: 0 1 auto;
+            touch-action: manipulation;
+        }
+
+        nav button:active {
+            transform: scale(0.95);
+        }
+
+        nav button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0.8rem auto;
+            padding: 0 0.8rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--secondary);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* ======== VIDEO RESPONSIVE ======== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .video-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .video-card p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            header h1 {
+                font-size: 2.6rem;
+            }
+            .container {
+                max-width: 1100px;
+                padding: 0 1.5rem;
+            }
+        }
+
+        .badge-lectura {
+            background: #e8daef;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .badge-lectura strong {
+            color: var(--primary);
+        }
+
+        .texto-ejemplo {
+            background: #f4ecf7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+            margin: 1rem 0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .texto-ejemplo .pregunta {
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.8rem;
+        }
+
+        /* ======== EJERCICIOS ======== */
+        .exercise {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .exercise p {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+        }
+
+        .exercise .options button {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-height: var(--touch-min);
+            flex: 1 1 auto;
+            min-width: 80px;
+            touch-action: manipulation;
+        }
+
+        .exercise .options button:active {
+            transform: scale(0.95);
+        }
+
+        .exercise .options button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .exercise .options button.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .exercise .options button.wrong {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .exercise .options button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 0.6rem;
+            font-weight: 600;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+            background: #eafaf1;
+        }
+        .feedback.wrong {
+            color: var(--danger);
+            background: #fdedec;
+        }
+
+        .question {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            border: 2px solid #eee;
+            transition: var(--transition);
+        }
+
+        .question.correct {
+            border-color: var(--success);
+            background: #f0faf0;
+        }
+
+        .question.wrong {
+            border-color: var(--danger);
+            background: #fdf0f0;
+        }
+
+        .question p {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .question .options label {
+            background: var(--light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .question .options label:active {
+            transform: scale(0.95);
+        }
+
+        .question .options label:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .question .options input[type="radio"] {
+            display: none;
+        }
+
+        .question .options input[type="radio"]:checked+label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+            word-break: break-word;
+            line-height: 2rem;
+        }
+
+        .score strong {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: var(--touch-min);
+            min-width: var(--touch-min);
+            touch-action: manipulation;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                width: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #1e8e3e;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #d4ac0d;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.25);
+        }
+
+        .result-box {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            margin-top: 1.2rem;
+            border-left: 5px solid var(--secondary);
+            word-break: break-word;
+        }
+
+        .result-box .highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .contenedor-reto {
+            background: #f4ecf7;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 2px dashed var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .contenedor-reto textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 80px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .contenedor-reto .btn-resolver {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: var(--touch-min);
+            margin-top: 0.5rem;
+        }
+
+        .contenedor-reto .btn-resolver:hover {
+            background: #4a235a;
+        }
+
+        /* ======== SCROLLBAR ======== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        @media print {
+            nav {
+                display: none;
+            }
+            .section {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        .lista-conceptos {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .lista-conceptos li {
+            margin-bottom: 0.4rem;
+        }
+        .ejemplo-box {
+            background: #fef9e7;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid #f1c40f;
+            margin-top: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🗣️ Argumentamos nuestras ideas</h1>
+        <p>Aprende a defender tus opiniones con argumentos, evidencia y conclusiones sólidas</p>
+    </header>
+
+    <nav id="mainNav">
+        <button class="active" data-section="aprender">📖 Aprender</button>
+        <button data-section="practicar">✏️ Practicar</button>
+        <button data-section="reto">🏆 Reto</button>
+        <button data-section="evaluacion">📝 Evaluación</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== APRENDER ==================== -->
+        <div id="aprender" class="section active">
+
+            <!-- ======== VIDEO EXPLICATIVO (AL INICIO) ======== -->
+            <div class="video-card">
+                <h2>🎥 Video Explicativo</h2>
+                <p>Mira este video para entender qué es una opinión, un argumento, una evidencia, una conclusión y cómo se estructura un texto argumentativo.</p>
+                <div class="video-container">
+                    <iframe
+  src="https://player.cloudinary.com/embed/?cloud_name=liqpst8e&public_id=Texto_argumentativo"
+  width="640"
+  height="360" 
+  style="height: auto; width: 100%; aspect-ratio: 640 / 360;"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+  allowfullscreen
+  frameborder="0"
+></iframe>
+                </div>
+                <p style="font-size:0.9rem; color:#666; text-align:center;">
+                    📌 <strong>Tip:</strong> Si el video no carga, verifica tu conexión a internet.
+                </p>
+            </div>
+
+            <!-- ======== CONCEPTOS ======== -->
+            <div class="card">
+                <h2>📌 Conceptos fundamentales</h2>
+
+                <h3>💬 Opinión</h3>
+                <p>Es una <strong>postura personal</strong> sobre un tema. No es un hecho comprobable, sino una creencia o valoración. Se suele expresar con frases como "creo que", "en mi opinión", "me parece que".</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "Creo que los estudiantes deberían usar celulares en clase con fines educativos."
+                </div>
+
+                <h3>🧱 Argumento</h3>
+                <p>Es la <strong>razón o conjunto de razones</strong> que apoyan una opinión. Responde a la pregunta: ¿Por qué pienso así? Debe ser lógico y coherente.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "Porque el celular permite acceder a información actualizada y a herramientas interactivas que facilitan el aprendizaje."
+                </div>
+
+                <h3>📊 Evidencia</h3>
+                <p>Son los <strong>datos, hechos o ejemplos concretos</strong> que respaldan un argumento. Pueden ser estadísticas, estudios, testimonios o experiencias verificables.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "Según un estudio de la UNESCO (2023), el uso guiado de dispositivos móviles mejora la comprensión lectora en un 20%."
+                </div>
+
+                <h3>🎯 Conclusión</h3>
+                <p>Es el <strong>cierre del texto argumentativo</strong>. Reafirma la opinión inicial, resume los argumentos principales y puede incluir una propuesta o llamado a la acción.</p>
+                <div class="ejemplo-box">
+                    <strong>Ejemplo:</strong> "Por lo tanto, prohibir los celulares no es la solución; es mejor educar en su uso responsable y aprovechar su potencial pedagógico."
+                </div>
+
+                <h3>📝 Texto argumentativo</h3>
+                <p>Es un tipo de texto que <strong>defiende una idea u opinión</strong> mediante argumentos y evidencias. Su estructura básica es: <strong>introducción (opinión), desarrollo (argumentos + evidencias) y conclusión</strong>.</p>
+                <div class="ejemplo-box">
+                    <strong>Estructura:</strong>
+                    <ul class="lista-conceptos">
+                        <li><strong>Introducción:</strong> Presenta el tema y la opinión (tesis).</li>
+                        <li><strong>Desarrollo:</strong> Expone argumentos con evidencias.</li>
+                        <li><strong>Conclusión:</strong> Reafirma la tesis y cierra el texto.</li>
+                    </ul>
+                </div>
+
+                <div class="badge-lectura" style="margin-top:1.2rem;">
+                    <strong>📖 Ejemplo completo:</strong>
+                    <div class="texto-ejemplo">
+                        <p><strong>Opinión:</strong> "Considero que los estudiantes deben usar celulares en el aula como herramienta de aprendizaje."</p>
+                        <p><strong>Argumento:</strong> "Porque facilitan el acceso inmediato a información y recursos educativos."</p>
+                        <p><strong>Evidencia:</strong> "Un estudio del Banco Mundial (2022) señala que el 70% de los docentes que usan tecnología en clase reportan mayor participación."</p>
+                        <p><strong>Conclusión:</strong> "En conclusión, el celular bien utilizado es un aliado educativo, no una distracción."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== ANALIZADOR DE TEXTOS ======== -->
+            <div class="card">
+                <h2>🧠 Analiza tu texto argumentativo</h2>
+                <p>Escribe un texto breve y te daré pistas sobre su estructura argumentativa.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0;">
+                    <textarea id="textoArgumentativo" placeholder="Escribe un texto argumentativo breve..." style="min-height:100px; padding:0.8rem; border:2px solid #ddd; border-radius:8px; font-size:1rem; font-family:inherit; resize:vertical;"></textarea>
+                    <button class="btn btn-resolver" style="background:var(--primary);" onclick="analizarArgumento()">🔍 Analizar</button>
+                </div>
+                <div id="argumentoResultado" class="result-box" style="display:none;">
+                    <h3>📋 Análisis orientativo</h3>
+                    <div id="argumentoContenido"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PRACTICAR ==================== -->
+        <div id="practicar" class="section">
+
+            <div class="card">
+                <h2>✏️ Identificar argumentos</h2>
+                <p>Lee cada texto y responde: ¿cuál es el argumento principal?</p>
+                <div id="ejerciciosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== RETO ==================== -->
+        <div id="reto" class="section">
+
+            <div class="card">
+                <h2>🏆 Reto: ¿Deberían los estudiantes utilizar celulares para aprender?</h2>
+                <div class="badge-lectura">
+                    <strong>📝 Instrucción:</strong> Construye tu propio argumento. Escribe tu opinión, al menos un argumento con evidencia y una conclusión.
+                </div>
+                <div id="retosContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- ==================== EVALUACIÓN ==================== -->
+        <div id="evaluacion" class="section">
+
+            <div class="card">
+                <h2>📝 Evaluación: Identificación de argumentos</h2>
+                <p>Responde las 8 preguntas. Al finalizar, revisa tu puntaje.</p>
+                <div id="evaluacionContainer"></div>
+                <button class="btn btn-success" onclick="calificarEvaluacion()" style="margin-top:1.5rem;">
+                    ✅ Calificar Evaluación
+                </button>
+                <div id="evaluacionResultado" class="score" style="display:none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // NAVEGACIÓN
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('#mainNav button');
+            const sections = {
+                aprender: document.getElementById('aprender'),
+                practicar: document.getElementById('practicar'),
+                reto: document.getElementById('reto'),
+                evaluacion: document.getElementById('evaluacion')
+            };
+
+            function cambiarSeccion(id) {
+                Object.values(sections).forEach(s => {
+                    if (s) s.classList.remove('active');
+                });
+                if (sections[id]) {
+                    sections[id].classList.add('active');
+                }
+                navButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.section === id) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    if (sectionId) {
+                        cambiarSeccion(sectionId);
+                        if (window.innerWidth < 768) {
+                            document.querySelector('.container').scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            cambiarSeccion('aprender');
+
+            // =============================================================
+            // ANALIZADOR DE TEXTO ARGUMENTATIVO
+            // =============================================================
+            window.analizarArgumento = function() {
+                const texto = document.getElementById('textoArgumentativo').value.trim();
+                const resultadoDiv = document.getElementById('argumentoResultado');
+                const contenidoDiv = document.getElementById('argumentoContenido');
+
+                if (!texto) {
+                    resultadoDiv.style.display = 'block';
+                    contenidoDiv.innerHTML = '⚠️ Escribe un texto para analizar.';
+                    return;
+                }
+
+                const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+                let tieneOpinion = /creo|pienso|opino|considero|me parece|en mi opinión/i.test(texto);
+                let tieneArgumento = /porque|ya que|debido a|puesto que|por lo tanto|así que/i.test(texto);
+                let tieneEvidencia = /según|estudio|dato|investigación|porcentaje|%|ejemplo|informe/i.test(texto);
+                let tieneConclusion = /en conclusión|para concluir|finalmente|en resumen|por todo lo anterior/i.test(texto);
+
+                let html = `<p><strong>🔍 Análisis estructural:</strong></p>`;
+                html += `<ul style="margin-left:1.2rem;">`;
+                html += `<li>${tieneOpinion ? '✅' : '❌'} <strong>Opinión:</strong> ${tieneOpinion ? 'Se detectó una postura personal.' : 'No se encontraron marcadores de opinión (creo, opino, considero...).'}</li>`;
+                html += `<li>${tieneArgumento ? '✅' : '❌'} <strong>Argumento:</strong> ${tieneArgumento ? 'Se detectaron conectores causales o razones.' : 'No se encontraron conectores como "porque" o "ya que".'}</li>`;
+                html += `<li>${tieneEvidencia ? '✅' : '❌'} <strong>Evidencia:</strong> ${tieneEvidencia ? 'Se mencionan datos, estudios o ejemplos.' : 'No se detectaron datos o fuentes que respalden.'}</li>`;
+                html += `<li>${tieneConclusion ? '✅' : '❌'} <strong>Conclusión:</strong> ${tieneConclusion ? 'Se identificó un cierre o resumen.' : 'No se encontró una conclusión explícita.'}</li>`;
+                html += `</ul>`;
+
+                if (oraciones.length > 0) {
+                    html += `<p style="margin-top:0.8rem;"><strong>📌 Primera oración (posible tesis):</strong> "${oraciones[0].trim()}"</p>`;
+                }
+
+                html += `<p style="margin-top:0.8rem; color:#666;"><strong>💡 Consejo:</strong> Un buen texto argumentativo incluye: opinión clara + argumento con evidencia + conclusión que reafirma.</p>`;
+
+                resultadoDiv.style.display = 'block';
+                contenidoDiv.innerHTML = html;
+            };
+
+            // =============================================================
+            // EJERCICIOS (PRACTICAR) - Identificar argumentos
+            // =============================================================
+            const ejercicios = [{
+                texto: '📖 "Creo que se debe prohibir el uso de plásticos de un solo uso. Porque contaminan los océanos y dañan la vida marina. Según Greenpeace, cada año llegan 8 millones de toneladas de plástico al mar."',
+                pregunta: '¿Cuál es el argumento principal?',
+                opciones: ['Se debe prohibir el plástico', 'Contaminan océanos y dañan vida marina', 'Greenpeace dice 8 millones de toneladas', 'El plástico es malo'],
+                correcta: 1
+            }, {
+                texto: '📖 "Considero que la educación sexual debe ser obligatoria en las escuelas. Porque ayuda a prevenir embarazos no deseados y enfermedades de transmisión sexual. Un estudio de la OMS indica que reduce riesgos en un 40%."',
+                pregunta: '¿Cuál es la evidencia presentada?',
+                opciones: ['La educación sexual es obligatoria', 'Previene embarazos y enfermedades', 'Estudio de la OMS reduce riesgos 40%', 'La OMS está de acuerdo'],
+                correcta: 2
+            }, {
+                texto: '📖 "En mi opinión, los videojuegos no son una pérdida de tiempo. Ya que desarrollan habilidades como la coordinación y el trabajo en equipo. Por ejemplo, muchos cirujanos han mejorado su precisión gracias a ellos."',
+                pregunta: '¿Cuál es la opinión del autor?',
+                opciones: ['Los videojuegos son malos', 'Los videojuegos no son pérdida de tiempo', 'Los cirujanos juegan videojuegos', 'La coordinación es importante'],
+                correcta: 1
+            }, {
+                texto: '📖 "El reciclaje debería ser obligatorio en todos los hogares. Porque reduce la contaminación y genera empleos. En países como Alemania, el reciclaje ha creado más de 250,000 puestos de trabajo."',
+                pregunta: '¿Cuál es la conclusión implícita?',
+                opciones: ['El reciclaje es bueno', 'Alemania recicla mucho', 'Se debe implementar reciclaje obligatorio', 'Genera empleos'],
+                correcta: 2
+            }];
+
+            window.responderEjercicio = function(ejIdx, optIdx) {
+                const ejercicio = ejercicios[ejIdx];
+                const optionsDiv = document.querySelector(`.exercise .options[data-idx="${ejIdx}"]`);
+                if (!optionsDiv) return;
+                const buttons = optionsDiv.querySelectorAll('button');
+                const feedback = document.getElementById(`feedbackEj${ejIdx}`);
+
+                buttons.forEach(b => b.disabled = true);
+                buttons.forEach((b, i) => {
+                    if (i === ejercicio.correcta) b.classList.add('correct');
+                    else if (i === optIdx && i !== ejercicio.correcta) b.classList.add('wrong');
+                });
+
+                if (optIdx === ejercicio.correcta) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ ¡Correcto! Identificaste bien el elemento argumentativo.';
+                } else {
+                    feedback.className = 'feedback wrong';
+                    feedback.textContent = `❌ Incorrecto. La respuesta correcta era: ${ejercicio.opciones[ejercicio.correcta]}`;
+                }
+            };
+
+            function renderEjercicios() {
+                const container = document.getElementById('ejerciciosContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                ejercicios.forEach((ej, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise';
+                    div.innerHTML = `
+                        <div style="background:#f4ecf7; padding:0.8rem; border-radius:8px; margin-bottom:0.8rem;">
+                            <p style="margin-bottom:0.2rem;"><strong>📖 Texto ${idx + 1}:</strong></p>
+                            <p style="font-style:italic; color:#2c3e50;">${ej.texto}</p>
+                        </div>
+                        <p><strong>${idx + 1}.</strong> ${ej.pregunta}</p>
+                        <div class="options" data-idx="${idx}">
+                            ${ej.opciones.map((opt, i) => `
+                                <button data-optidx="${i}" onclick="responderEjercicio(${idx}, ${i})">${opt}</button>
+                            `).join('')}
+                        </div>
+                        <div id="feedbackEj${idx}" class="feedback"></div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // =============================================================
+            // RETO: ¿Deberían los estudiantes utilizar celulares para aprender?
+            // =============================================================
+            function renderRetos() {
+                const container = document.getElementById('retosContainer');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="contenedor-reto">
+                        <div style="background:white; padding:1rem; border-radius:8px; margin-bottom:1rem;">
+                            <p style="font-weight:700; color:var(--primary); text-align:center; font-size:1.1rem;">📱 ¿Deberían los estudiantes utilizar celulares para aprender?</p>
+                            <p style="font-style:italic; line-height:1.8; margin-top:0.5rem;">Construye tu argumento. Sigue esta estructura:</p>
+                            <ul style="margin-left:1.2rem; margin-bottom:0.8rem;">
+                                <li><strong>Opinión:</strong> ¿Qué piensas? (1 oración)</li>
+                                <li><strong>Argumento:</strong> ¿Por qué? (1 o 2 razones)</li>
+                                <li><strong>Evidencia:</strong> ¿Qué dato, ejemplo o estudio lo respalda?</li>
+                                <li><strong>Conclusión:</strong> Cierra reafirmando tu postura.</li>
+                            </ul>
+                        </div>
+                        <textarea id="retoRespuesta" placeholder="Escribe aquí tu texto argumentativo completo..."></textarea>
+                        <button class="btn btn-resolver" style="background:var(--primary); margin-top:0.5rem;" onclick="evaluarReto()">
+                            ✅ Evaluar mi argumento
+                        </button>
+                        <div id="retoResultado" class="result-box" style="margin-top:1rem; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            window.evaluarReto = function() {
+                const respuesta = document.getElementById('retoRespuesta').value.trim().toLowerCase();
+                const resultadoDiv = document.getElementById('retoResultado');
+
+                if (!respuesta) {
+                    resultadoDiv.style.display = 'block';
+                    resultadoDiv.innerHTML = '⚠️ Escribe tu argumento antes de evaluar.';
+                    return;
+                }
+
+                const tieneOpinion = /creo|pienso|opino|considero|me parece|en mi opinión|deberían|no deberían/i.test(respuesta);
+                const tieneArgumento = /porque|ya que|debido a|puesto que|pues/i.test(respuesta);
+                const tieneEvidencia = /según|estudio|dato|investigación|porcentaje|%|ejemplo|informe|unesco|oms/i.test(respuesta);
+                const tieneConclusion = /en conclusión|para concluir|finalmente|en resumen|por lo tanto|así que/i.test(respuesta);
+
+                let puntaje = 0;
+                if (tieneOpinion) puntaje++;
+                if (tieneArgumento) puntaje++;
+                if (tieneEvidencia) puntaje++;
+                if (tieneConclusion) puntaje++;
+
+                resultadoDiv.style.display = 'block';
+                if (puntaje >= 3) {
+                    resultadoDiv.innerHTML = `
+                        <h3>🎉 ¡Excelente argumento!</h3>
+                        <p>Tu texto incluye los elementos clave de un texto argumentativo.</p>
+                        <ul style="margin-left:1.2rem;">
+                            <li>${tieneOpinion ? '✅' : '❌'} Opinión clara</li>
+                            <li>${tieneArgumento ? '✅' : '❌'} Argumento con razón</li>
+                            <li>${tieneEvidencia ? '✅' : '❌'} Evidencia o ejemplo</li>
+                            <li>${tieneConclusion ? '✅' : '❌'} Conclusión</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;">💡 Sigue así, vas por buen camino.</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `
+                        <h3>📖 Buen intento</h3>
+                        <p>Revisa los elementos que faltan:</p>
+                        <ul style="margin-left:1.2rem;">
+                            <li>${tieneOpinion ? '✅' : '❌'} Opinión clara (usa "creo que", "considero que")</li>
+                            <li>${tieneArgumento ? '✅' : '❌'} Argumento (usa "porque", "ya que")</li>
+                            <li>${tieneEvidencia ? '✅' : '❌'} Evidencia (menciona estudios, datos, ejemplos)</li>
+                            <li>${tieneConclusion ? '✅' : '❌'} Conclusión (cierra con "en conclusión")</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;">📌 Vuelve a intentarlo incorporando lo que falta.</p>
+                    `;
+                }
+            };
+
+            // =============================================================
+            // EVALUACIÓN (8 PREGUNTAS) - Identificación de argumentos
+            // =============================================================
+            const evaluacionPreguntas = [
+                { pregunta: '📖 "Considero que el deporte debería ser obligatorio en las escuelas. Porque mejora la salud física y mental de los estudiantes." ¿Cuál es la opinión?', opciones: ['El deporte mejora la salud', 'Debería ser obligatorio en escuelas', 'Los estudiantes hacen deporte', 'La salud es importante'], correcta: 1 },
+                { pregunta: '📖 "La contaminación acústica afecta la concentración. Según la OMS, el ruido excesivo reduce el rendimiento escolar hasta en un 15%." ¿Qué tipo de elemento es "Según la OMS..."?', opciones: ['Opinión', 'Argumento', 'Evidencia', 'Conclusión'], correcta: 2 },
+                { pregunta: '📖 "En mi opinión, leer cómics también es lectura. Ya que desarrollan la imaginación y la comprensión narrativa." ¿Cuál es el argumento?', opciones: ['Leer cómics es lectura', 'Desarrollan imaginación y comprensión', 'Los cómics son entretenidos', 'La lectura es importante'], correcta: 1 },
+                { pregunta: '📖 "El uso de mascarillas redujo los contagios. Un estudio en Japón mostró una disminución del 30% en infecciones respiratorias." ¿Cuál es el argumento?', opciones: ['Las mascarillas son incómodas', 'Redujo los contagios', 'El estudio es en Japón', 'Las infecciones existen'], correcta: 1 },
+                { pregunta: '📖 "Por todo lo anterior, considero que se debe invertir más en energía solar." ¿Qué parte del texto argumentativo es?', opciones: ['Opinión', 'Argumento', 'Evidencia', 'Conclusión'], correcta: 3 },
+                { pregunta: '📖 "Creo que los zoológicos no deberían existir. Porque los animales pierden su libertad y sufren estrés. Un informe de 2022 reveló que el 70% de los animales en cautiverio muestran comportamientos anómalos." ¿Cuál es la evidencia?', opciones: ['Los zoológicos no deberían existir', 'Los animales pierden libertad', 'Informe: 70% comportamientos anómalos', 'El estrés animal'], correcta: 2 },
+                { pregunta: '📖 "La música clásica no es aburrida. Escuchar a Mozart estimula la memoria y la creatividad. Según un estudio de la Universidad de Stanford, mejora la concentración en un 25%." ¿Cuál es la opinión?', opciones: ['Mozart estimula la memoria', 'La música clásica no es aburrida', 'Mejora la concentración', 'El estudio es de Stanford'], correcta: 1 },
+                { pregunta: '📖 "Deberíamos consumir menos carne. Porque la ganadería genera el 14% de los gases de efecto invernadero. Así lo señala la FAO." ¿Qué elemento es "la ganadería genera el 14%..."?', opciones: ['Opinión', 'Argumento', 'Evidencia', 'Conclusión'], correcta: 2 }
+            ];
+
+            window.calificarEvaluacion = function() {
+                let correctas = 0;
+                let total = evaluacionPreguntas.length;
+                let todasRespondidas = true;
+
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const selected = document.querySelector(`input[name="eval${idx}"]:checked`);
+                    const questionDiv = document.getElementById(`evalQ${idx}`);
+                    if (!questionDiv) return;
+
+                    questionDiv.classList.remove('correct', 'wrong');
+
+                    if (selected) {
+                        const valor = parseInt(selected.value);
+                        if (valor === p.correcta) {
+                            correctas++;
+                            questionDiv.classList.add('correct');
+                        } else {
+                            questionDiv.classList.add('wrong');
+                        }
+                    } else {
+                        todasRespondidas = false;
+                        questionDiv.classList.add('wrong');
+                    }
+                });
+
+                const resultDiv = document.getElementById('evaluacionResultado');
+                if (!resultDiv) return;
+                resultDiv.style.display = 'block';
+
+                if (!todasRespondidas) {
+                    resultDiv.innerHTML = `
+                        ⚠️ <strong>¡Atención!</strong> No has respondido todas las preguntas.
+                        <br>📊 Tienes <strong>${correctas}</strong> de <strong>${total}</strong> correctas hasta ahora.
+                        <br>💡 Completa todas para obtener tu nota final.
+                    `;
+                    return;
+                }
+
+                const nota = (correctas / total) * 20;
+                let mensaje = '';
+                if (nota >= 18) mensaje = '🌟 ¡Excelente! Sabes identificar argumentos y evidencias. 🏅';
+                else if (nota >= 14) mensaje = '👍 Muy bien. Sigue practicando para dominar la argumentación. 📈';
+                else if (nota >= 10) mensaje = '📚 Buen intento. Repasa los conceptos de opinión, argumento y evidencia. 🔄';
+                else mensaje = '💪 No te rindas. Vuelve a la sección "Aprender" y repasa. 🧠';
+
+                resultDiv.innerHTML = `
+                    🎯 <strong>Nota:</strong> ${nota.toFixed(1)} / 20
+                    <br>📊 <strong>Correctas:</strong> ${correctas} de ${total}
+                    <br>💬 ${mensaje}
+                `;
+            };
+
+            function renderEvaluacion() {
+                const container = document.getElementById('evaluacionContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                evaluacionPreguntas.forEach((p, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.id = `evalQ${idx}`;
+                    div.innerHTML = `
+                        <p><strong>${idx + 1}.</strong> ${p.pregunta}</p>
+                        <div class="options">
+                            ${p.opciones.map((opt, i) => `
+                                <input type="radio" name="eval${idx}" id="eval${idx}opt${i}" value="${i}">
+                                <label for="eval${idx}opt${i}">${opt}</label>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // Renderizar todo al cargar
+            renderEjercicios();
+            renderRetos();
+            renderEvaluacion();
+        });
+    </script>
+</body>
+</html>
