@@ -634,15 +634,14 @@
     <h2>🎬 Video Explicativo</h2>
     <p>Mira este video para entender los conceptos clave: tema, idea principal, ideas secundarias y propósito.</p>
     <div class="video-container" id="videoContainer" style="position:relative; width:100%; aspect-ratio:16/9; background:#000;">
-        <video id="miVideo" playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;background:#000;" onclick="togglePlayPause()">
+        <video id="miVideo" controls playsinline controlsList="nodownload nofullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;background:#000;">
             <source src="https://res.cloudinary.com/liqpst8e/video/upload/Comrpension_lectora.mp4" type="video/mp4">
             Tu navegador no soporta video HTML5.
         </video>
-        <button id="playBtn" onclick="togglePlayPause()" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:5; background:rgba(0,0,0,0.55); border:none; border-radius:50%; width:64px; height:64px; color:white; font-size:1.8rem; cursor:pointer;">▶</button>
         <button onclick="toggleFullscreenVideo()" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(0,0,0,0.65); color:white; border:none; border-radius:6px; padding:8px 12px; font-size:1.3rem; cursor:pointer;">⛶</button>
     </div>
     <p style="font-size:0.9rem; color:#666; text-align:center;">
-        📌 <strong>Tip:</strong> Toca el video para reproducir/pausar, y ⛶ para pantalla completa.
+        📌 <strong>Tip:</strong> Toca ⛶ (arriba a la derecha) para ver el video en pantalla completa.
     </p>
 </div>
 
@@ -659,22 +658,6 @@
 </style>
 
 <script>
-var miVideo = document.getElementById('miVideo');
-var playBtn = document.getElementById('playBtn');
-
-function togglePlayPause(){
-    if (miVideo.paused){
-        miVideo.play();
-        playBtn.style.display = 'none';
-    } else {
-        miVideo.pause();
-        playBtn.style.display = 'block';
-    }
-}
-miVideo.addEventListener('ended', function(){
-    playBtn.style.display = 'block';
-});
-
 function toggleFullscreenVideo(){
     document.getElementById('videoContainer').classList.toggle('video-fullscreen');
 }
